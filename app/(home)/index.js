@@ -1,19 +1,127 @@
-import { View, Text, Image, FlatList, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  Dimensions,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 
 const index = () => {
+  let areaDatas = [
+    {
+      title: "Rau",
+      uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716193581/sxwixpef559a9c5ebcua.png",
+    },
+    {
+      title: "Thịt",
+      uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716193865/vatxwpc8svsp9hgal9ht.png",
+    },
+    {
+      title: "Cá",
+      uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716193935/juhtg8gt7pdkwbmpjbnh.png",
+    },
+    {
+      title: "Quần áo",
+      uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716193974/pvd24vvpeub8bgopy1fi.png",
+    },
+    {
+      title: "Thịt",
+      uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716193865/vatxwpc8svsp9hgal9ht.png",
+    },
+    {
+      title: "Thịt",
+      uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716193865/vatxwpc8svsp9hgal9ht.png",
+    },
+  ];
+
   return (
     <View>
       <Carousel />
-      <Text>Các gian hàng</Text>
+      <View style={styles.area_container}>
+        <View style={styles.area_title_container}>
+          <Text style={styles.area_title_text}>Các gian hàng</Text>
+        </View>
+        <View style={styles.area_card_container}>
+          {areaDatas?.map((item, index) => (
+            <AreaCard item={item} key={index} />
+          ))}
+        </View>
+        <View style={styles.watch_more}>
+          <TouchableWithoutFeedback>
+            <Text>Xem thêm...</Text>
+          </TouchableWithoutFeedback>
+        </View>
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  background_gradient: {
+    flex: 1,
+  },
+  area_container: {
+    marginTop: 25,
+  },
+  area_title_container: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  area_title_text: {
+    fontSize: 20,
+  },
+  area_card_container: {
+    marginTop: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+    flexWrap: "wrap",
+  },
+  image: {
+    width: 50,
+    height: 50,
+    resizeMode: "cover",
+  },
+  area_card: {
+    width: "30%",
+    height: 100,
+    backgroundColor: "rgba(234, 152, 91, 0.15)",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "1.5%",
+    borderRadius: 20,
+  },
+  area_card_txt: {
+    marginTop: 5,
+  },
+  watch_more:{
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop:8
+  }
+});
+
+const AreaCard = ({ item }) => {
+  return (
+    <View style={styles.area_card}>
+      <Image
+        source={{
+          uri: item?.uri,
+        }}
+        style={styles.image}
+      />
+      <Text style={styles.area_card_txt}>{item?.title}</Text>
+    </View>
+  );
+};
+
 const Carousel = () => {
   const windowWidth = Dimensions.get("window").width - 20;
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
-
 
   let imageData = [
     {
@@ -85,7 +193,7 @@ const Carousel = () => {
         renderItem={renderImage}
         horizontal={true}
         pagingEnabled={true}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id}
         onScroll={handleScroll}
       />
       <View
