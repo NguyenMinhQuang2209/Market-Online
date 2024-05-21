@@ -16,7 +16,7 @@ export default function TabLayout() {
         header: () => <HomeHeader />
       }}>
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           title: 'Trang chủ',
           tabBarIcon: ({ color, focused }) => (
