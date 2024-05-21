@@ -19,8 +19,17 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-    PlayfairBlack:require('../assets/fonts/Playfair/PlayfairDisplay-Bold.ttf'),
-    RobotoBlack:require('../assets/fonts/Roboto/Roboto-Medium.ttf')
+    PlayfairBold:require('../assets/fonts/Playfair/PlayfairDisplay-Bold.ttf'),
+    PlayfairBlack:require('../assets/fonts/Playfair/PlayfairDisplay-Black.ttf'),
+    PlayfairExtraBold:require('../assets/fonts/Playfair/PlayfairDisplay-ExtraBold.ttf'),
+    PlayfairMedium:require('../assets/fonts/Playfair/PlayfairDisplay-Medium.ttf'),
+    PlayfairRegular:require('../assets/fonts/Playfair/PlayfairDisplay-Regular.ttf'),
+    PlayfairSemiBold:require('../assets/fonts/Playfair/PlayfairDisplay-SemiBold.ttf'),
+    RobotoMedium:require('../assets/fonts/Roboto/Roboto-Medium.ttf'),
+    RobotoBlack:require('../assets/fonts/Roboto/Roboto-Black.ttf'),
+    RobotoBold:require('../assets/fonts/Roboto/Roboto-Bold.ttf'),
+    RobotoThin:require('../assets/fonts/Roboto/Roboto-Thin.ttf'),
+    RobotoBoldItalic:require('../assets/fonts/Roboto/Roboto-BoldItalic.ttf'),
   });
 
   useEffect(() => {

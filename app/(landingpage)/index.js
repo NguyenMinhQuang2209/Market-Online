@@ -16,7 +16,7 @@ const index = () => {
   useEffect(() => {
     let timeShow = setTimeout(() => {
       checkAccessToken();
-    },3000);
+    },500);
     return () => {
       clearTimeout(timeShow);
     }

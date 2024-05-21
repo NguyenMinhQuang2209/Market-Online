@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
   },
   area_card_txt: {
     marginTop: 5,
-    fontFamily:"RobotoBlack"
   },
   watch_more:{
     flexDirection: "row",
