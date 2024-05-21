@@ -6,9 +6,10 @@ import {
   Dimensions,
   StyleSheet,
   TouchableWithoutFeedback,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-
+import ProductCard from '@/app/Component/Card/ProductCard';
 const index = () => {
   let areaDatas = [
     {
@@ -35,11 +36,36 @@ const index = () => {
       title: "Thịt",
       uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716193865/vatxwpc8svsp9hgal9ht.png",
     },
+    {
+      title: "Thịt",
+      uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716193865/vatxwpc8svsp9hgal9ht.png",
+    },
+    {
+      title: "Thịt",
+      uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716193865/vatxwpc8svsp9hgal9ht.png",
+    },
+    {
+      title: "Thịt",
+      uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716193865/vatxwpc8svsp9hgal9ht.png",
+    },
+    {
+      title: "Thịt",
+      uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716193865/vatxwpc8svsp9hgal9ht.png",
+    },
+    {
+      title: "Thịt",
+      uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716193865/vatxwpc8svsp9hgal9ht.png",
+    },
+    {
+      title: "Thịt",
+      uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716193865/vatxwpc8svsp9hgal9ht.png",
+    },
   ];
 
   return (
-    <View>
+    <ScrollView>
       <Carousel />
+      <SpecialArea />
       <View style={styles.area_container}>
         <View style={styles.area_title_container}>
           <Text style={styles.area_title_text}>Các gian hàng</Text>
@@ -55,7 +81,7 @@ const index = () => {
           </TouchableWithoutFeedback>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -96,13 +122,52 @@ const styles = StyleSheet.create({
   },
   area_card_txt: {
     marginTop: 5,
+    fontFamily:"RobotoBlack"
   },
   watch_more:{
     flexDirection: "row",
     justifyContent: "center",
-    marginTop:8
+    marginTop:8,
+    marginBottom:8
   }
 });
+
+const SpecialArea = () => {
+
+  let productData = [
+    {
+      image:"https://res.cloudinary.com/sttruyen/image/upload/v1716255380/m4fomykpo7ycgccepee9.jpg",
+      name:"Rau ngót cà chua chín chưa",
+      seller:"Bà bảy bán bóng"
+    },
+    {
+      image:"https://res.cloudinary.com/sttruyen/image/upload/v1716257351/x2v7kcn2qnm2odi6gdrc.jpg",
+      name:"Thịt lợn",
+      seller:"Bà tám"
+    },
+    {
+      image:"https://res.cloudinary.com/sttruyen/image/upload/v1716257377/fqvhfuqrriaadrq1scmo.jpg",
+      name:"Cá thu",
+      seller:"Bà chín"
+    }
+  ]
+
+  return (
+    <View style={styles.area_container}>
+        <View style={styles.area_title_container}>
+          <Text style={styles.area_title_text}>Hàng đặc biệt</Text>
+        </View>
+        <View style={styles.area_card_container}>
+          {productData?.map((product,index) => <ProductCard key={index + "productCard"} product={product}/>)}
+        </View>
+        <View style={styles.watch_more}>
+          <TouchableWithoutFeedback>
+            <Text>Xem thêm...</Text>
+          </TouchableWithoutFeedback>
+        </View>
+      </View>
+  )
+}
 
 const AreaCard = ({ item }) => {
   return (
@@ -162,6 +227,7 @@ const Carousel = () => {
       }
       return (
         <View
+        key={index + "Dot"}
           style={{
             backgroundColor: color,
             height: 10,

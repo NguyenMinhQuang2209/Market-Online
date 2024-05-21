@@ -4,7 +4,7 @@ import React from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import HomeHeader from '../Header/HomeHeader';
+import HomeHeader from '../Component/Header/HomeHeader';
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 

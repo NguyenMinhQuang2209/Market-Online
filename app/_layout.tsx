@@ -19,6 +19,8 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    PlayfairBlack:require('../assets/fonts/Playfair/PlayfairDisplay-Bold.ttf'),
+    RobotoBlack:require('../assets/fonts/Roboto/Roboto-Medium.ttf')
   });
 
   useEffect(() => {
