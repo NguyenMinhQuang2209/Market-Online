@@ -23,11 +23,11 @@ const index = () => {
   }, []);
 
   return initialRoute ? (
-    <Redirect href={initialRoute} />
+    <Redirect href={"(home)/cart"} />
   ) : (
     <SafeAreaView>
       <View style={styles.container}>
-        <Image style={styles.image} source={require("@/assets/images/logo.jpg")} />
+        <Image style={styles.image} source={require("@/assets/images/logo.png")} />
       </View>
     </SafeAreaView>
   );

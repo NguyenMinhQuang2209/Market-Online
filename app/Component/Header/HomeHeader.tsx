@@ -27,6 +27,14 @@ const HomeHeader = () => {
         </View>
         <View style={styles.bell_container}>
           <View style={{ position: "relative" }}>
+            <EvilIcons name="comment" size={35} color="#000" />
+            <View style={styles.bell_number}>
+              <Text style={styles.bell_number_txt}>20</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.bell_container}>
+          <View style={{ position: "relative" }}>
             <EvilIcons name="bell" size={35} color="#000" />
             <View style={styles.bell_number}>
               <Text style={styles.bell_number_txt}>20</Text>
@@ -48,7 +56,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   search_container: {
-    width: "85%",
+    width: "75%",
     borderRadius: 40,
     backgroundColor: "rgba(0,0,0,0.07)",
     height: 45,
