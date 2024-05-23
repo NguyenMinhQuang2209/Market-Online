@@ -8,6 +8,7 @@ import {
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { EvilIcons } from "@expo/vector-icons";
+import { Link } from "expo-router";
 
 const HomeHeader = () => {
   const handleSearch = () => {
@@ -26,20 +27,24 @@ const HomeHeader = () => {
           <TextInput style={styles.text_input} placeholder="Tìm kiếm..." />
         </View>
         <View style={styles.bell_container}>
-          <View style={{ position: "relative" }}>
-            <EvilIcons name="comment" size={35} color="#000" />
-            <View style={styles.bell_number}>
-              <Text style={styles.bell_number_txt}>20</Text>
+          <Link href="(chat)/chat">
+            <View style={{ position: "relative" }}>
+              <EvilIcons name="comment" size={35} color="#000" />
+              <View style={styles.bell_number}>
+                <Text style={styles.bell_number_txt}>20</Text>
+              </View>
             </View>
-          </View>
+          </Link>
         </View>
         <View style={styles.bell_container}>
-          <View style={{ position: "relative" }}>
-            <EvilIcons name="bell" size={35} color="#000" />
-            <View style={styles.bell_number}>
-              <Text style={styles.bell_number_txt}>20</Text>
+          <Link href={"(notification)/notification"}>
+            <View style={{ position: "relative" }}>
+              <EvilIcons name="bell" size={35} color="#000" />
+              <View style={styles.bell_number}>
+                <Text style={styles.bell_number_txt}>20</Text>
+              </View>
             </View>
-          </View>
+          </Link>
         </View>
       </View>
     </SafeAreaView>
@@ -51,8 +56,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal:10,
-    paddingVertical:10,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
     marginTop: 10,
   },
   search_container: {
@@ -61,7 +66,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.07)",
     height: 45,
     marginHorizontal: "5%",
-    marginLeft:0,
+    marginLeft: 0,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",

@@ -47,6 +47,8 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(landingpage)" options={{ headerShown: false }} />
+          <Stack.Screen name="(notification)" options={{ headerShown: false }} />
+          <Stack.Screen name="(chat)" options={{ headerShown: false }} />
           <Stack.Screen name="(home)" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />

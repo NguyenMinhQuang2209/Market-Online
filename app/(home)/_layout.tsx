@@ -5,7 +5,6 @@ import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import HomeHeader from "../Component/Header/HomeHeader";
-import { Text, View } from "react-native";
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
