@@ -9,107 +9,109 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { EvilIcons } from "@expo/vector-icons";
+import { useNavigation } from "expo-router";
 
 const Chat = () => {
-
   const handleSearch = () => {};
 
   let chats = [
     {
-        image:"https://res.cloudinary.com/sttruyen/image/upload/v1711269323/Sttruyenxyz/u2a0bb4khx55wj1wzrdv.jpg",
-        name:"bà Tân",
-        content:"Hello bà Tân",
-        time:"10 PM",
-        remain:"1"
+      image:
+        "https://res.cloudinary.com/sttruyen/image/upload/v1711269323/Sttruyenxyz/u2a0bb4khx55wj1wzrdv.jpg",
+      name: "bà Tân",
+      content: "Hello bà Tân",
+      time: "10 PM",
+      remain: "1",
     },
     {
-        image:"https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
-        name:"Bà New",
-        content:"Hello bà New new new new",
-        time:"10/10/22",
-        remain:"2"
-    }
-    ,
+      image:
+        "https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
+      name: "Bà New",
+      content: "Hello bà New new new new",
+      time: "10/10/22",
+      remain: "2",
+    },
     {
-        image:"https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
-        name:"Bà New",
-        content:"Hello bà New new new new",
-        time:"10/10/22",
-        remain:"2"
-    }
-    ,
+      image:
+        "https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
+      name: "Bà New",
+      content: "Hello bà New new new new",
+      time: "10/10/22",
+      remain: "2",
+    },
     {
-        image:"https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
-        name:"Bà New",
-        content:"Hello bà New new new new",
-        time:"10/10/22",
-        remain:"2"
-    }
-    ,
+      image:
+        "https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
+      name: "Bà New",
+      content: "Hello bà New new new new",
+      time: "10/10/22",
+      remain: "2",
+    },
     {
-        image:"https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
-        name:"Bà New",
-        content:"Hello bà New new new new",
-        time:"10/10/22",
-        remain:"2"
-    }
-    ,
+      image:
+        "https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
+      name: "Bà New",
+      content: "Hello bà New new new new",
+      time: "10/10/22",
+      remain: "2",
+    },
     {
-        image:"https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
-        name:"Bà New",
-        content:"Hello bà New new new new",
-        time:"10/10/22",
-        remain:"2"
-    }
-    ,
+      image:
+        "https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
+      name: "Bà New",
+      content: "Hello bà New new new new",
+      time: "10/10/22",
+      remain: "2",
+    },
     {
-        image:"https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
-        name:"Bà New",
-        content:"Hello bà New new new new",
-        time:"10/10/22",
-        remain:"2"
-    }
-    ,
+      image:
+        "https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
+      name: "Bà New",
+      content: "Hello bà New new new new",
+      time: "10/10/22",
+      remain: "2",
+    },
     {
-        image:"https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
-        name:"Bà New",
-        content:"Hello bà New new new new",
-        time:"10/10/22",
-        remain:"2"
-    }
-    ,
+      image:
+        "https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
+      name: "Bà New",
+      content: "Hello bà New new new new",
+      time: "10/10/22",
+      remain: "2",
+    },
     {
-        image:"https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
-        name:"Bà New",
-        content:"Hello bà New new new new",
-        time:"10/10/22",
-        remain:"2"
-    }
-    ,
+      image:
+        "https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
+      name: "Bà New",
+      content: "Hello bà New new new new",
+      time: "10/10/22",
+      remain: "2",
+    },
     {
-        image:"https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
-        name:"Bà New",
-        content:"Hello bà New new new new",
-        time:"10/10/22",
-        remain:"2"
-    }
-    ,
+      image:
+        "https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
+      name: "Bà New",
+      content: "Hello bà New new new new",
+      time: "10/10/22",
+      remain: "2",
+    },
     {
-        image:"https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
-        name:"Bà New",
-        content:"Hello bà New new new new",
-        time:"10/10/22",
-        remain:"2"
-    }
-    ,
+      image:
+        "https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
+      name: "Bà New",
+      content: "Hello bà New new new new",
+      time: "10/10/22",
+      remain: "2",
+    },
     {
-        image:"https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
-        name:"Bà New",
-        content:"Hello bà New new new new",
-        time:"10/10/22",
-        remain:"2"
-    }
-  ]
+      image:
+        "https://res.cloudinary.com/sttruyen/image/upload/v1711270496/Sttruyenxyz/nksjx8vrslok3m0cmg4j.jpg",
+      name: "Bà New",
+      content: "Hello bà New new new new",
+      time: "10/10/22",
+      remain: "2",
+    },
+  ];
 
   return (
     <View style={styles.container}>
@@ -123,24 +125,34 @@ const Chat = () => {
         <TextInput style={styles.text_input} placeholder="Tìm kiếm..." />
       </View>
       <ScrollView style={styles.card_big_container}>
-        {chats?.map((item,index) => <ChatCard key={index + "Chat"} item={item}/>)}
-        <View style={{height:40}}>
-        </View>
+        {chats?.map((item, index) => (
+          <ChatCard key={index + "Chat"} item={item} />
+        ))}
+        <View style={{ height: 40 }}></View>
       </ScrollView>
     </View>
   );
 };
 
-const ChatCard = ({item}) => {
-    const [content,setContent] = useState('');
-    useEffect(() => {
-        if(item){
-            let newContent = item?.content?.length >  20 ? item?.content?.substring(0,20) + "..." : item?.content;
-            setContent(newContent);
-        }
-    },[item]);
+const ChatCard = ({ item }) => {
+  const navigation = useNavigation();
+  const [content, setContent] = useState("");
+  useEffect(() => {
+    if (item) {
+      let newContent =
+        item?.content?.length > 20
+          ? item?.content?.substring(0, 20) + "..."
+          : item?.content;
+      setContent(newContent);
+    }
+  }, [item]);
+  const handlePress = () => {
+    navigation.navigate('chatDetail', {
+      name: item?.name
+    });
+  };
   return (
-    <View style={styles.card_container}>
+    <TouchableOpacity style={styles.card_container} onPress={handlePress}>
       <View style={styles.card_image_container}>
         <Image
           style={styles.card_image}
@@ -167,7 +179,7 @@ const ChatCard = ({item}) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -175,8 +187,8 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 10,
   },
-  card_big_container:{
-    paddingHorizontal:10,
+  card_big_container: {
+    paddingHorizontal: 10,
   },
   search_container: {
     borderRadius: 40,
@@ -208,8 +220,8 @@ const styles = StyleSheet.create({
   },
   card_image_container: {
     width: 60,
-    flexDirection:"row",
-    alignItems:"center"
+    flexDirection: "row",
+    alignItems: "center",
   },
   card_image: {
     width: 50,
@@ -222,22 +234,22 @@ const styles = StyleSheet.create({
   },
   card_infor_name_container: {
     marginBottom: 5,
-    flexDirection:"row",
-    justifyContent:"space-between"
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
-  card_infor_remain_container:{
+  card_infor_remain_container: {
     width: 18,
-    height:18,
-    backgroundColor:"red",
-    borderRadius:10,
-    flexDirection:"row",
-    alignItems:"center",
-    justifyContent:"center"
+    height: 18,
+    backgroundColor: "red",
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  card_infor_remain_txt:{
-    color:"white",
-    fontSize:12,
-    fontFamily:"SpaceMono"
+  card_infor_remain_txt: {
+    color: "white",
+    fontSize: 12,
+    fontFamily: "SpaceMono",
   },
   card_infor_name_txt: {
     fontSize: 15,

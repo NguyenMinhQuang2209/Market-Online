@@ -1,15 +1,21 @@
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { EvilIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 
-const DefaultHeader = ({title}) => {
+const DefaultHeader = ({ title, to }) => {
+  const [link, setLink] = useState("(home)/home");
+  useEffect(() => {
+    if (to) {
+      setLink(to);
+    }
+  }, [to]);
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.icon_container}>
-          <Link href={"(home)/home"}>
+          <Link href={link}>
             <EvilIcons name="arrow-left" size={25} />
           </Link>
         </View>

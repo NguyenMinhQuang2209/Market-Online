@@ -9,16 +9,18 @@ import {
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link, useRouter } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 
 const login = () => {
 
-  const router = useRouter();
+  const navigation = useNavigation();
 
   const handleLogin = () => {
-    router.push("(home)/home");
+    navigation.navigate("(home)",{
+      screen:"home"
+    });
   }
   return (
     <LinearGradient colors={["#ffffff", "rgba(288,122,122,0.5)"]}>

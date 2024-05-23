@@ -30,6 +30,19 @@ export default function NotificationLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="chatDetail"
+        options={{
+          headerShown: false,
+          title: "Nhắn tin",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "notifications" : "notifications-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
