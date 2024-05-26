@@ -39,12 +39,12 @@ const ProductCard = ({product}) => {
       <View style={{ flexDirection: "row" }}>
         <TouchableWithoutFeedback>
           <View style={styles.button}>
-            <Text style={styles.button_text}>Mua</Text>
+            <Text style={styles.button_text}>Mua hàng</Text>
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback>
           <View style={styles.button}>
-            <Text style={styles.button_text}>Xem gian hàng</Text>
+            <Text style={styles.button_text}>Xem hàng</Text>
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -54,7 +54,7 @@ const ProductCard = ({product}) => {
 const styles = StyleSheet.create({
   card_container: {
     width: "45%",
-    height: 210,
+    height: 220,
     backgroundColor: "rgba(234, 152, 91, 0.15)",
     marginHorizontal: "2.5%",
     marginVertical: 5,
@@ -68,24 +68,24 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   card_title: {
-    fontFamily: "PlayfairBlack",
+    fontFamily: "PlayfairMedium",
     marginTop: 5,
     fontSize: 15,
     width:"90%"
   },
   card_seller: {
-    fontFamily: "RobotoBlack",
+    fontFamily: "RobotoMedium",
     marginTop: 3,
     fontSize: 12,
   },
   button: {
-    paddingHorizontal: 8,
+    paddingHorizontal: 9,
     height: 30,
-    backgroundColor: "green",
+    backgroundColor: "#E47070",
     marginHorizontal:5,
     justifyContent:"center",
-    marginTop:10,
-    borderRadius:10
+    marginTop:15,
+    borderRadius:10,
   },
   button_text:{
     color:"white",

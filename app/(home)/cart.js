@@ -6,13 +6,20 @@ import {
   Dimensions,
   ScrollView,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
-import { Link } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 
 const windowWidth = Dimensions.get("window").width;
 const cart = () => {
+  const navigation = useNavigation();
+  const handleOrder = () => {
+    navigation.navigate("(payment)",{
+      screen:"payment"
+    })
+  }
   return (
     <View>
       <ScrollView style={styles.head_container}>
@@ -27,11 +34,11 @@ const cart = () => {
           </View>
         </View>
         <View style={styles.foot_btn_container}>
-          <TouchableWithoutFeedback>
+          <TouchableOpacity onPress={handleOrder}>
             <View style={styles.foot_btn}>
               <Text style={styles.foot_btn_txt}>Thanh toán</Text>
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
