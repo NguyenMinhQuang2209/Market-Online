@@ -16,10 +16,10 @@ const windowWidth = Dimensions.get("window").width;
 const cart = () => {
   const navigation = useNavigation();
   const handleOrder = () => {
-    navigation.navigate("(payment)",{
-      screen:"payment"
-    })
-  }
+    navigation.navigate("(payment)", {
+      screen: "payment",
+    });
+  };
   return (
     <View>
       <ScrollView style={styles.head_container}>
@@ -49,6 +49,10 @@ const CartCardBig = () => {
   return (
     <View style={cardStyles.container}>
       <View style={cardStyles.close_icon_container}>
+        <View style={{flexDirection:"row"}}>
+          <Text style={{fontSize:15}}>Trạng thái: </Text>
+          <Text style={{fontSize:15,color:"green"}}>Đợi xác nhận</Text>
+        </View>
         <View style={cardStyles.close_icon_circle_container}>
           <Ionicons name="close" size={15} />
         </View>
@@ -174,7 +178,7 @@ const cardStyles = StyleSheet.create({
   },
   close_icon_container: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
   },
   close_icon_circle_container: {
     marginBottom: 20,
@@ -313,37 +317,37 @@ const cardStyles = StyleSheet.create({
     justifyContent: "center",
     borderBottomColor: "rgba(0,0,0,0.4)",
     borderWidth: 0.5,
-    padding:5,
-    borderRadius:10,
+    padding: 5,
+    borderRadius: 10,
   },
-  summary_bill_title_txt:{
-    fontFamily:"RobotoBold"
+  summary_bill_title_txt: {
+    fontFamily: "RobotoBold",
   },
-  bill_item_container:{
-    flexDirection:"row",
-    justifyContent:"space-between",
-    paddingHorizontal:10,
-    paddingVertical:4
+  bill_item_container: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
   },
-  bill_items_container:{
-    marginTop:10
+  bill_items_container: {
+    marginTop: 10,
   },
-  bill_item_txt:{
-    fontFamily:"RobotoMedium"
+  bill_item_txt: {
+    fontFamily: "RobotoMedium",
   },
-  summary_total_bill_container:{
-    marginTop:10,
+  summary_total_bill_container: {
+    marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     borderTopColor: "rgba(0,0,0,0.4)",
-    borderTopWidth: 0.5, 
-    paddingHorizontal:10,
-    borderRadius:10,
-    paddingTop:5
+    borderTopWidth: 0.5,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    paddingTop: 5,
   },
-  summary_total_bill_txt:{
-    fontFamily:"RobotoBold"
-  }
+  summary_total_bill_txt: {
+    fontFamily: "RobotoBold",
+  },
 });
 
 const styles = StyleSheet.create({
@@ -396,6 +400,5 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: "RobotoBold",
   },
-  
 });
 export default cart;

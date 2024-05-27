@@ -8,8 +8,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
-
-const ProductCard = ({ product }) => {
+const StoreCard = ({ product }) => {
   const [like, setLike] = useState(false);
 
   const [name, setName] = useState("");
@@ -28,38 +27,43 @@ const ProductCard = ({ product }) => {
       setName(newName);
     }
   }, [product]);
-
   return (
     <View style={styles.card_container}>
-      <View style={{ flexDirection: "row" }}>
+      <View style={{ flexDirection: "row", position: "relative" }}>
         <Image
           style={styles.card_image}
           source={{
-            uri: product?.image,
+            uri: "https://res.cloudinary.com/sttruyen/image/upload/v1716255380/m4fomykpo7ycgccepee9.jpg",
           }}
         />
+        <View style={styles.storeowner_image_container}>
+          <Image
+            style={styles.storeowner_image}
+            source={{
+              uri: "https://res.cloudinary.com/sttruyen/image/upload/v1711269323/Sttruyenxyz/u2a0bb4khx55wj1wzrdv.jpg",
+            }}
+          />
+        </View>
       </View>
       <View>
-        <Text style={styles.card_title}>{name}</Text>
+        <Text style={styles.card_title}>Cửa hàng Bà Tám</Text>
       </View>
       <View>
-        <Text style={styles.card_seller}>Người bán: {seller}</Text>
+        <Text style={styles.card_seller}>Tân Xã -Thạch thất - Hà Nội</Text>
       </View>
       <View style={{ flexDirection: "row" }}>
         <TouchableWithoutFeedback>
           <View style={styles.button}>
-            <Text style={styles.button_text}>Mua hàng</Text>
-          </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback>
-          <View style={styles.button}>
-            <Text style={styles.button_text}>Cửa hàng</Text>
+            <Text style={styles.button_text}>Xem cửa hàng</Text>
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <TouchableOpacity style={styles.heart_icon} onPress={() => {
-        setLike(pre => !pre);
-      }}>
+      <TouchableOpacity
+        style={styles.heart_icon}
+        onPress={() => {
+          setLike((pre) => !pre);
+        }}
+      >
         <Ionicons
           style={{ color: like ? "red" : "black" }}
           name="heart-circle-outline"
@@ -85,6 +89,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 120,
     resizeMode: "cover",
+    opacity: 0.5,
   },
   card_title: {
     fontFamily: "PlayfairMedium",
@@ -122,6 +127,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  storeowner_image_container: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  storeowner_image: {
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    backgroundColor: "rgba(255,255,255,0.7)",
+    elevation:10
+  },
 });
 
-export default ProductCard;
+export default StoreCard;
