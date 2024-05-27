@@ -36,6 +36,24 @@ const profile = () => {
         </View>
       </View>
       <View style={styles.user_function_container}>
+      <View style={styles.user_function_wrap}>
+          <View style={styles.user_function_main}>
+            <View style={styles.user_function_title}>
+              <View style={styles.user_function_icon}>
+                <EvilIcons name="archive" size={25} />
+              </View>
+              <Text style={styles.user_function_title_txt}>
+                Đơn đang giao
+              </Text>
+              <View style={styles.number_icon}>
+                <Text style={styles.number_txt}>1</Text>
+              </View>
+            </View>
+          </View>
+          <View>
+            <EvilIcons name="chevron-right" size={35} />
+          </View>
+        </View>
         <View style={styles.user_function_wrap}>
           <View style={styles.user_function_main}>
             <View style={styles.user_function_title}>
@@ -178,6 +196,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  number_icon:{
+    marginLeft:5,
+    width:18,
+    height:18,
+    borderRadius:10,
+    backgroundColor:"rgba(255,0,0,0.7)",
+    justifyContent:"center",
+    alignItems:"center"
+  },
+  number_txt:{
+    fontSize:13,
+    color:"white"
+  }
 });
 
 export default profile;

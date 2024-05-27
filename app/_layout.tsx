@@ -26,6 +26,7 @@ export default function RootLayout() {
     PlayfairRegular:require('../assets/fonts/Playfair/PlayfairDisplay-Regular.ttf'),
     PlayfairSemiBold:require('../assets/fonts/Playfair/PlayfairDisplay-SemiBold.ttf'),
     RobotoMedium:require('../assets/fonts/Roboto/Roboto-Medium.ttf'),
+    RobotoMediumItalic:require('../assets/fonts/Roboto/Roboto-MediumItalic.ttf'),
     RobotoBlack:require('../assets/fonts/Roboto/Roboto-Black.ttf'),
     RobotoBold:require('../assets/fonts/Roboto/Roboto-Bold.ttf'),
     RobotoThin:require('../assets/fonts/Roboto/Roboto-Thin.ttf'),
@@ -48,6 +49,7 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="(landingpage)" options={{ headerShown: false }} />
           <Stack.Screen name="(profile)" options={{ headerShown: false }} />
+          <Stack.Screen name="(store)" options={{ headerShown: false }} />
           <Stack.Screen name="(payment)" options={{ headerShown: false }} />
           <Stack.Screen name="(notification)" options={{ headerShown: false }} />
           <Stack.Screen name="(chat)" options={{ headerShown: false }} />

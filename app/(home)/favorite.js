@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1,
   },
   head_item_txt: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: "RobotoMedium",
   },
   active: {

@@ -8,9 +8,11 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "expo-router";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, showStore = true }) => {
   const [like, setLike] = useState(false);
+  const navigation = useNavigation();
 
   const [name, setName] = useState("");
   const [seller, setSeller] = useState("");
@@ -28,6 +30,12 @@ const ProductCard = ({ product }) => {
       setName(newName);
     }
   }, [product]);
+
+  const HandleLinkToStore = () => {
+    navigation.navigate("(store)", {
+      screen: "store",
+    });
+  };
 
   return (
     <View style={styles.card_container}>
@@ -51,15 +59,20 @@ const ProductCard = ({ product }) => {
             <Text style={styles.button_text}>Mua hàng</Text>
           </View>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback>
-          <View style={styles.button}>
-            <Text style={styles.button_text}>Cửa hàng</Text>
-          </View>
-        </TouchableWithoutFeedback>
+        {showStore && (
+          <TouchableWithoutFeedback onPress={HandleLinkToStore}>
+            <View style={styles.button}>
+              <Text style={styles.button_text}>Cửa hàng</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        )}
       </View>
-      <TouchableOpacity style={styles.heart_icon} onPress={() => {
-        setLike(pre => !pre);
-      }}>
+      <TouchableOpacity
+        style={styles.heart_icon}
+        onPress={() => {
+          setLike((pre) => !pre);
+        }}
+      >
         <Ionicons
           style={{ color: like ? "red" : "black" }}
           name="heart-circle-outline"

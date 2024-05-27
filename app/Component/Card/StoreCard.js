@@ -8,7 +8,9 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "expo-router";
 const StoreCard = ({ product }) => {
+  const navigation = useNavigation();
   const [like, setLike] = useState(false);
 
   const [name, setName] = useState("");
@@ -27,6 +29,11 @@ const StoreCard = ({ product }) => {
       setName(newName);
     }
   }, [product]);
+  const handleLinkToStore = () => {
+    navigation.navigate("(store)", {
+      screen: "store",
+    });
+  };
   return (
     <View style={styles.card_container}>
       <View style={{ flexDirection: "row", position: "relative" }}>
@@ -52,7 +59,7 @@ const StoreCard = ({ product }) => {
         <Text style={styles.card_seller}>Tân Xã -Thạch thất - Hà Nội</Text>
       </View>
       <View style={{ flexDirection: "row" }}>
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={handleLinkToStore}>
           <View style={styles.button}>
             <Text style={styles.button_text}>Xem cửa hàng</Text>
           </View>
@@ -141,7 +148,7 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 50,
     backgroundColor: "rgba(255,255,255,0.7)",
-    elevation:10
+    elevation: 10,
   },
 });
 
