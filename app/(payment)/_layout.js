@@ -20,7 +20,10 @@ export default function PaymentLayout() {
         name="payment"
         options={{
           headerShown: true,
-          header: () => <DefaultHeader title={"Xác nhận mua hàng"} to={"(home)/cart"}/>,
+          header: () => <DefaultHeader title={"Xác nhận mua hàng"} to={{
+            folder:"(home)",
+            screen:"cart"
+          }}/>,
           title: "Xác nhận mua hàng",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
@@ -34,7 +37,10 @@ export default function PaymentLayout() {
         name="address"
         options={{
           headerShown: true,
-          header: () => <DefaultHeader title={"Địa chỉ mua hàng"} to={"(payment)/payment"}/>,
+          header: () => <DefaultHeader title={"Địa chỉ mua hàng"} to={{
+            folder:"(payment)",
+            screen:"payment"
+          }}/>,
           title: "Đại chỉ mua hàng",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon

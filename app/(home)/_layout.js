@@ -5,6 +5,7 @@ import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import HomeHeader from "../Component/Header/HomeHeader";
+import { StyleSheet, Text, View } from "react-native";
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
@@ -45,10 +46,15 @@ export default function TabLayout() {
         options={{
           title: "Giỏ hàng",
           tabBarIcon: ({ color, focused }) => (
+            <View style={styles.container}>
             <TabBarIcon
               name={focused ? "cart" : "cart-outline"}
               color={color}
             />
+            <View style={styles.number_container}>
+              <Text style={styles.number_txt}>1</Text>
+            </View>
+          </View>
           ),
         }}
       />
@@ -80,3 +86,24 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    position: "relative",
+  },
+  number_container: {
+    position: "absolute",
+    top: -3,
+    right: -8,
+    width: 18,
+    height: 18,
+    backgroundColor: "red",
+    borderRadius:10,
+    justifyContent:"center",
+    alignItems:"center"
+  },
+  number_txt:{
+    color:"white",
+    fontSize:12,
+    fontFamily:"RobotoBold"
+  }
+});

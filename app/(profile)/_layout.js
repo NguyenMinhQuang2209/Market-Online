@@ -20,7 +20,7 @@ export default function ProfileLayout() {
         name="profile"
         options={{
           headerShown: true,
-          header: () => <DefaultHeader title={"Sửa thông tin cá nhân"} to={"(home)/profile"}/>,
+          header: () => <DefaultHeader title={"Sửa thông tin cá nhân"} />,
           title: "Sửa thông tin cá nhân",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon

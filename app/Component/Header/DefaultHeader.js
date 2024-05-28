@@ -1,23 +1,32 @@
-import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
-import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { EvilIcons } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { useNavigation } from "expo-router";
 
 const DefaultHeader = ({ title, to }) => {
-  const [link, setLink] = useState("(home)/home");
-  useEffect(() => {
+  const navigation = useNavigation();
+  const handleBack = () => {
     if (to) {
-      setLink(to);
+      navigation.navigate(to.folder, {
+        screen: to.screen,
+      });
+    } else {
+      navigation.goBack();
     }
-  }, [to]);
+  };
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.icon_container}>
-          <Link href={link}>
-            <EvilIcons name="arrow-left" size={25} />
-          </Link>
+          <TouchableOpacity onPress={handleBack}>
+            <EvilIcons name="arrow-left" size={28} />
+          </TouchableOpacity>
         </View>
         <View style={styles.title_container}>
           <Text style={styles.title_txt}>{title}</Text>

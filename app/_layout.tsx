@@ -48,6 +48,7 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(landingpage)" options={{ headerShown: false }} />
+          <Stack.Screen name="(storeowner)" options={{ headerShown: false }} />
           <Stack.Screen name="(profile)" options={{ headerShown: false }} />
           <Stack.Screen name="(store)" options={{ headerShown: false }} />
           <Stack.Screen name="(payment)" options={{ headerShown: false }} />

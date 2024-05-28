@@ -17,22 +17,6 @@ export default function NotificationLayout() {
       }}
     >
       <Tabs.Screen
-        name="home"
-        options={{
-          headerShown: false,
-          title: "Trang chủ",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "home" : "home-outline"}
-              color={color}
-            />
-          ),
-          tabBarStyle:{
-            display:"none"
-          },
-        }}
-      />
-      <Tabs.Screen
         name="notification"
         options={{
           headerShown: true,

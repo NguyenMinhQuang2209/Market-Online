@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/(home)/home.js"  ]
+, "app/(home)/home.js", "app/Component/Header/HomeHeader.js", "app/(home)/_layout.js"  ]
 }
