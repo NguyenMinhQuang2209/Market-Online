@@ -158,7 +158,7 @@ const Create = () => {
       </View>
       <View style={styles.btn_container}>
         <TouchableOpacity style={styles.btn}>
-          <Text style={styles.btn_txt}>Lưu thay đổi</Text>
+          <Text style={styles.btn_txt}>Tạo mới</Text>
         </TouchableOpacity>
       </View>
       {activeSelection && (
@@ -242,8 +242,8 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginBottom: 10,
-    width: 200,
-    height: 50,
+    width: 150,
+    height: 45,
     backgroundColor: "#E47070",
     justifyContent: "center",
     alignItems: "center",
