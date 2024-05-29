@@ -15,8 +15,8 @@ const Create = () => {
   const [image, setImage] = useState("");
   const [activeSelection, setActiveSelection] = useState(false);
   const [activeUnitSelection, setActiveUnitSelection] = useState(false);
-  const [current,setCurrent] = useState(1);
-  const [currentUnit,setCurrentUnit] = useState(1);
+  const [current, setCurrent] = useState(1);
+  const [currentUnit, setCurrentUnit] = useState(1);
   const [units, setUnits] = useState([
     {
       id: 1,
@@ -100,7 +100,6 @@ const Create = () => {
             </View>
             <View style={styles.textinput_wrap}>
               <TextInput
-                multiline={true}
                 style={styles.textinput}
                 defaultValue="MinhQuang"
               />
@@ -116,9 +115,12 @@ const Create = () => {
               <Text style={styles.label_txt}>Loại sản phẩm</Text>
             </View>
             <View style={styles.textinput_wrap}>
-              <TouchableOpacity style={styles.textinput2} onPress={() => {
-                setActiveSelection(true);
-              }}>
+              <TouchableOpacity
+                style={styles.textinput2}
+                onPress={() => {
+                  setActiveSelection(true);
+                }}
+              >
                 <Text>{categories[current]?.name}</Text>
                 <View>
                   <EvilIcons name="chevron-down" size={30} />
@@ -131,14 +133,10 @@ const Create = () => {
               <Text style={styles.label_txt}>Đơn vị tính</Text>
             </View>
             <View style={styles.textinput_wrap}>
-              <TouchableOpacity style={styles.textinput2} onPress={() => {
-                setActiveUnitSelection(true);
-              }}>
-                <Text>{units[currentUnit]?.name}</Text>
-                <View>
-                  <EvilIcons name="chevron-down" size={30} />
-                </View>
-              </TouchableOpacity>
+              <TextInput
+                style={styles.textinput}
+                defaultValue="Kg"
+              />
             </View>
           </View>
           <View style={styles.edit_field}>
@@ -162,10 +160,20 @@ const Create = () => {
         </TouchableOpacity>
       </View>
       {activeSelection && (
-        <Selection setActive={setActiveSelection} selection={categories} current={current} setCurrent={setCurrent} />
+        <Selection
+          setActive={setActiveSelection}
+          selection={categories}
+          current={current}
+          setCurrent={setCurrent}
+        />
       )}
       {activeUnitSelection && (
-        <Selection setActive={setActiveUnitSelection} selection={units} current={currentUnit} setCurrent={setCurrentUnit} />
+        <Selection
+          setActive={setActiveUnitSelection}
+          selection={units}
+          current={currentUnit}
+          setCurrent={setCurrentUnit}
+        />
       )}
     </View>
   );

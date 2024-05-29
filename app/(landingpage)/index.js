@@ -23,7 +23,7 @@ const index = () => {
   }, []);
 
   return initialRoute ? (
-    <Redirect href={"(product)/create"} />
+    <Redirect href={"(storeowner)/store"} />
   ) : (
     <SafeAreaView>
       <View style={styles.container}>
