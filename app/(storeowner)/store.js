@@ -19,8 +19,13 @@ const store = () => {
   const [theme, setTheme] = useState({
     bgColor: "white",
     textColor: "black",
-    cardBgColor: "rgba(255,0,0,0.3)",
+    cardBgColor: "",
     cardTextColor: "white",
+    cardBgImage:
+      "https://res.cloudinary.com/sttruyen/image/upload/v1716257351/x2v7kcn2qnm2odi6gdrc.jpg",
+    bgOpacity: 1,
+    thumbnailImage:
+      "https://s3-alpha-sig.figma.com/img/4f96/d73e/e7d4383ade2f27ee798880e5cc8f8181?Expires=1717977600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=RUzS1EsxqVQDmZVHoiw~qH48DwcKKH3B5B4mQAZRDA2X8CPXhupx8VKJ14PdpoXTc3Rc~eWYFBan3oq7OmMrf7B7dJhbB-hbJd1RzjWdPy2shuIMS0wUmCo642Y4tpB39jgfZwKpDI~vrYy3g5Z07bFNh3Y-uXH2e9xXpR6lvJx75ZsAplWcXKl1cCnKp1hG~yd-q-9UqrYBvTw0ud2p~EPYL0xGvi3buJqzIk2AB66jxPrfC3vJ~8Lg~OvsLU0bsBpycOm8hD5PG-00Qtp218CYI5w1lJ0kra0IOUEhxwF7hAcGdTNCLLHXL0KV2QQcaqfkdl3CQsfCVzcAEqoRhg__",
   });
 
   const navigation = useNavigation();
@@ -41,7 +46,7 @@ const store = () => {
         <Image
           style={styles.bg_image}
           source={{
-            uri: "https://s3-alpha-sig.figma.com/img/4f96/d73e/e7d4383ade2f27ee798880e5cc8f8181?Expires=1717977600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=RUzS1EsxqVQDmZVHoiw~qH48DwcKKH3B5B4mQAZRDA2X8CPXhupx8VKJ14PdpoXTc3Rc~eWYFBan3oq7OmMrf7B7dJhbB-hbJd1RzjWdPy2shuIMS0wUmCo642Y4tpB39jgfZwKpDI~vrYy3g5Z07bFNh3Y-uXH2e9xXpR6lvJx75ZsAplWcXKl1cCnKp1hG~yd-q-9UqrYBvTw0ud2p~EPYL0xGvi3buJqzIk2AB66jxPrfC3vJ~8Lg~OvsLU0bsBpycOm8hD5PG-00Qtp218CYI5w1lJ0kra0IOUEhxwF7hAcGdTNCLLHXL0KV2QQcaqfkdl3CQsfCVzcAEqoRhg__",
+            uri: theme?.thumbnailImage,
           }}
         />
       </View>
@@ -153,7 +158,18 @@ const store = () => {
                   showStore={false}
                   cardStyle={{
                     bg: theme.cardBgColor,
-                    txtColor: theme.textColor,
+                    txtColor: theme.cardTextColor,
+                    bgImage: theme.cardBgImage,
+                    bgOpacity: theme.bgOpacity,
+                  }}
+                />
+                <ProductCard
+                  showStore={false}
+                  cardStyle={{
+                    bg: theme.cardBgColor,
+                    txtColor: theme.cardTextColor,
+                    bgImage: theme.cardBgImage,
+                    bgOpacity: theme.bgOpacity,
                   }}
                 />
                 <ProductCard showStore={false} />
