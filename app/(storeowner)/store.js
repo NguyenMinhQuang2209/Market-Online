@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import DefaultHeader from "../Component/Header/DefaultHeader";
-import { Ionicons } from "@expo/vector-icons";
+import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import ProductCard from "../Component/Card/ProductCard";
 import NewsCard from "../Component/Card/NewsCard";
 import { useNavigation } from "expo-router";
@@ -214,9 +214,42 @@ const store = () => {
           <NewsCard tabbar={true} />
         </ScrollView>
       )}
+
+      <CustomBtnFloat />
     </View>
   );
 };
+
+const CustomBtnFloat = () => {
+  return (
+    <View style={btnStyles.container}>
+      <View>
+        <Ionicons style={{color:"white",marginRight:3}} name="color-fill" size={20} />
+      </View>
+      <Text style={btnStyles.txt}>Sửa Theme</Text>
+    </View>
+  );
+};
+const btnStyles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    width: 120,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255,15,0,0.9)",
+    borderRadius: 50,
+    elevation: 5,
+    flexDirection:"row"
+  },
+  txt:{
+    color: "white",
+    fontFamily:"RobotoMedium"
+  }
+});
+
 const styles = StyleSheet.create({
   container: {},
   bg_container: {
