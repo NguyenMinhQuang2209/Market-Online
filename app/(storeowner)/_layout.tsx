@@ -39,6 +39,7 @@ export default function TabLayout() {
               color={color}
             />
           ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -67,6 +68,26 @@ export default function TabLayout() {
               name={focused ? "archive" : "archive-outline"}
               color={color}
             />
+          ),
+          tabBarItemStyle: {
+            display: "none",
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="product"
+        options={{
+          title: "Sản phẩm",
+          tabBarIcon: ({ color, focused }) => (
+            <View style={styles.container}>
+              <TabBarIcon
+                name={focused ? "pricetag" : "pricetag-outline"}
+                color={color}
+              />
+              <View style={styles.number_container}>
+                <Text style={styles.number_txt}>1</Text>
+              </View>
+            </View>
           ),
         }}
       />
@@ -97,13 +118,13 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     backgroundColor: "red",
-    borderRadius:10,
-    justifyContent:"center",
-    alignItems:"center"
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  number_txt:{
-    color:"white",
-    fontSize:12,
-    fontFamily:"RobotoBold"
-  }
+  number_txt: {
+    color: "white",
+    fontSize: 12,
+    fontFamily: "RobotoBold",
+  },
 });

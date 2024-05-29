@@ -10,10 +10,7 @@ import React, { useEffect, useState } from "react";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
 
-const ProductCard = ({ product, showStore = true,cardStyle= {
-  bg:"rgba(234, 152, 91, 0.15)",
-  txtColor:"black"
-} }) => {
+const StoreOwnerProductCard = ({ product }) => {
   const [like, setLike] = useState(false);
   const navigation = useNavigation();
 
@@ -41,9 +38,7 @@ const ProductCard = ({ product, showStore = true,cardStyle= {
   };
 
   return (
-    <View style={[styles.card_container,{
-      backgroundColor:cardStyle.bg
-    }]}>
+    <View style={styles.card_container}>
       <View style={{ flexDirection: "row" }}>
         <Image
           style={styles.card_image}
@@ -53,34 +48,22 @@ const ProductCard = ({ product, showStore = true,cardStyle= {
         />
       </View>
       <View>
-        <Text style={[styles.card_title,{
-          color:cardStyle?.txtColor
-        }]}>{name}</Text>
+        <Text style={styles.card_title}>{name}</Text>
       </View>
       <View>
-        <Text style={[
-          styles.card_seller,{
-            color:cardStyle?.txtColor
-          }
-        ]}>Người bán: {seller}</Text>
+        <Text style={styles.card_seller}>Người bán: {seller}</Text>
       </View>
       <View style={{ flexDirection: "row" }}>
         <TouchableWithoutFeedback>
           <View style={styles.button}>
-            <Text style={[styles.button_text,{
-              color:cardStyle?.txtColor 
-            }]}>Mua hàng</Text>
+            <Text style={styles.button_text}>Sửa</Text>
           </View>
         </TouchableWithoutFeedback>
-        {showStore && (
-          <TouchableWithoutFeedback onPress={HandleLinkToStore}>
-            <View style={styles.button}>
-              <Text style={[styles.button_text,{
-                color:cardStyle?.txtColor 
-              }]}>Cửa hàng</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        )}
+        <TouchableWithoutFeedback onPress={HandleLinkToStore}>
+          <View style={styles.button}>
+            <Text style={styles.button_text}>Hết hàng</Text>
+          </View>
+        </TouchableWithoutFeedback>
       </View>
       <TouchableOpacity
         style={styles.heart_icon}
@@ -89,11 +72,14 @@ const ProductCard = ({ product, showStore = true,cardStyle= {
         }}
       >
         <Ionicons
-          style={{ color: like ? "red" : "black" }}
-          name="heart-circle-outline"
+          style={{ color: "black" }}
+          name="close-circle-outline"
           size={30}
         />
       </TouchableOpacity>
+      <View style={styles.out_product}>
+        <Text style={styles.out_product_txt}>Hết hàng</Text>
+      </View>
     </View>
   );
 };
@@ -101,6 +87,7 @@ const styles = StyleSheet.create({
   card_container: {
     width: "45%",
     height: 220,
+    backgroundColor: "rgba(234, 152, 91, 0.15)",
     marginHorizontal: "2.5%",
     marginVertical: 5,
     borderRadius: 20,
@@ -144,11 +131,26 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 30,
-    backgroundColor: "white",
+    backgroundColor: "rgba(255,255,255,0.5)",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
   },
+  out_product: {
+    position: "absolute",
+    top: 5,
+    left: 5,
+    width: 100,
+    height: 30,
+    borderRadius: 30,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  out_product_txt:{
+    color:"white"
+  }
 });
 
-export default ProductCard;
+export default StoreOwnerProductCard;

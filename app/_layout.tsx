@@ -50,6 +50,7 @@ export default function RootLayout() {
           <Stack.Screen name="(landingpage)" options={{ headerShown: false }} />
           <Stack.Screen name="(storeowner)" options={{ headerShown: false }} />
           <Stack.Screen name="(profile)" options={{ headerShown: false }} />
+          <Stack.Screen name="(product)" options={{ headerShown: false }} />
           <Stack.Screen name="(store)" options={{ headerShown: false }} />
           <Stack.Screen name="(payment)" options={{ headerShown: false }} />
           <Stack.Screen name="(notification)" options={{ headerShown: false }} />

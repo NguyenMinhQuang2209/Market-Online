@@ -9,7 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { EvilIcons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
 
-const DefaultHeader = ({ title, to }) => {
+const DefaultHeader = ({ title, to ,textColor = "black"}) => {
   const navigation = useNavigation();
   const handleBack = () => {
     if (to) {
@@ -25,11 +25,17 @@ const DefaultHeader = ({ title, to }) => {
       <View style={styles.container}>
         <View style={styles.icon_container}>
           <TouchableOpacity onPress={handleBack}>
-            <EvilIcons name="arrow-left" size={28} />
+            <EvilIcons style={[
+              {
+                color:textColor
+              }
+            ]} name="arrow-left" size={28} />
           </TouchableOpacity>
         </View>
         <View style={styles.title_container}>
-          <Text style={styles.title_txt}>{title}</Text>
+          <Text style={[styles.title_txt,{
+            color:textColor
+          }]}>{title}</Text>
         </View>
       </View>
     </SafeAreaView>

@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 
-const NewsCard = () => {
+const NewsCard = ({ tabbar = false }) => {
   return (
     <View style={styles.container}>
       <View style={styles.head_card}>
@@ -22,9 +22,15 @@ const NewsCard = () => {
             <Text style={styles.infor_time_txt}>3 phút trước</Text>
           </View>
         </View>
-        <View style={styles.icon_container}>
-          <Ionicons style={styles.icon} name="ellipsis-horizontal-circle-outline" size={30} />
-        </View>
+        {tabbar && (
+          <View style={styles.icon_container}>
+            <Ionicons
+              style={styles.icon}
+              name="ellipsis-horizontal-circle-outline"
+              size={30}
+            />
+          </View>
+        )}
       </View>
       <View style={styles.news_container}>
         <Text style={styles.news_txt}>
