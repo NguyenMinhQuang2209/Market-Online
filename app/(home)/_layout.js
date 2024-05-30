@@ -47,14 +47,14 @@ export default function TabLayout() {
           title: "Giỏ hàng",
           tabBarIcon: ({ color, focused }) => (
             <View style={styles.container}>
-            <TabBarIcon
-              name={focused ? "cart" : "cart-outline"}
-              color={color}
-            />
-            <View style={styles.number_container}>
-              <Text style={styles.number_txt}>1</Text>
+              <TabBarIcon
+                name={focused ? "cart" : "cart-outline"}
+                color={color}
+              />
+              <View style={styles.number_container}>
+                <Text style={styles.number_txt}>1</Text>
+              </View>
             </View>
-          </View>
           ),
         }}
       />
@@ -75,12 +75,17 @@ export default function TabLayout() {
         options={{
           title: "Cá nhân",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "people" : "people-outline"}
-              color={color}
-            />
+            <View style={styles.container}>
+              <TabBarIcon
+                name={focused ? "people" : "people-outline"}
+                color={color}
+              />
+              <View style={styles.number_container}>
+                <Text style={styles.number_txt}>1</Text>
+              </View>
+            </View>
           ),
-          headerShown:false
+          headerShown: false,
         }}
       />
     </Tabs>
@@ -97,13 +102,13 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     backgroundColor: "red",
-    borderRadius:10,
-    justifyContent:"center",
-    alignItems:"center"
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  number_txt:{
-    color:"white",
-    fontSize:12,
-    fontFamily:"RobotoBold"
-  }
+  number_txt: {
+    color: "white",
+    fontSize: 12,
+    fontFamily: "RobotoBold",
+  },
 });
