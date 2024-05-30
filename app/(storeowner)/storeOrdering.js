@@ -8,20 +8,72 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigation } from "expo-router";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 
 const windowWidth = Dimensions.get("window").width;
 const storeOrdering = () => {
   const navigation = useNavigation();
+  const [current, setCurrent] = useState("");
   const handleOrder = () => {
     navigation.navigate("(payment)", {
       screen: "payment",
     });
   };
+
+  const changeCurrent = (newState) => {
+    setCurrent(newState);
+  };
   return (
-    <View>
+    <View style={{width:"100%",height:"100%"}}>
+      <View style={btnStyles.head_container}>
+        <TouchableOpacity
+          onPress={() => {
+            changeCurrent("");
+          }}
+          style={[btnStyles.head_wrap, !current && btnStyles.active]}
+        >
+          <View>
+            <Ionicons
+              style={!current && btnStyles.active_txt}
+              name="checkmark"
+              size={30}
+            />
+          </View>
+          <Text
+            style={[btnStyles.head_item_txt, !current && btnStyles.active_txt]}
+          >
+            Đợi xác nhận
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            changeCurrent("shipping");
+          }}
+          style={[
+            btnStyles.head_wrap,
+            btnStyles.head_wrap_left,
+            current == "shipping" && btnStyles.active,
+          ]}
+        >
+          <View>
+            <Ionicons
+              style={current == "shipping" && btnStyles.active_txt}
+              name="car"
+              size={23}
+            />
+          </View>
+          <Text
+            style={[
+              btnStyles.head_item_txt,
+              current == "shipping" && btnStyles.active_txt,
+            ]}
+          >
+            Đang giao
+          </Text>
+        </TouchableOpacity>
+      </View>
       <ScrollView style={styles.head_container}>
         <CartCardBig />
         <CartCardBig />
@@ -56,7 +108,9 @@ const CartCardBig = () => {
             </View>
             <View style={cardStyles.bill_item_container}>
               <Text>Địa chỉ</Text>
-              <Text style={{width:"70%",textAlign:"right"}}>Ngõ 36 đường HCM,Khu 3,TP Hồ Chí Minh</Text>
+              <Text style={{ width: "70%", textAlign: "right" }}>
+                Ngõ 36 đường HCM,Khu 3,TP Hồ Chí Minh
+              </Text>
             </View>
           </View>
         </View>
@@ -70,7 +124,7 @@ const CartCardBig = () => {
           </View>
           <View style={cardStyles.bill_items_container}>
             <View style={cardStyles.bill_item_container}>
-              <Text style={{width:"50%"}}>Cá thu vàng (40.000 VND) x 2</Text>
+              <Text style={{ width: "50%" }}>Cá thu vàng (40.000 VND) x 2</Text>
               <Text style={cardStyles.second_txt}>80.000VND</Text>
             </View>
             <View style={cardStyles.bill_item_container}>
@@ -113,6 +167,44 @@ const CartCardBig = () => {
     </View>
   );
 };
+const btnStyles = StyleSheet.create({
+  head_container: {
+    flexDirection: "row",
+    height: 50,
+    borderColor: "rgba(0,0,0,0.5)",
+    borderWidth: 1,
+    borderRadius: 5,
+    width: "90%",
+    marginLeft: "5%",
+    marginTop: 15,
+    marginBottom:10
+  },
+  head_wrap: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  head_wrap_left: {
+    borderLeftColor: "rgba(0,0,0,0.5)",
+    borderLeftWidth: 1,
+  },
+  head_item_txt: {
+    fontSize: 14,
+    fontFamily: "RobotoMedium",
+  },
+  active: {
+    backgroundColor: "rgba(255,0,0,0.45)",
+  },
+  active_txt: {
+    color: "white",
+  },
+  card_container: {
+    paddingHorizontal: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+});
 const cardStyles = StyleSheet.create({
   container: {
     backgroundColor: "rgba(255,255,255,0.5)",
@@ -292,10 +384,10 @@ const cardStyles = StyleSheet.create({
   summary_total_bill_txt: {
     fontFamily: "RobotoBold",
   },
-  second_txt:{
-    width:"50%",
-    textAlign:"right",
-  }
+  second_txt: {
+    width: "50%",
+    textAlign: "right",
+  },
 });
 
 const styles = StyleSheet.create({

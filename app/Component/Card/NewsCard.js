@@ -24,13 +24,17 @@ const NewsCard = ({ tabbar = false }) => {
         </View>
         {tabbar && (
           <View style={styles.icon_container}>
-            <Ionicons
-              style={styles.icon}
-              name="ellipsis-horizontal-circle-outline"
-              size={30}
-            />
+            <View style={styles.btn_wrap}>
+              <Text style={styles.btn_txt}>Sửa</Text>
+            </View>
+            <View style={[styles.btn_wrap,styles.btn_delete]}>
+              <Text style={styles.btn_txt}>Xóa</Text>
+            </View>
           </View>
         )}
+      </View>
+      <View style={styles.news_title}>
+        <Text style={styles.news_title_txt}>Tạm dừng làm việc</Text>
       </View>
       <View style={styles.news_container}>
         <Text style={styles.news_txt}>
@@ -80,11 +84,40 @@ const styles = StyleSheet.create({
     fontFamily: "RobotoMediumItalic",
   },
   news_container: {
-    marginTop: 12,
+    marginTop: 8,
   },
   news_txt: {
     fontSize: 16,
   },
+  icon_container:{
+    flexDirection:"row"
+  },
+  btn_wrap:{
+    paddingHorizontal:20,
+    marginLeft:5,
+    height:30,
+    borderRadius:50,
+    backgroundColor:"red",
+    justifyContent:"center",
+    alignContent:"center"
+  },
+  btn_txt:{
+    color:"white",
+    fontFamily:"RobotoMedium"
+  },
+  btn_delete:{
+    backgroundColor:"rgba(0,0,0,0.6)"
+  },
+  news_title:{
+    flexDirection:"row",
+    justifyContent:'center',
+    alignItems:"center",
+    marginTop:10
+  },
+  news_title_txt:{
+    fontSize:18,
+    fontFamily:"RobotoBold"
+  }
 });
 
 export default NewsCard;

@@ -18,6 +18,7 @@ const store = () => {
   const [current, setCurrent] = useState("");
   const [like, setLike] = useState(false);
   const scrollViewRef = useRef(null);
+  const [storeStatus, setStoreStatus] = useState(true);
   const topViewHeight = useRef(new Animated.Value(200)).current;
   const readyForAnimator = useRef(0);
 
@@ -105,21 +106,35 @@ const store = () => {
               Bà Sáu
             </Text>
           </View>
-          <TouchableOpacity onPress={handleChat} style={styles.chat_wrap}>
-            <View style={{ marginRight: 5 }}>
-              <Ionicons name="chatbox-ellipses" size={13} />
-            </View>
-            <Text
-              style={[
-                styles.chat_txt,
-                {
-                  color: theme.textColor,
-                },
-              ]}
-            >
-              Nhắn tin
-            </Text>
-          </TouchableOpacity>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <TouchableOpacity onPress={handleChat} style={styles.chat_wrap}>
+              <View style={{ marginRight: 5 }}>
+                <Ionicons name="chatbox-ellipses" size={13} />
+              </View>
+              <Text
+                style={[
+                  styles.chat_txt,
+                  {
+                    color: theme.textColor,
+                  },
+                ]}
+              >
+                Nhắn tin
+              </Text>
+            </TouchableOpacity>
+            {storeStatus && (
+              <View style={[styles.store_status, styles.store_status_close]}>
+                <Text
+                  style={[
+                    styles.store_status_txt,
+                    styles.store_status_close_txt,
+                  ]}
+                >
+                  Đóng cửa
+                </Text>
+              </View>
+            )}
+          </View>
         </View>
         <TouchableOpacity
           onPress={() => {
@@ -255,7 +270,6 @@ const store = () => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {},
   bg_container: {
@@ -272,6 +286,24 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingHorizontal: 20,
     alignItems: "center",
+  },
+  store_status: {
+    marginLeft: 10,
+    paddingHorizontal: 10,
+    height: 25,
+    borderRadius: 50,
+    borderColor: "rgba(0,0,0,0.3)",
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  store_status_close: {
+    backgroundColor: "red",
+  },
+  store_status_close_txt: {
+    color: "white",
+    fontFamily: "RobotoMedium",
+    borderWidth: 0,
   },
   infor_image_wrap: {
     width: 60,

@@ -8,7 +8,7 @@ import {
   Animated,
   Easing,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import DefaultHeader from "../Component/Header/DefaultHeader";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import ProductCard from "../Component/Card/ProductCard";
@@ -17,6 +17,7 @@ import { useNavigation } from "expo-router";
 const store = () => {
   const [current, setCurrent] = useState("");
   const [like, setLike] = useState(false);
+  const [storeStatus, setStoreStatus] = useState(false);
   const scrollViewRef = useRef(null);
   const topViewHeight = useRef(new Animated.Value(200)).current;
   const readyForAnimator = useRef(0);
@@ -48,6 +49,10 @@ const store = () => {
       }).start();
     }
   };
+
+  const handleInteractWithStoreStatus = useCallback(() => {
+    setStoreStatus((pre) => !pre);
+  });
 
   const [theme, setTheme] = useState({
     bgColor: "",
@@ -105,21 +110,35 @@ const store = () => {
               Bà Sáu
             </Text>
           </View>
-          <TouchableOpacity onPress={handleChat} style={styles.chat_wrap}>
-            <View style={{ marginRight: 5 }}>
-              <Ionicons name="chatbox-ellipses" size={13} />
-            </View>
-            <Text
-              style={[
-                styles.chat_txt,
-                {
-                  color: theme.textColor,
-                },
-              ]}
-            >
-              Nhắn tin
-            </Text>
-          </TouchableOpacity>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <TouchableOpacity onPress={handleChat} style={styles.chat_wrap}>
+              <View style={{ marginRight: 5 }}>
+                <Ionicons name="chatbox-ellipses" size={13} />
+              </View>
+              <Text
+                style={[
+                  styles.chat_txt,
+                  {
+                    color: theme.textColor,
+                  },
+                ]}
+              >
+                Nhắn tin
+              </Text>
+            </TouchableOpacity>
+            {storeStatus && (
+              <View style={[styles.store_status, styles.store_status_close]}>
+                <Text
+                  style={[
+                    styles.store_status_txt,
+                    styles.store_status_close_txt,
+                  ]}
+                >
+                  Đóng cửa
+                </Text>
+              </View>
+            )}
+          </View>
         </View>
         <TouchableOpacity
           onPress={() => {
@@ -253,6 +272,13 @@ const store = () => {
       </ScrollView>
 
       <CustomBtnFloat />
+      {!current && (
+        <InteractStoreStatusBtnFloat
+          handleInteractWithStoreStatus={handleInteractWithStoreStatus}
+          storeStatus={storeStatus}
+        />
+      )}
+      {current == "news" && <CreateNewsBtnFloat />}
     </View>
   );
 };
@@ -267,20 +293,84 @@ const CustomBtnFloat = () => {
           size={20}
         />
       </View>
-      <Text style={btnStyles.txt}>Sửa Theme</Text>
     </View>
   );
 };
+const InteractStoreStatusBtnFloat = ({
+  handleInteractWithStoreStatus,
+  storeStatus,
+}) => {
+  return (
+    <TouchableOpacity
+      onPress={handleInteractWithStoreStatus}
+      style={interactBtnStyles.container}
+    >
+      <View>
+        <Ionicons
+          style={{ color: "white", marginRight: 3 }}
+          name="storefront"
+          size={20}
+        />
+      </View>
+      <Text style={interactBtnStyles.txt}>
+        {storeStatus ? "Mở cửa" : "Đóng cửa"}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+const CreateNewsBtnFloat = () => {
+  const navigation = useNavigation();
+  const handleCreateNews = () => {
+    navigation.navigate("(news)",{
+      screen:"create"
+    })
+  };
+  return (
+    <TouchableOpacity
+      onPress={handleCreateNews}
+      style={interactBtnStyles.container}
+    >
+      <View>
+        <Ionicons
+          style={{ color: "white", marginRight: 3 }}
+          name="newspaper"
+          size={20}
+        />
+      </View>
+      <Text style={interactBtnStyles.txt}>Tạo tin</Text>
+    </TouchableOpacity>
+  );
+};
+const interactBtnStyles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    bottom: 20,
+    right: 90,
+    width: 120,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255,15,0,1)",
+    borderRadius: 50,
+    elevation: 5,
+    flexDirection: "row",
+  },
+  txt: {
+    color: "white",
+    fontFamily: "RobotoMedium",
+    marginLeft:3
+  },
+});
 const btnStyles = StyleSheet.create({
   container: {
     position: "absolute",
     bottom: 20,
     right: 20,
-    width: 120,
+    width: 60,
     height: 40,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(255,15,0,0.9)",
+    backgroundColor: "rgba(255,15,0,1)",
     borderRadius: 50,
     elevation: 5,
     flexDirection: "row",
@@ -295,7 +385,6 @@ const styles = StyleSheet.create({
   container: {},
   bg_container: {
     height: 170,
-    marginTop: 5,
   },
   bg_image: {
     width: "100%",
@@ -328,6 +417,26 @@ const styles = StyleSheet.create({
   detail_wrap: {
     marginBottom: 3,
     paddingLeft: 3,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  store_status: {
+    marginLeft: 10,
+    paddingHorizontal: 10,
+    height: 25,
+    borderRadius: 50,
+    borderColor: "rgba(0,0,0,0.3)",
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  store_status_close: {
+    backgroundColor: "red",
+  },
+  store_status_close_txt: {
+    color: "white",
+    fontFamily: "RobotoMedium",
+    borderWidth: 0,
   },
   chat_wrap: {
     width: 90,
