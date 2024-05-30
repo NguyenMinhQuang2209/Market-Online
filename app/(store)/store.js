@@ -5,16 +5,62 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  Animated,
+  Easing,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DefaultHeader from "../Component/Header/DefaultHeader";
-import { Ionicons } from "@expo/vector-icons";
+import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import ProductCard from "../Component/Card/ProductCard";
 import NewsCard from "../Component/Card/NewsCard";
 import { useNavigation } from "expo-router";
 const store = () => {
   const [current, setCurrent] = useState("");
   const [like, setLike] = useState(false);
+  const scrollViewRef = useRef(null);
+  const topViewHeight = useRef(new Animated.Value(200)).current;
+  const readyForAnimator = useRef(0);
+
+  const handleScroll = (event) => {
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    let isToTop = false;
+
+    if (currentOffset <= 0) {
+      isToTop = true;
+      readyForAnimator.current += 1;
+    } else {
+      readyForAnimator.current = 0;
+    }
+
+    if (isToTop && readyForAnimator.current >= 2) {
+      Animated.timing(topViewHeight, {
+        toValue: 200,
+        duration: 300,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }).start();
+    } else {
+      Animated.timing(topViewHeight, {
+        toValue: 0,
+        duration: 200,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }).start();
+    }
+  };
+
+  const [theme, setTheme] = useState({
+    bgColor: "",
+    textColor: "black",
+    cardBgColor: "",
+    cardTextColor: "white",
+    cardBgImage:
+      "https://res.cloudinary.com/sttruyen/image/upload/v1716257351/x2v7kcn2qnm2odi6gdrc.jpg",
+    bgOpacity: 1,
+    thumbnailImage:
+      "https://s3-alpha-sig.figma.com/img/4f96/d73e/e7d4383ade2f27ee798880e5cc8f8181?Expires=1717977600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=RUzS1EsxqVQDmZVHoiw~qH48DwcKKH3B5B4mQAZRDA2X8CPXhupx8VKJ14PdpoXTc3Rc~eWYFBan3oq7OmMrf7B7dJhbB-hbJd1RzjWdPy2shuIMS0wUmCo642Y4tpB39jgfZwKpDI~vrYy3g5Z07bFNh3Y-uXH2e9xXpR6lvJx75ZsAplWcXKl1cCnKp1hG~yd-q-9UqrYBvTw0ud2p~EPYL0xGvi3buJqzIk2AB66jxPrfC3vJ~8Lg~OvsLU0bsBpycOm8hD5PG-00Qtp218CYI5w1lJ0kra0IOUEhxwF7hAcGdTNCLLHXL0KV2QQcaqfkdl3CQsfCVzcAEqoRhg__",
+  });
+
   const navigation = useNavigation();
   const handleChat = () => {
     navigation.navigate("(chat)", {
@@ -25,16 +71,18 @@ const store = () => {
     });
   };
   return (
-    <View style={{ width: "100%", height: "100%" }}>
-      <DefaultHeader title={"Gian hàng bà Sáu"} />
-      <View style={styles.bg_container}>
+    <View
+      style={{ width: "100%", height: "100%", backgroundColor: theme.bgColor }}
+    >
+      <DefaultHeader title={"Gian hàng bà Sáu"} textColor={theme.textColor} />
+      <Animated.View style={[styles.bg_container, { height: topViewHeight }]}>
         <Image
-          style={styles.bg_image}
+          style={[styles.bg_image]}
           source={{
-            uri: "https://s3-alpha-sig.figma.com/img/4f96/d73e/e7d4383ade2f27ee798880e5cc8f8181?Expires=1717977600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=RUzS1EsxqVQDmZVHoiw~qH48DwcKKH3B5B4mQAZRDA2X8CPXhupx8VKJ14PdpoXTc3Rc~eWYFBan3oq7OmMrf7B7dJhbB-hbJd1RzjWdPy2shuIMS0wUmCo642Y4tpB39jgfZwKpDI~vrYy3g5Z07bFNh3Y-uXH2e9xXpR6lvJx75ZsAplWcXKl1cCnKp1hG~yd-q-9UqrYBvTw0ud2p~EPYL0xGvi3buJqzIk2AB66jxPrfC3vJ~8Lg~OvsLU0bsBpycOm8hD5PG-00Qtp218CYI5w1lJ0kra0IOUEhxwF7hAcGdTNCLLHXL0KV2QQcaqfkdl3CQsfCVzcAEqoRhg__",
+            uri: theme?.thumbnailImage,
           }}
         />
-      </View>
+      </Animated.View>
       <View style={styles.infor_container}>
         <View style={styles.infor_image_wrap}>
           <Image
@@ -46,13 +94,31 @@ const store = () => {
         </View>
         <View style={styles.detail_container}>
           <View style={styles.detail_wrap}>
-            <Text style={styles.detail_txt}>Bà Sáu</Text>
+            <Text
+              style={[
+                styles.detail_txt,
+                {
+                  color: theme.textColor,
+                },
+              ]}
+            >
+              Bà Sáu
+            </Text>
           </View>
           <TouchableOpacity onPress={handleChat} style={styles.chat_wrap}>
             <View style={{ marginRight: 5 }}>
               <Ionicons name="chatbox-ellipses" size={13} />
             </View>
-            <Text style={styles.chat_txt}>Nhắn tin</Text>
+            <Text
+              style={[
+                styles.chat_txt,
+                {
+                  color: theme.textColor,
+                },
+              ]}
+            >
+              Nhắn tin
+            </Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity
@@ -61,7 +127,7 @@ const store = () => {
           }}
         >
           <Ionicons
-            style={{ color: like ? "red" : "black" }}
+            style={{ color: like ? "red" : theme.textColor }}
             name="heart-circle-sharp"
             size={45}
           />
@@ -74,7 +140,16 @@ const store = () => {
           }}
           style={[styles.tab_wrap, !current && styles.tab_wrap_active]}
         >
-          <Text style={styles.tab_txt}>Gian hàng</Text>
+          <Text
+            style={[
+              styles.tab_txt,
+              {
+                color: theme.textColor,
+              },
+            ]}
+          >
+            Gian hàng
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
@@ -82,19 +157,59 @@ const store = () => {
           }}
           style={[styles.tab_wrap, current == "news" && styles.tab_wrap_active]}
         >
-          <Text style={styles.tab_txt}>Tin tức</Text>
+          <Text
+            style={[
+              styles.tab_txt,
+              {
+                color: theme.textColor,
+              },
+            ]}
+          >
+            Tin tức
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={styles.gap}></View>
-      {!current && (
-        <ScrollView style={{ flex: 1 }}>
+
+      <ScrollView
+        ref={scrollViewRef}
+        onScroll={handleScroll}
+        style={{ flex: 1 }}
+      >
+        {!current && (
           <View>
             <View style={styles.p_container}>
               <View style={styles.p_title}>
-                <Text style={styles.p_title_txt}>Sản phẩm đặc biệt</Text>
+                <Text
+                  style={[
+                    styles.p_title_txt,
+                    {
+                      color: theme.textColor,
+                    },
+                  ]}
+                >
+                  Sản phẩm đặc biệt
+                </Text>
               </View>
               <View style={styles.p_card_container}>
-                <ProductCard showStore={false} />
+                <ProductCard
+                  showStore={false}
+                  cardStyle={{
+                    bg: theme.cardBgColor,
+                    txtColor: theme.cardTextColor,
+                    bgImage: theme.cardBgImage,
+                    bgOpacity: theme.bgOpacity,
+                  }}
+                />
+                <ProductCard
+                  showStore={false}
+                  cardStyle={{
+                    bg: theme.cardBgColor,
+                    txtColor: theme.cardTextColor,
+                    bgImage: theme.cardBgImage,
+                    bgOpacity: theme.bgOpacity,
+                  }}
+                />
                 <ProductCard showStore={false} />
                 <ProductCard showStore={false} />
                 <ProductCard showStore={false} />
@@ -109,7 +224,16 @@ const store = () => {
               ]}
             >
               <View style={styles.p_title}>
-                <Text style={styles.p_title_txt}>Sản phẩm</Text>
+                <Text
+                  style={[
+                    styles.p_title_txt,
+                    {
+                      color: theme.textColor,
+                    },
+                  ]}
+                >
+                  Sản phẩm
+                </Text>
               </View>
               <View style={styles.p_card_container}>
                 <ProductCard showStore={false} />
@@ -119,18 +243,19 @@ const store = () => {
               </View>
             </View>
           </View>
-        </ScrollView>
-      )}
-
-      {current == "news" && (
-        <ScrollView style={{ marginTop: 10, paddingHorizontal: 20, flex: 1 }}>
-          <NewsCard />
-          <NewsCard />
-        </ScrollView>
-      )}
+        )}
+        {current == "news" && (
+          <View style={{ marginTop: 10, paddingHorizontal: 20, flex: 1 }}>
+            <NewsCard tabbar={false} />
+            <NewsCard tabbar={false} />
+          </View>
+        )}
+      </ScrollView>
     </View>
   );
 };
+
+
 const styles = StyleSheet.create({
   container: {},
   bg_container: {

@@ -5,8 +5,10 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  Animated,
+  Easing,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DefaultHeader from "../Component/Header/DefaultHeader";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import ProductCard from "../Component/Card/ProductCard";
@@ -15,9 +17,40 @@ import { useNavigation } from "expo-router";
 const store = () => {
   const [current, setCurrent] = useState("");
   const [like, setLike] = useState(false);
+  const scrollViewRef = useRef(null);
+  const topViewHeight = useRef(new Animated.Value(200)).current;
+  const readyForAnimator = useRef(0);
+
+  const handleScroll = (event) => {
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    let isToTop = false;
+
+    if (currentOffset <= 0) {
+      isToTop = true;
+      readyForAnimator.current += 1;
+    } else {
+      readyForAnimator.current = 0;
+    }
+
+    if (isToTop && readyForAnimator.current >= 2) {
+      Animated.timing(topViewHeight, {
+        toValue: 200,
+        duration: 300,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }).start();
+    } else {
+      Animated.timing(topViewHeight, {
+        toValue: 0,
+        duration: 200,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }).start();
+    }
+  };
 
   const [theme, setTheme] = useState({
-    bgColor: "white",
+    bgColor: "",
     textColor: "black",
     cardBgColor: "",
     cardTextColor: "white",
@@ -42,14 +75,14 @@ const store = () => {
       style={{ width: "100%", height: "100%", backgroundColor: theme.bgColor }}
     >
       <DefaultHeader title={"Gian hàng bà Sáu"} textColor={theme.textColor} />
-      <View style={styles.bg_container}>
+      <Animated.View style={[styles.bg_container, { height: topViewHeight }]}>
         <Image
-          style={styles.bg_image}
+          style={[styles.bg_image]}
           source={{
             uri: theme?.thumbnailImage,
           }}
         />
-      </View>
+      </Animated.View>
       <View style={styles.infor_container}>
         <View style={styles.infor_image_wrap}>
           <Image
@@ -137,8 +170,13 @@ const store = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.gap}></View>
-      {!current && (
-        <ScrollView style={{ flex: 1 }}>
+
+      <ScrollView
+        ref={scrollViewRef}
+        onScroll={handleScroll}
+        style={{ flex: 1 }}
+      >
+        {!current && (
           <View>
             <View style={styles.p_container}>
               <View style={styles.p_title}>
@@ -205,15 +243,14 @@ const store = () => {
               </View>
             </View>
           </View>
-        </ScrollView>
-      )}
-
-      {current == "news" && (
-        <ScrollView style={{ marginTop: 10, paddingHorizontal: 20, flex: 1 }}>
-          <NewsCard tabbar={true} />
-          <NewsCard tabbar={true} />
-        </ScrollView>
-      )}
+        )}
+        {current == "news" && (
+          <View style={{ marginTop: 10, paddingHorizontal: 20, flex: 1 }}>
+            <NewsCard tabbar={true} />
+            <NewsCard tabbar={true} />
+          </View>
+        )}
+      </ScrollView>
 
       <CustomBtnFloat />
     </View>
@@ -224,7 +261,11 @@ const CustomBtnFloat = () => {
   return (
     <View style={btnStyles.container}>
       <View>
-        <Ionicons style={{color:"white",marginRight:3}} name="color-fill" size={20} />
+        <Ionicons
+          style={{ color: "white", marginRight: 3 }}
+          name="color-fill"
+          size={20}
+        />
       </View>
       <Text style={btnStyles.txt}>Sửa Theme</Text>
     </View>
@@ -242,12 +283,12 @@ const btnStyles = StyleSheet.create({
     backgroundColor: "rgba(255,15,0,0.9)",
     borderRadius: 50,
     elevation: 5,
-    flexDirection:"row"
+    flexDirection: "row",
   },
-  txt:{
+  txt: {
     color: "white",
-    fontFamily:"RobotoMedium"
-  }
+    fontFamily: "RobotoMedium",
+  },
 });
 
 const styles = StyleSheet.create({

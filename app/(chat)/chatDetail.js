@@ -103,14 +103,13 @@ const chatDetail = () => {
 };
 
 const BillForm = ({ setBillShow }) => {
-
   const totalBillRef = useRef();
 
   const handleEditTotalBill = () => {
-    if(totalBillRef.current){
+    if (totalBillRef.current) {
       totalBillRef.current.focus();
     }
-  }
+  };
   const handleCloseBill = () => {
     setBillShow(false);
   };
@@ -135,9 +134,6 @@ const BillForm = ({ setBillShow }) => {
               <View style={tableStyles.tableHeaderCell}>
                 <Text style={tableStyles.headerText}>Tổng tiền (VND)</Text>
               </View>
-              <View style={tableStyles.tableHeaderCell}>
-                <Text style={styles.headerText}></Text>
-              </View>
             </View>
             <TableItem />
             <TableItem />
@@ -151,21 +147,10 @@ const BillForm = ({ setBillShow }) => {
             <Text>Tổng số tiền (VND): </Text>
             <View style={billStyles.total_bill_wrap}>
               <TextInput
-              ref={totalBillRef}
+                ref={totalBillRef}
                 style={tableStyles.text_input_edit}
                 defaultValue="20.000"
               />
-              <TouchableOpacity
-                style={[
-                  billStyles.bill_btn,
-                  {
-                    marginLeft: 5,
-                  },
-                ]}
-                onPress={handleEditTotalBill}
-              >
-                <Text style={billStyles.bill_txt}>Sửa</Text>
-              </TouchableOpacity>
             </View>
           </View>
           <View style={billStyles.btn_container}>
@@ -191,10 +176,10 @@ const BillForm = ({ setBillShow }) => {
 const TableItem = () => {
   const inputRef = useRef();
   const handleEdit = () => {
-    if(inputRef.current){
+    if (inputRef.current) {
       inputRef.current.focus();
     }
-  }
+  };
   return (
     <View style={tableStyles.tableRow}>
       <View style={tableStyles.tableCell}>
@@ -210,11 +195,6 @@ const TableItem = () => {
           defaultValue="40000"
           multiline
         />
-      </View>
-      <View style={tableStyles.tableCell}>
-        <TouchableOpacity style={billStyles.bill_btn} onPress={handleEdit}>
-          <Text style={billStyles.bill_txt}>Sửa</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -257,7 +237,7 @@ const tableStyles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.1)",
   },
   text_input_edit: {
-    paddingHorizontal: 3,
+    paddingHorizontal: 10,
     borderColor: "rgba(0,0,0,0.7)",
     borderWidth: 1,
     borderRadius: 10,
@@ -278,7 +258,7 @@ const billStyles = StyleSheet.create({
   },
   bill_container: {
     width: "95%",
-    minHeight: "70%",
+    maxHeight: "70%",
     backgroundColor: "white",
     borderRadius: 10,
     paddind: 3,
