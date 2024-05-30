@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import React from "react";
 import { Link, useNavigation } from "expo-router";
@@ -49,9 +50,9 @@ const CartCardBig = () => {
   return (
     <View style={cardStyles.container}>
       <View style={cardStyles.close_icon_container}>
-        <View style={{flexDirection:"row"}}>
-          <Text style={{fontSize:15}}>Trạng thái: </Text>
-          <Text style={{fontSize:15,color:"green"}}>Đợi xác nhận</Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={{ fontSize: 15 }}>Trạng thái: </Text>
+          <Text style={{ fontSize: 15, color: "green" }}>Đợi xác nhận</Text>
         </View>
         <View style={cardStyles.close_icon_circle_container}>
           <Ionicons name="close" size={15} />
@@ -126,7 +127,7 @@ const CartCardSmall = () => {
           </View>
         </View>
         <View style={cardStyles.card_infor_quantity}>
-          <View
+          {/* <View
             style={[
               cardStyles.card_infor_quantity_item_container,
               {
@@ -135,11 +136,18 @@ const CartCardSmall = () => {
             ]}
           >
             <Text style={cardStyles.card_infor_quantity_item_txt}>-</Text>
+          </View> */}
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text>Số lượng: </Text>
+            <TextInput
+              style={styles.txt_input}
+              keyboardType="numeric"
+              inputMode="numeric"
+              defaultValue="1"
+            />
+            <Text>Kg</Text>
           </View>
-          <View>
-            <Text>20</Text>
-          </View>
-          <View
+          {/* <View
             style={[
               cardStyles.card_infor_quantity_item_container,
               {
@@ -148,16 +156,16 @@ const CartCardSmall = () => {
             ]}
           >
             <Text style={cardStyles.card_infor_quantity_item_txt}>+</Text>
-          </View>
+          </View> */}
         </View>
       </View>
       <View style={cardStyles.card_tabbar_price_container}>
         <View style={cardStyles.card_tabbar_container}>
           <View style={cardStyles.card_icon_container}>
-            <EvilIcons name="heart" size={15} />
+            <EvilIcons name="heart" size={20} />
           </View>
           <View style={cardStyles.card_icon_container}>
-            <Ionicons name="close" size={15} />
+            <Ionicons name="close" size={20} />
           </View>
         </View>
         <View style={cardStyles.card_price_container}>
@@ -282,7 +290,7 @@ const cardStyles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   card_price_txt: {
-    fontSize: 12,
+    fontSize: 13,
   },
   card_btn_container: {
     flexDirection: "row",
@@ -399,6 +407,13 @@ const styles = StyleSheet.create({
   foot_total_txt: {
     fontSize: 17,
     fontFamily: "RobotoBold",
+  },
+  txt_input: {
+    paddingHorizontal: 5,
+    minHeight: 20,
+    borderColor: "rgba(0,0,0,0.1)",
+    borderWidth: 1,
+    marginRight: 3,
   },
 });
 export default cart;
