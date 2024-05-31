@@ -9,9 +9,30 @@ import {
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 
-const Selection = ({ selection, current, setActive, setCurrent }) => {
+const Selection = ({
+  datas,
+  current,
+  setActive,
+  setCurrent,
+  isMultiple = false,
+  useSearch = true,
+}) => {
   const handleClose = () => {
     setActive(false);
+  };
+  const handleSelectItem = (item) => {
+    let currentItems = [...current];
+    let isContain = currentItems?.some((dat) => dat?.value == item?.value);
+    if (isContain) {
+      currentItems = currentItems.filter((i) => i?.value != item?.value);
+    } else {
+      if (isMultiple) {
+        currentItems = [...currentItems, item];
+      } else {
+        currentItems = [item];
+      }
+    }
+    setCurrent([...currentItems]);
   };
   return (
     <View style={styles.container}>
@@ -20,24 +41,29 @@ const Selection = ({ selection, current, setActive, setCurrent }) => {
           <Ionicons name="close" size={20} />
         </TouchableOpacity>
         <View style={{ flex: 1 }}>
-          <View style={styles.textinput_wrap}>
-            <TextInput
-              style={styles.textinput}
-              placeholder="Nhập tên thể loại"
-            />
-          </View>
-          <ScrollView style={{ marginTop: 10 }}>
-            {selection?.map((item, index) => (
-              <TouchableOpacity
-                onPress={() => {
-                  setCurrent(index);
-                }}
-                key={index + "Selection"}
-                style={[styles.item, index == current && styles.item_active]}
-              >
-                <Text style={styles.item_txt}>{item?.name}</Text>
-              </TouchableOpacity>
-            ))}
+          {useSearch && (
+            <View style={styles.textinput_wrap}>
+              <TextInput
+                style={styles.textinput}
+                placeholder="Nhập tên thể loại"
+              />
+            </View>
+          )}
+          <ScrollView style={{ marginTop: useSearch ? 10 : 20 }}>
+            {datas?.map((item, index) => {
+              let isContain = current?.some((dat) => dat?.value == item?.value);
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    handleSelectItem(item);
+                  }}
+                  key={index + "Selection"}
+                  style={[styles.item, isContain && styles.item_active]}
+                >
+                  <Text style={styles.item_txt}>{item?.name}</Text>
+                </TouchableOpacity>
+              );
+            })}
           </ScrollView>
         </View>
         <View style={styles.btn_container}>

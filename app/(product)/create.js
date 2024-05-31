@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import Selection from "../Component/Select/Selection";
@@ -14,37 +14,34 @@ import Selection from "../Component/Select/Selection";
 const Create = () => {
   const [image, setImage] = useState("");
   const [activeSelection, setActiveSelection] = useState(false);
-  const [activeUnitSelection, setActiveUnitSelection] = useState(false);
-  const [current, setCurrent] = useState(1);
-  const [currentUnit, setCurrentUnit] = useState(1);
-  const [units, setUnits] = useState([
-    {
-      id: 1,
-      name: "Kg",
-    },
-    {
-      id: 2,
-      name: "g",
-    },
-    {
-      id: 3,
-      name: "Bó",
-    },
-  ]);
+  const [current, setCurrent] = useState([]);
+  const [productsString, setProductsString] = useState("");
   const [categories, setCategories] = useState([
     {
-      id: 1,
       name: "Rau",
+      value: "rau",
     },
     {
-      id: 2,
       name: "Thịt",
+      value: "thit",
     },
     {
-      id: 3,
       name: "Cá",
+      value: "ca",
     },
   ]);
+
+  useEffect(() => {
+    let str = "";
+    current?.forEach((item) => {
+      str += item.name + ", ";
+    });
+    if (str.endsWith(", ")) {
+      str = str.slice(0, -2);
+    }
+    setProductsString(str);
+  }, [current]);
+
   const handlePickupImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -99,10 +96,7 @@ const Create = () => {
               <Text style={styles.label_txt}>Tên sản phẩm *</Text>
             </View>
             <View style={styles.textinput_wrap}>
-              <TextInput
-                style={styles.textinput}
-                defaultValue="MinhQuang"
-              />
+              <TextInput style={styles.textinput} defaultValue="MinhQuang" />
             </View>
             <View style={{ marginTop: 5 }}>
               <Text style={{ fontFamily: "RobotoBoldItalic" }}>
@@ -121,7 +115,7 @@ const Create = () => {
                   setActiveSelection(true);
                 }}
               >
-                <Text>{categories[current]?.name}</Text>
+                <Text>{productsString}</Text>
                 <View>
                   <EvilIcons name="chevron-down" size={30} />
                 </View>
@@ -133,10 +127,7 @@ const Create = () => {
               <Text style={styles.label_txt}>Đơn vị tính</Text>
             </View>
             <View style={styles.textinput_wrap}>
-              <TextInput
-                style={styles.textinput}
-                defaultValue="Kg"
-              />
+              <TextInput style={styles.textinput} defaultValue="Kg" />
             </View>
           </View>
           <View style={styles.edit_field}>
@@ -165,14 +156,8 @@ const Create = () => {
           selection={categories}
           current={current}
           setCurrent={setCurrent}
-        />
-      )}
-      {activeUnitSelection && (
-        <Selection
-          setActive={setActiveUnitSelection}
-          selection={units}
-          current={currentUnit}
-          setCurrent={setCurrentUnit}
+          isMultiple={false}
+          useSearch={false}
         />
       )}
     </View>
