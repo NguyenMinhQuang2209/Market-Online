@@ -5,11 +5,15 @@ import {
   TouchableWithoutFeedback,
   Image,
   TextInput,
+  ScrollView,
+  TouchableOpacity,
 } from "react-native";
-import React from "react";
-import { Link, useNavigation } from "expo-router";
+import React, { useRef, useState } from "react";
+import { Link } from "expo-router";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 const CartCardBig = ({ editable = true }) => {
+  const [cardListStatus, setCardListStatus] = useState(false);
+
   return (
     <View style={cardStyles.container}>
       <View style={cardStyles.close_icon_container}>
@@ -21,24 +25,58 @@ const CartCardBig = ({ editable = true }) => {
           <Ionicons name="close" size={15} />
         </View>
       </View>
-      <CartCardSmall editable={editable} />
-      <CartCardSmall editable={editable} />
-      <CartCardSmall editable={editable} />
+      <View style={cardStyles.seller}>
+        <Text style={cardStyles.seller_txt}>
+          Nguời bán: <Text style={cardStyles.seller_txt_2}>Bà Bảy</Text>
+        </Text>
+        <TouchableOpacity
+          style={cardStyles.status_btn}
+          onPress={() => {
+            setCardListStatus((pre) => !pre);
+          }}
+        >
+          <Text style={cardStyles.status_btn_txt}>
+            {cardListStatus ? "Ẩn thẻ hàng" : "Hiện thẻ hàng"}
+          </Text>
+        </TouchableOpacity>
+      </View>
+      {cardListStatus && (
+        <View>
+          <CartCardSmall editable={editable} />
+          <CartCardSmall editable={editable} />
+          <CartCardSmall editable={editable} />
+        </View>
+      )}
       <View>
         <View style={cardStyles.summary_bill_container}>
           <View style={cardStyles.summary_bill_title_container}>
             <Text style={cardStyles.summary_bill_title_txt}>
-              Tóm tắt đơn hàng
+              Tóm tắt đơn hàng (có thể thay đổi số lượng)
             </Text>
           </View>
           <View style={cardStyles.bill_items_container}>
-            <View style={cardStyles.bill_item_container}>
-              <Text>Cá thu x2</Text>
-              <Text>40.000VND</Text>
-            </View>
-            <View style={cardStyles.bill_item_container}>
-              <Text>Cá thu x2</Text>
-              <Text>40.000VND</Text>
+            <View>
+              <View style={tableStyles.table}>
+                <View style={tableStyles.tableRow}>
+                  <View style={tableStyles.tableHeaderCell}>
+                    <Text style={tableStyles.headerText}>Tên</Text>
+                  </View>
+                  <View style={tableStyles.tableHeaderCell}>
+                    <Text style={tableStyles.headerText}>Số lượng</Text>
+                  </View>
+                  <View style={tableStyles.tableHeaderCell}>
+                    <Text style={tableStyles.headerText}>Giá tiền (VND)</Text>
+                  </View>
+                  <View style={tableStyles.tableHeaderCell}>
+                    <Text style={tableStyles.headerText}>Tổng tiền (VND)</Text>
+                  </View>
+                </View>
+                <TableItem />
+                <TableItem />
+                <TableItem />
+                <TableItem />
+                <TableItem />
+              </View>
             </View>
           </View>
           <View style={cardStyles.summary_total_bill_container}>
@@ -90,37 +128,10 @@ const CartCardSmall = ({ editable }) => {
           </View>
         </View>
         <View style={cardStyles.card_infor_quantity}>
-          {/* <View
-            style={[
-              cardStyles.card_infor_quantity_item_container,
-              {
-                marginRight: 10,
-              },
-            ]}
-          >
-            <Text style={cardStyles.card_infor_quantity_item_txt}>-</Text>
-          </View> */}
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text>Số lượng: </Text>
-            <TextInput
-              style={cardStyles.txt_input}
-              keyboardType="numeric"
-              inputMode="numeric"
-              defaultValue="1"
-              editable={editable}
-            />
-            <Text>Kg</Text>
+            <Text>Giá: 20.000VND </Text>
+            <Text>/1 Kg</Text>
           </View>
-          {/* <View
-            style={[
-              cardStyles.card_infor_quantity_item_container,
-              {
-                marginLeft: 10,
-              },
-            ]}
-          >
-            <Text style={cardStyles.card_infor_quantity_item_txt}>+</Text>
-          </View> */}
         </View>
       </View>
       <View style={cardStyles.card_tabbar_price_container}>
@@ -132,15 +143,91 @@ const CartCardSmall = ({ editable }) => {
             <Ionicons name="close" size={20} />
           </View>
         </View>
-        <View style={cardStyles.card_price_container}>
-          <View>
-            <Text style={cardStyles.card_price_txt}>Giá: 20.000VND</Text>
-          </View>
-        </View>
       </View>
     </View>
   );
 };
+const TableItem = () => {
+  const inputRef = useRef();
+  return (
+    <View style={tableStyles.tableRow}>
+      <View style={tableStyles.tableCell}>
+        <Text style={tableStyles.cellText}>Cá thu</Text>
+      </View>
+      <View
+        style={[
+          tableStyles.tableCell,
+          {
+            flexDirection: "row",
+            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          },
+        ]}
+      >
+        <TextInput
+          ref={inputRef}
+          style={[tableStyles.cellText, tableStyles.text_input_edit]}
+          defaultValue="1"
+          multiline
+          keyboardType="numeric"
+        />
+        <Text> Lạng</Text>
+      </View>
+      <View style={tableStyles.tableCell}>
+        <Text style={tableStyles.cellText}>20.000</Text>
+      </View>
+      <View style={tableStyles.tableCell}>
+        <Text style={tableStyles.cellText}>20.000</Text>
+      </View>
+    </View>
+  );
+};
+const tableStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#fff",
+  },
+  table: {
+    borderWidth: 1,
+    borderColor: "#C1C0B9",
+  },
+  tableRow: {
+    flexDirection: "row",
+  },
+  tableHeaderCell: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: "rgba(0,255,255,0.1)",
+    borderWidth: 1,
+    borderColor: "#C1C0B9",
+  },
+  tableCell: {
+    flex: 1,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#C1C0B9",
+  },
+  headerText: {
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  cellText: {
+    textAlign: "center",
+  },
+  text_input: {
+    paddingVertical: 0,
+    backgroundColor: "rgba(0,0,0,0.1)",
+  },
+  text_input_edit: {
+    paddingHorizontal: 1,
+    borderColor: "rgba(0,0,0,0.7)",
+    borderWidth: 1,
+    borderRadius: 10,
+    width: "100%",
+  },
+});
 const cardStyles = StyleSheet.create({
   txt_input: {
     paddingHorizontal: 5,
@@ -326,6 +413,34 @@ const cardStyles = StyleSheet.create({
   },
   summary_total_bill_txt: {
     fontFamily: "RobotoBold",
+  },
+  seller: {
+    flexDirection: "row",
+    alignItems: "center",
+    flexWrap: "wrap",
+    marginBottom: 10,
+    marginTop: -10,
+  },
+  seller_txt: {
+    fontFamily: "RobotoMedium",
+    marginRight: 10,
+  },
+  seller_txt_2: {
+    color: "rgba(0,0,255,0.7)",
+    textDecorationLine: "underline",
+  },
+  status_btn: {
+    paddingHorizontal: 10,
+    height: 30,
+    borderColor: "rgba(0,0,0,0.2)",
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    backgroundColor: "rgba(255,0,0,0.6)",
+  },
+  status_btn_txt: {
+    color: "white",
   },
 });
 
