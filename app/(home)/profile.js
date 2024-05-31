@@ -105,7 +105,7 @@ const profile = () => {
               screen: "order",
               params: {
                 title: "Lịch sử mua hàng",
-                type: "history",
+                type: "",
               },
             });
           }}
