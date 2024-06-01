@@ -40,14 +40,26 @@ const storeprofile = () => {
         </View>
       </View>
       <View style={styles.user_function_container}>
-        <View style={styles.user_function_wrap}>
+        <TouchableOpacity
+          onPress={() => {
+            handleNavigation({
+              folder: "(order)",
+              screen: "order",
+              params: {
+                title: "Lịch sử mua hàng",
+                type: "",
+              },
+            });
+          }}
+          style={styles.user_function_wrap}
+        >
           <View style={styles.user_function_main}>
             <View style={styles.user_function_title}>
               <View style={styles.user_function_icon}>
                 <EvilIcons name="calendar" size={25} />
               </View>
               <Text style={styles.user_function_title_txt}>
-                Lịch sử giao hàng
+                Lịch sử bán hàng
               </Text>
               <View style={styles.number_icon}>
                 <Text style={styles.number_txt}>1</Text>
@@ -57,7 +69,7 @@ const storeprofile = () => {
           <View>
             <EvilIcons name="chevron-right" size={35} />
           </View>
-        </View>
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={navigateProfile}
           style={styles.user_function_wrap}
