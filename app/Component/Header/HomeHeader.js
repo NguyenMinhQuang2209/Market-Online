@@ -5,27 +5,38 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { EvilIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 
-const HomeHeader = () => {
+const HomeHeader = ({ showSearch = true, onSearch = () => {} }) => {
+  const [inputValue, setInputValue] = useState('');
+  const inputRef = useRef();
   const handleSearch = () => {
-    console.log("HEre");
+    onSearch(inputValue);
+    setInputValue('');
   };
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <View style={styles.search_container}>
-          <TouchableOpacity
-            style={styles.search_icon_container}
-            onPress={handleSearch}
-          >
-            <EvilIcons name="search" size={30} color="#000" />
-          </TouchableOpacity>
-          <TextInput style={styles.text_input} placeholder="Tìm kiếm..." />
-        </View>
+        {showSearch && (
+          <View style={styles.search_container}>
+            <TouchableOpacity
+              style={styles.search_icon_container}
+              onPress={handleSearch}
+            >
+              <EvilIcons name="search" size={30} color="#000" />
+            </TouchableOpacity>
+            <TextInput
+              ref={inputRef}
+              style={styles.text_input}
+              placeholder="Tìm kiếm..."
+              onChangeText={setInputValue}
+              value={inputValue}
+            />
+          </View>
+        )}
         <View style={styles.bell_container}>
           <Link href="(chat)/chat">
             <View style={{ position: "relative" }}>
@@ -53,12 +64,12 @@ const HomeHeader = () => {
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 10,
     marginTop: 10,
+    justifyContent: "flex-end",
   },
   search_container: {
     width: "75%",

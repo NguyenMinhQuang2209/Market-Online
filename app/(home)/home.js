@@ -8,8 +8,10 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ProductCard from "@/app/Component/Card/ProductCard";
+import HomeHeader from "../Component/Header/HomeHeader";
+import { useNavigation } from "expo-router";
 const index = () => {
   let areaDatas = [
     {
@@ -62,8 +64,16 @@ const index = () => {
     },
   ];
 
+  const navigation = useNavigation();
+  const onSearch = useCallback((value) => {
+    navigation.navigate("search", {
+      search: value,
+    });
+  });
+
   return (
     <View>
+      <HomeHeader onSearch={onSearch} />
       <ScrollView>
         <Carousel />
         <SpecialArea />

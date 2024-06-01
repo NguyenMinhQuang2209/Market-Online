@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import ProductCard from "../Component/Card/ProductCard";
 import StoreCard from "../Component/Card/StoreCard";
+import HomeHeader from "../Component/Header/HomeHeader";
 const favorite = () => {
   const [current, setCurrent] = useState("");
 
@@ -39,6 +40,7 @@ const favorite = () => {
 
   return (
     <View style={styles.container}>
+      <HomeHeader />
       <View style={styles.head_container}>
         <TouchableOpacity
           onPress={() => {

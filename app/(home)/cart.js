@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import React from "react";
 import { Link, useNavigation } from "expo-router";
-import { EvilIcons, Ionicons } from "@expo/vector-icons";
+import HomeHeader from "../Component/Header/HomeHeader";
 import CartCardBig from "../Component/Card/CartCard";
 
 const windowWidth = Dimensions.get("window").width;
@@ -24,6 +24,7 @@ const cart = () => {
   };
   return (
     <View>
+      <HomeHeader />
       <ScrollView style={styles.head_container}>
         <CartCardBig />
         <CartCardBig />
@@ -46,7 +47,6 @@ const cart = () => {
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   head_container: {
