@@ -7,8 +7,9 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigation } from "expo-router";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 
@@ -26,7 +27,7 @@ const storeOrdering = () => {
     setCurrent(newState);
   };
   return (
-    <View style={{width:"100%",height:"100%"}}>
+    <View style={{ width: "100%", height: "100%" }}>
       <View style={btnStyles.head_container}>
         <TouchableOpacity
           onPress={() => {
@@ -74,10 +75,19 @@ const storeOrdering = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <ScrollView style={styles.head_container}>
-        <CartCardBig />
-        <CartCardBig />
-      </ScrollView>
+      {!current && (
+        <ScrollView style={styles.head_container}>
+          <CartCardBig />
+          <CartCardBig />
+        </ScrollView>
+      )}
+      {current == "shipping" && (
+        <ScrollView style={styles.head_container}>
+          <CartCardBig />
+          <CartCardBig />
+          <CartCardBig />
+        </ScrollView>
+      )}
     </View>
   );
 };
@@ -123,13 +133,28 @@ const CartCardBig = () => {
             </Text>
           </View>
           <View style={cardStyles.bill_items_container}>
-            <View style={cardStyles.bill_item_container}>
-              <Text style={{ width: "50%" }}>Cá thu vàng (40.000 VND) x 2</Text>
-              <Text style={cardStyles.second_txt}>80.000VND</Text>
-            </View>
-            <View style={cardStyles.bill_item_container}>
-              <Text>Cá chép (45.000 VND) x 2</Text>
-              <Text>90.000VND</Text>
+            <View>
+              <View style={tableStyles.table}>
+                <View style={tableStyles.tableRow}>
+                  <View style={tableStyles.tableHeaderCell}>
+                    <Text style={tableStyles.headerText}>Tên</Text>
+                  </View>
+                  <View style={tableStyles.tableHeaderCell}>
+                    <Text style={tableStyles.headerText}>Số lượng</Text>
+                  </View>
+                  <View style={tableStyles.tableHeaderCell}>
+                    <Text style={tableStyles.headerText}>Giá tiền (VND)</Text>
+                  </View>
+                  <View style={tableStyles.tableHeaderCell}>
+                    <Text style={tableStyles.headerText}>Tổng tiền (VND)</Text>
+                  </View>
+                </View>
+                <TableItem editable={false} />
+                <TableItem editable={false} />
+                <TableItem editable={false} />
+                <TableItem editable={false} />
+                <TableItem editable={false} />
+              </View>
             </View>
           </View>
           <View style={cardStyles.summary_total_bill_container}>
@@ -137,7 +162,7 @@ const CartCardBig = () => {
               <Text>Tổng số tiền:</Text>
             </View>
             <View>
-              <Text style={cardStyles.summary_total_bill_txt}>170.000VND</Text>
+              <Text style={cardStyles.summary_total_bill_txt}>80.000VND</Text>
             </View>
           </View>
         </View>
@@ -167,6 +192,89 @@ const CartCardBig = () => {
     </View>
   );
 };
+const TableItem = ({ editable }) => {
+  const inputRef = useRef();
+  return (
+    <View style={tableStyles.tableRow}>
+      <View style={tableStyles.tableCell}>
+        <Text style={tableStyles.cellText}>Cá thu</Text>
+      </View>
+      <View
+        style={[
+          tableStyles.tableCell,
+          {
+            flexDirection: "row",
+            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          },
+        ]}
+      >
+        <TextInput
+          ref={inputRef}
+          style={[tableStyles.cellText, tableStyles.text_input_edit]}
+          defaultValue="10"
+          multiline
+          keyboardType="numeric"
+          editable={editable}
+        />
+        <Text> Lạng</Text>
+      </View>
+      <View style={tableStyles.tableCell}>
+        <Text style={tableStyles.cellText}>20.000</Text>
+      </View>
+      <View style={tableStyles.tableCell}>
+        <Text style={tableStyles.cellText}>20.000</Text>
+      </View>
+    </View>
+  );
+};
+const tableStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#fff",
+  },
+  table: {
+    borderWidth: 1,
+    borderColor: "#C1C0B9",
+  },
+  tableRow: {
+    flexDirection: "row",
+  },
+  tableHeaderCell: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: "rgba(0,255,255,0.1)",
+    borderWidth: 1,
+    borderColor: "#C1C0B9",
+  },
+  tableCell: {
+    flex: 1,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#C1C0B9",
+  },
+  headerText: {
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  cellText: {
+    textAlign: "center",
+  },
+  text_input: {
+    paddingVertical: 0,
+    backgroundColor: "rgba(0,0,0,0.1)",
+  },
+  text_input_edit: {
+    paddingHorizontal: 1,
+    borderColor: "rgba(0,0,0,0.7)",
+    borderWidth: 1,
+    borderRadius: 10,
+    width: "100%",
+    color: "black",
+  },
+});
 const btnStyles = StyleSheet.create({
   head_container: {
     flexDirection: "row",
@@ -177,7 +285,7 @@ const btnStyles = StyleSheet.create({
     width: "90%",
     marginLeft: "5%",
     marginTop: 15,
-    marginBottom:10
+    marginBottom: 10,
   },
   head_wrap: {
     flex: 1,

@@ -6,10 +6,14 @@ import { useNavigation } from "expo-router";
 
 const storeprofile = () => {
   const navigation = useNavigation();
-  const navigateProfile = () => {
-    navigation.navigate("(profile)", {
-      screen: "profile",
+  const handleNavigation = ({ folder, screen, params }) => {
+    navigation.navigate(folder, {
+      screen: screen,
+      params: { ...params },
     });
+  };
+  const navigateProfile = () => {
+    handleNavigation({ folder: "(profile)", screen: "profile", params: {} });
   };
   const handleLogout = () => {};
   return (
@@ -72,7 +76,29 @@ const storeprofile = () => {
             <EvilIcons name="chevron-right" size={35} />
           </View>
         </TouchableOpacity>
-        <View style={styles.user_function_wrap}>
+        <TouchableOpacity style={styles.user_function_wrap}>
+          <View style={styles.user_function_main}>
+            <View style={styles.user_function_title}>
+              <View style={styles.user_function_icon}>
+                <Ionicons name="archive" size={25} />
+              </View>
+              <Text style={styles.user_function_title_txt}>Bên cung cấp</Text>
+            </View>
+          </View>
+          <View>
+            <EvilIcons name="chevron-right" size={35} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            handleNavigation({
+              folder: "(auth)",
+              screen: "changePassword",
+              params: {},
+            });
+          }}
+          style={styles.user_function_wrap}
+        >
           <View style={styles.user_function_main}>
             <View style={styles.user_function_title}>
               <View style={styles.user_function_icon}>
@@ -84,7 +110,7 @@ const storeprofile = () => {
           <View>
             <EvilIcons name="chevron-right" size={35} />
           </View>
-        </View>
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={handleLogout}
           style={styles.user_function_wrap}

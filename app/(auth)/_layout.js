@@ -16,6 +16,9 @@ export default function LandingPageLayout() {
       <Tabs.Screen name="register" options={{
         headerShown:false
       }}/>
+      <Tabs.Screen name="changePassword" options={{
+        headerShown:false
+      }}/>
     </Tabs>
   );
 }

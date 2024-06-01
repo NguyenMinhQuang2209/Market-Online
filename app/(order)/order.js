@@ -132,7 +132,7 @@ const order = () => {
     } else {
       Animated.timing(topViewHeight, {
         toValue: 0,
-        duration: 200,
+        duration: 300,
         easing: Easing.linear,
         useNativeDriver: false,
       }).start();

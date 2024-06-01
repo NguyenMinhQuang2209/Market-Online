@@ -158,7 +158,16 @@ const profile = () => {
             <EvilIcons name="chevron-right" size={35} />
           </View>
         </View>
-        <View style={styles.user_function_wrap}>
+        <TouchableOpacity
+          onPress={() => {
+            handleNavigation({
+              folder: "(auth)",
+              screen: "changePassword",
+              params: {},
+            });
+          }}
+          style={styles.user_function_wrap}
+        >
           <View style={styles.user_function_main}>
             <View style={styles.user_function_title}>
               <View style={styles.user_function_icon}>
@@ -170,7 +179,7 @@ const profile = () => {
           <View>
             <EvilIcons name="chevron-right" size={35} />
           </View>
-        </View>
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={handleLogout}
           style={styles.user_function_wrap}
