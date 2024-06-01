@@ -4,16 +4,23 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Animated,
+  Easing,
+  ScrollView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DefaultHeader from "../Component/Header/DefaultHeader";
 import { useRoute } from "@react-navigation/native";
 import Selection from "../Component/Select/Selection";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import CartCard from "../Component/Card/CartCard";
 const order = () => {
   const route = useRoute();
   const { title, type } = route.params;
+
+  const [filterBarBool, setFilterBarBool] = useState(true);
+  const topViewHeight = useRef(new Animated.Value(230)).current;
   // Type
   const [orderTypes, setOrderTypes] = useState([]);
   const [orderType, setOrderType] = useState(false);
@@ -112,93 +119,137 @@ const order = () => {
     setEndDateShow(true);
   };
 
+  const handleInteractWithSearch = () => {
+    setFilterBarBool((pre) => !pre);
+
+    if (!filterBarBool) {
+      Animated.timing(topViewHeight, {
+        toValue: 230,
+        duration: 300,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }).start();
+    } else {
+      Animated.timing(topViewHeight, {
+        toValue: 0,
+        duration: 200,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }).start();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <DefaultHeader title={title} />
-      <View style={styles.filter_container}>
-        <View style={styles.filter_box}>
-          <View style={styles.filter_label}>
-            <Text style={styles.filter_label_txt}>Loại đơn hàng</Text>
+      <Animated.View
+        style={[
+          styles.filter_container,
+          {
+            height: topViewHeight,
+          },
+        ]}
+      >
+        {filterBarBool && (
+          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+            <View style={styles.filter_box}>
+              <View style={styles.filter_label}>
+                <Text style={styles.filter_label_txt}>Loại đơn hàng</Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  setOrderType(true);
+                }}
+                style={styles.filter_box_wrap}
+              >
+                <Text>{orderTypeString}</Text>
+                <Ionicons name="caret-down" size={20} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.filter_box}>
+              <View style={styles.filter_label}>
+                <Text style={styles.filter_label_txt}>Thời gian</Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  setOrderTime(true);
+                }}
+                style={styles.filter_box_wrap}
+              >
+                <Text>{orderTimerString}</Text>
+                <Ionicons name="caret-down" size={20} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.filter_box}>
+              <View style={styles.filter_label}>
+                <Text style={styles.filter_label_txt}>Từ ngày</Text>
+              </View>
+              <View>
+                <TouchableOpacity
+                  style={styles.filter_box_wrap}
+                  onPress={showDatepicker}
+                >
+                  <Text>{date && date.toDateString()}</Text>
+                </TouchableOpacity>
+                {show && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date || new Date()}
+                    mode="date"
+                    display="default"
+                    onChange={onChange}
+                    onClose={() => setShow(false)}
+                  />
+                )}
+              </View>
+            </View>
+            <View style={styles.filter_box}>
+              <View style={styles.filter_label}>
+                <Text style={styles.filter_label_txt}>Đến ngày</Text>
+              </View>
+              <View>
+                <TouchableOpacity
+                  style={styles.filter_box_wrap}
+                  onPress={showEndDatepicker}
+                >
+                  <Text>{endDate && endDate.toDateString()}</Text>
+                </TouchableOpacity>
+                {endDateShow && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={endDate || new Date()}
+                    mode="date"
+                    display="default"
+                    onChange={onEndDateChange}
+                    onClose={() => setEndDateShow(false)}
+                  />
+                )}
+              </View>
+            </View>
+            <View style={styles.filter_box_2}>
+              <View style={styles.textinput_container}>
+                <TextInput
+                  style={styles.textinput}
+                  placeholder="Tên người bán"
+                />
+              </View>
+              <View style={styles.search_btn}>
+                <Text style={styles.search_txt}>Tìm kiếm</Text>
+              </View>
+            </View>
           </View>
-          <TouchableOpacity
-            onPress={() => {
-              setOrderType(true);
-            }}
-            style={styles.filter_box_wrap}
-          >
-            <Text>{orderTypeString}</Text>
-            <Ionicons name="caret-down" size={20} />
+        )}
+
+        <View style={styles.icon_down}>
+          <TouchableOpacity onPress={handleInteractWithSearch}>
+            {filterBarBool ? (
+              <Ionicons name="caret-up-circle" size={30} />
+            ) : (
+              <Ionicons name="caret-down-circle" size={30} />
+            )}
           </TouchableOpacity>
         </View>
-        <View style={styles.filter_box}>
-          <View style={styles.filter_label}>
-            <Text style={styles.filter_label_txt}>Thời gian</Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => {
-              setOrderTime(true);
-            }}
-            style={styles.filter_box_wrap}
-          >
-            <Text>{orderTimerString}</Text>
-            <Ionicons name="caret-down" size={20} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.filter_box}>
-          <View style={styles.filter_label}>
-            <Text style={styles.filter_label_txt}>Từ ngày</Text>
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.filter_box_wrap}
-              onPress={showDatepicker}
-            >
-              <Text>{date && date.toDateString()}</Text>
-            </TouchableOpacity>
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date || new Date()}
-                mode="date"
-                display="default"
-                onChange={onChange}
-                onClose={() => setShow(false)}
-              />
-            )}
-          </View>
-        </View>
-        <View style={styles.filter_box}>
-          <View style={styles.filter_label}>
-            <Text style={styles.filter_label_txt}>Đến ngày</Text>
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.filter_box_wrap}
-              onPress={showEndDatepicker}
-            >
-              <Text>{endDate && endDate.toDateString()}</Text>
-            </TouchableOpacity>
-            {endDateShow && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={endDate || new Date()}
-                mode="date"
-                display="default"
-                onChange={onEndDateChange}
-                onClose={() => setEndDateShow(false)}
-              />
-            )}
-          </View>
-        </View>
-        <View style={styles.filter_box_2}>
-          <View style={styles.textinput_container}>
-            <TextInput style={styles.textinput} placeholder="Tên người bán" />
-          </View>
-          <View style={styles.search_btn}>
-            <Text style={styles.search_txt}>Tìm kiếm</Text>
-          </View>
-        </View>
-      </View>
+      </Animated.View>
 
       {orderType && (
         <Selection
@@ -221,6 +272,12 @@ const order = () => {
           datas={defaultOrderTimes}
         />
       )}
+
+      <ScrollView style={{ flex: 1 ,marginTop:20}}>
+        <CartCard editable={false} isCart={false}/>
+        <CartCard editable={false} isCart={false}/>
+        <CartCard editable={false} isCart={false}/>
+      </ScrollView>
     </View>
   );
 };
@@ -234,6 +291,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flexWrap: "wrap",
     marginTop: 20,
+    borderColor: "rgba(0,0,0,0.2)",
+    borderBottomWidth: 1,
+    position: "relative",
+  },
+  icon_down: {
+    position: "absolute",
+    bottom: -17,
+    left: 0,
+    right: 0,
+    alignItems: "center",
   },
   filter_box: {
     width: "45%",

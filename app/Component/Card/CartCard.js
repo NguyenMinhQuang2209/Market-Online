@@ -11,7 +11,7 @@ import {
 import React, { useRef, useState } from "react";
 import { Link } from "expo-router";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
-const CartCardBig = ({ editable = true }) => {
+const CartCardBig = ({ editable = true, isCart = true }) => {
   const [cardListStatus, setCardListStatus] = useState(false);
 
   return (
@@ -71,11 +71,11 @@ const CartCardBig = ({ editable = true }) => {
                     <Text style={tableStyles.headerText}>Tổng tiền (VND)</Text>
                   </View>
                 </View>
-                <TableItem />
-                <TableItem />
-                <TableItem />
-                <TableItem />
-                <TableItem />
+                <TableItem editable={editable} />
+                <TableItem editable={editable} />
+                <TableItem editable={editable} />
+                <TableItem editable={editable} />
+                <TableItem editable={editable} />
               </View>
             </View>
           </View>
@@ -88,20 +88,22 @@ const CartCardBig = ({ editable = true }) => {
             </View>
           </View>
         </View>
-        <View>
-          <View style={cardStyles.card_btn_container}>
-            <TouchableWithoutFeedback>
-              <View style={cardStyles.card_btn}>
-                <Text style={cardStyles.card_btn_txt}>Trả giá</Text>
-              </View>
-            </TouchableWithoutFeedback>
+        {isCart && (
+          <View>
+            <View style={cardStyles.card_btn_container}>
+              <TouchableWithoutFeedback>
+                <View style={cardStyles.card_btn}>
+                  <Text style={cardStyles.card_btn_txt}>Trả giá</Text>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
           </View>
-        </View>
+        )}
       </View>
     </View>
   );
 };
-const CartCardSmall = ({ editable }) => {
+const CartCardSmall = () => {
   return (
     <View style={cardStyles.card_container}>
       <View style={cardStyles.card_image_container}>
@@ -147,7 +149,7 @@ const CartCardSmall = ({ editable }) => {
     </View>
   );
 };
-const TableItem = () => {
+const TableItem = ({ editable }) => {
   const inputRef = useRef();
   return (
     <View style={tableStyles.tableRow}>
@@ -168,9 +170,10 @@ const TableItem = () => {
         <TextInput
           ref={inputRef}
           style={[tableStyles.cellText, tableStyles.text_input_edit]}
-          defaultValue="1"
+          defaultValue="10"
           multiline
           keyboardType="numeric"
+          editable={editable}
         />
         <Text> Lạng</Text>
       </View>
@@ -226,6 +229,7 @@ const tableStyles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     width: "100%",
+    color: "black",
   },
 });
 const cardStyles = StyleSheet.create({
