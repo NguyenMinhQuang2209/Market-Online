@@ -15,7 +15,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import auth from "@react-native-firebase/auth";
 const login = () => {
-  const [phoneNumber, setPhoneNumber] = useState("+98");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [confirm, setConfirm] = useState(null);
   const [code, setCode] = useState("");
   function onAuthStateChanged(user) {
@@ -47,7 +47,11 @@ const login = () => {
   const navigation = useNavigation();
 
   const handleLogin = () => {
-    signInWithPhoneNumber(phoneNumber);
+    if(phoneNumber.length != 10){
+      alert("Vui lòng nhập đúng số điện thoại");
+      return;
+    }
+    signInWithPhoneNumber("+89" + phoneNumber);
   };
   const handleLoginWithZalo = () => {};
   return (
