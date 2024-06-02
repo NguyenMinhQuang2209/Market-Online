@@ -7,6 +7,7 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -47,11 +48,9 @@ const login = () => {
   const navigation = useNavigation();
 
   const handleLogin = () => {
-    if(phoneNumber.length != 10){
-      alert("Vui lòng nhập đúng số điện thoại");
-      return;
-    }
-    signInWithPhoneNumber("+89" + phoneNumber);
+    let finalNumber = "+84" + phoneNumber;
+    console.log(finalNumber);
+    signInWithPhoneNumber(finalNumber);
   };
   const handleLoginWithZalo = () => {};
   return (
@@ -79,11 +78,11 @@ const login = () => {
             </View>
           </View>
           <View>
-            <TouchableWithoutFeedback onPress={handleLogin}>
+            <TouchableOpacity onPress={handleLogin}>
               <View style={styles.button}>
                 <Text style={styles.btn_text}>Đăng nhập</Text>
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           </View>
           <View style={styles.forgot_container}>
             <Link href={"(home)/home"}>
@@ -91,7 +90,7 @@ const login = () => {
             </Link>
           </View>
           <View style={styles.new_auth_container}>
-            <TouchableWithoutFeedback onPress={handleLoginWithZalo}>
+            <TouchableOpacity onPress={handleLoginWithZalo}>
               <View style={styles.new_auth_icon}>
                 <Image
                   style={{ width: 30, height: 30 }}
@@ -100,7 +99,7 @@ const login = () => {
                   }}
                 />
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           </View>
           <View style={styles.register_container}>
             <Text style={styles.register_txt}>
