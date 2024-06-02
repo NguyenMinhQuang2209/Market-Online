@@ -14,7 +14,8 @@
     },
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.market.onlinemarket"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
