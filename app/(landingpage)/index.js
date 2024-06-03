@@ -12,14 +12,14 @@ const index = () => {
       setInitialRoute("(auth)/login");
     }
   }, []);
-  useEffect(() => {
-    let timeShow = setTimeout(() => {
-      checkAccessToken();
-    }, 500);
-    return () => {
-      clearTimeout(timeShow);
-    };
-  }, []);
+  // useEffect(() => {
+  //   let timeShow = setTimeout(() => {
+  //     checkAccessToken();
+  //   }, 500);
+  //   return () => {
+  //     clearTimeout(timeShow);
+  //   };
+  // }, []);
 
 
 
