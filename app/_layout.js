@@ -11,7 +11,6 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Alert } from "react-native";
 import messaging from "@react-native-firebase/messaging";
 import { GetToken } from "./Component/Notification/Notification";
 import PushNotification from "react-native-push-notification";
@@ -46,6 +45,17 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
+      PushNotification.createChannel(
+        {
+          channelId: "notification",
+          channelName: "Default Channel",
+          channelDescription: "A default channel for notifications",
+          importance: 4,
+          vibrate: true,
+        },
+        (created) => console.log(`createChannel returned '${created}'`)
+      );
+
       GetToken();
 
       messaging()
@@ -75,6 +85,7 @@ export default function RootLayout() {
 
       const unsubscribe = messaging().onMessage(async (remoteMessage) => {
         PushNotification.localNotification({
+          channelId: "notification",
           title: remoteMessage.notification?.title,
           message: remoteMessage.notification?.body,
         });
