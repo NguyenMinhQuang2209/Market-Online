@@ -53,7 +53,9 @@ export default function RootLayout() {
           importance: 4,
           vibrate: true,
         },
-        (created) => console.log(`createChannel returned '${created}'`)
+        (created) => {
+          //console.log(`createChannel returned '${created}'`)
+        }
       );
 
       GetToken();
@@ -104,6 +106,7 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(landingpage)" options={{ headerShown: false }} />
+          <Stack.Screen name="(orderDetail)" options={{ headerShown: false }} />
           <Stack.Screen name="(storeowner)" options={{ headerShown: false }} />
           <Stack.Screen name="(order)" options={{ headerShown: false }} />
           <Stack.Screen name="(news)" options={{ headerShown: false }} />

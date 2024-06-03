@@ -12,19 +12,19 @@ const index = () => {
       setInitialRoute("(auth)/login");
     }
   }, []);
-  // useEffect(() => {
-  //   let timeShow = setTimeout(() => {
-  //     checkAccessToken();
-  //   }, 500);
-  //   return () => {
-  //     clearTimeout(timeShow);
-  //   };
-  // }, []);
+  useEffect(() => {
+    let timeShow = setTimeout(() => {
+      checkAccessToken();
+    }, 500);
+    return () => {
+      clearTimeout(timeShow);
+    };
+  }, []);
 
 
 
   return initialRoute ? (
-    <Redirect href={"(home)/home"} />
+    <Redirect href={"(home)/cart"} />
   ) : (
     <SafeAreaView>
       <View style={styles.container}>

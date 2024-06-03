@@ -11,9 +11,14 @@ import {
 import React, { useRef, useState } from "react";
 import { Link } from "expo-router";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
-const CartCardBig = ({ editable = true, isCart = true }) => {
+const CartCardBig = ({
+  editable = true,
+  isCart = true,
+  setDatas,
+  setPickups,
+  setActive,
+}) => {
   const [cardListStatus, setCardListStatus] = useState(false);
-
   return (
     <View style={cardStyles.container}>
       <View style={cardStyles.close_icon_container}>
@@ -71,11 +76,21 @@ const CartCardBig = ({ editable = true, isCart = true }) => {
                     <Text style={tableStyles.headerText}>Tổng tiền (VND)</Text>
                   </View>
                 </View>
-                <TableItem editable={editable} />
-                <TableItem editable={editable} />
-                <TableItem editable={editable} />
-                <TableItem editable={editable} />
-                <TableItem editable={editable} />
+                <TableItem
+                  editable={editable}
+                  setDatas={setDatas}
+                  setActive={setActive}
+                />
+                <TableItem
+                  editable={editable}
+                  setDatas={setDatas}
+                  setActive={setActive}
+                />
+                <TableItem
+                  editable={editable}
+                  setDatas={setDatas}
+                  setActive={setActive}
+                />
               </View>
             </View>
           </View>
@@ -149,8 +164,9 @@ const CartCardSmall = () => {
     </View>
   );
 };
-const TableItem = ({ editable }) => {
+const TableItem = ({ editable, setDatas, setActive }) => {
   const inputRef = useRef();
+
   return (
     <View style={tableStyles.tableRow}>
       <View style={tableStyles.tableCell}>
@@ -175,7 +191,15 @@ const TableItem = ({ editable }) => {
           keyboardType="numeric"
           editable={editable}
         />
-        <Text> Lạng</Text>
+        <TouchableOpacity
+          onPress={() => {
+            setActive(true);
+          }}
+          style={styles.card}
+        >
+          <Text style={{ width: "80%" }}>Lạng</Text>
+          <Ionicons name="caret-down" size={15} />
+        </TouchableOpacity>
       </View>
       <View style={tableStyles.tableCell}>
         <Text style={tableStyles.cellText}>20.000</Text>
@@ -186,6 +210,20 @@ const TableItem = ({ editable }) => {
     </View>
   );
 };
+const styles = StyleSheet.create({
+  card: {
+    width: "100%",
+    marginTop: 10,
+    minHeight: 30,
+    borderColor: "rgba(0,0,0,0.3)",
+    borderWidth: 1,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    borderRadius: 10,
+    paddingHorizontal: 5,
+  },
+});
 const tableStyles = StyleSheet.create({
   container: {
     flex: 1,
@@ -211,6 +249,7 @@ const tableStyles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: "#C1C0B9",
+    justifyContent: "center",
   },
   headerText: {
     fontWeight: "bold",

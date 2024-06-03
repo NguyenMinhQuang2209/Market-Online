@@ -7,7 +7,7 @@ async function requestUserPermission() {
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
   if (enabled) {
-    console.log("Authorization status:", authStatus);
+    //console.log("Authorization status:", authStatus);
   }
   if (Platform == "android") {
     PermissionsAndroid.request(
@@ -20,7 +20,7 @@ async function GetToken() {
     messaging()
       .getToken()
       .then((token) => {
-        console.log(token);
+        // send token to server
       });
   } else {
     console.log("permission granted");

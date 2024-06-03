@@ -9,14 +9,19 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigation } from "expo-router";
 import HomeHeader from "../Component/Header/HomeHeader";
 import CartCardBig from "../Component/Card/CartCard";
-
+import Selection from "../Component/Select/Selection";
 const windowWidth = Dimensions.get("window").width;
 const cart = () => {
   const navigation = useNavigation();
+
+  const [selectionDatas, setSelectionDatas] = useState([]);
+  const [show, setShow] = useState(false);
+  const [current, setCurrent] = useState([]);
+  const [pickups, setPickups] = useState("");
   const handleOrder = () => {
     navigation.navigate("(payment)", {
       screen: "payment",
@@ -26,8 +31,16 @@ const cart = () => {
     <View>
       <HomeHeader />
       <ScrollView style={styles.head_container}>
-        <CartCardBig />
-        <CartCardBig />
+        <CartCardBig
+          setDatas={setSelectionDatas}
+          setPickups={setPickups}
+          setActive={setShow}
+        />
+        <CartCardBig
+          setDatas={setSelectionDatas}
+          setPickups={setPickups}
+          setActive={setShow}
+        />
       </ScrollView>
       <View style={styles.foot_container}>
         <View style={styles.foot_total_container}>
@@ -44,6 +57,16 @@ const cart = () => {
           </TouchableOpacity>
         </View>
       </View>
+      {show && (
+        <Selection
+          data={selectionDatas}
+          setActive={setShow}
+          current={current}
+          setCurrent={setCurrent}
+          isMultiple={false}
+          useSearch={true}
+        />
+      )}
     </View>
   );
 };

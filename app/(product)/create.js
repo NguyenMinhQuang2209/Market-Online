@@ -5,17 +5,28 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import Selection from "../Component/Select/Selection";
-
+import { generateRandomString } from "../Component/Other/GenerateRandomString";
+import DateTimePicker from "@react-native-community/datetimepicker";
 const Create = () => {
   const [image, setImage] = useState("");
   const [activeSelection, setActiveSelection] = useState(false);
   const [current, setCurrent] = useState([]);
   const [productsString, setProductsString] = useState("");
+
+  const [units, setUnits] = useState([
+    {
+      id: generateRandomString(),
+      unit: "",
+      price: "",
+    },
+  ]);
+
   const [categories, setCategories] = useState([
     {
       name: "Rau",
@@ -60,106 +71,155 @@ const Create = () => {
       setImage(result.assets[0].uri);
     }
   };
+  const handleAddUnit = () => {
+    setUnits((pre) => [
+      ...pre,
+      {
+        id: generateRandomString(),
+        unit: "",
+        price: "",
+      },
+    ]);
+  };
+
+
   return (
-    <View style={styles.container}>
-      <View style={styles.head_container}>
-        <View style={styles.image_container}>
-          <View style={{ marginBottom: 5 }}>
-            <Text style={{ fontSize: 16 }}>Ảnh sản phẩm:</Text>
-          </View>
-          <TouchableOpacity
-            onPress={handlePickupImage}
-            style={styles.image_wrap}
-          >
-            <Image
-              style={[
-                styles.image,
-                !image && {
-                  width: 50,
-                  height: 50,
-                },
-              ]}
-              source={{
-                uri:
-                  image ||
-                  "https://res.cloudinary.com/sttruyen/image/upload/v1716970566/e8bvdumw00lohutsbhcu.png",
-              }}
-            />
-            <View style={styles.camera}>
-              <Ionicons name="camera" size={30} />
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.head_container}>
+          <View style={styles.image_container}>
+            <View style={{ marginBottom: 5 }}>
+              <Text style={{ fontSize: 16 }}>Ảnh sản phẩm:</Text>
             </View>
+            <TouchableOpacity
+              onPress={handlePickupImage}
+              style={styles.image_wrap}
+            >
+              <Image
+                style={[
+                  styles.image,
+                  !image && {
+                    width: 50,
+                    height: 50,
+                  },
+                ]}
+                source={{
+                  uri:
+                    image ||
+                    "https://res.cloudinary.com/sttruyen/image/upload/v1716970566/e8bvdumw00lohutsbhcu.png",
+                }}
+              />
+              <View style={styles.camera}>
+                <Ionicons name="camera" size={30} />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.edit_form}>
+            <View style={styles.edit_field}>
+              <View style={styles.label}>
+                <Text style={styles.label_txt}>Tên sản phẩm *</Text>
+              </View>
+              <View style={styles.textinput_wrap}>
+                <TextInput style={styles.textinput} defaultValue="MinhQuang" />
+              </View>
+              <View style={{ marginTop: 5 }}>
+                <Text style={{ fontFamily: "RobotoBoldItalic" }}>
+                  Tên sản phẩm không được bỏ trống
+                </Text>
+              </View>
+            </View>
+            <View style={styles.edit_field}>
+              <View style={styles.label}>
+                <Text style={styles.label_txt}>Loại sản phẩm</Text>
+              </View>
+              <View style={styles.textinput_wrap}>
+                <TouchableOpacity
+                  style={styles.textinput2}
+                  onPress={() => {
+                    setActiveSelection(true);
+                  }}
+                >
+                  <Text>{productsString}</Text>
+                  <View>
+                    <EvilIcons name="chevron-down" size={30} />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.unit_container}>
+              <View style={styles.add_container}>
+                {units?.map((item, index) => (
+                  <UnitCard
+                    item={item}
+                    setUnits={setUnits}
+                    units={units}
+                    index={index}
+                    key={item?.id}
+                  />
+                ))}
+                <TouchableOpacity
+                  style={styles.add_wrap}
+                  onPress={handleAddUnit}
+                >
+                  <Text style={styles.add_icon}>+</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View style={styles.btn_container}>
+          <TouchableOpacity style={styles.btn}>
+            <Text style={styles.btn_txt}>Tạo mới</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.edit_form}>
-          <View style={styles.edit_field}>
-            <View style={styles.label}>
-              <Text style={styles.label_txt}>Tên sản phẩm *</Text>
-            </View>
-            <View style={styles.textinput_wrap}>
-              <TextInput style={styles.textinput} defaultValue="MinhQuang" />
-            </View>
-            <View style={{ marginTop: 5 }}>
-              <Text style={{ fontFamily: "RobotoBoldItalic" }}>
-                Tên sản phẩm không được bỏ trống
-              </Text>
-            </View>
-          </View>
-          <View style={styles.edit_field}>
-            <View style={styles.label}>
-              <Text style={styles.label_txt}>Loại sản phẩm</Text>
-            </View>
-            <View style={styles.textinput_wrap}>
-              <TouchableOpacity
-                style={styles.textinput2}
-                onPress={() => {
-                  setActiveSelection(true);
-                }}
-              >
-                <Text>{productsString}</Text>
-                <View>
-                  <EvilIcons name="chevron-down" size={30} />
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.edit_field}>
-            <View style={styles.label}>
-              <Text style={styles.label_txt}>Đơn vị tính</Text>
-            </View>
-            <View style={styles.textinput_wrap}>
-              <TextInput style={styles.textinput} defaultValue="Kg" />
-            </View>
-          </View>
-          <View style={styles.edit_field}>
-            <View style={styles.label}>
-              <Text style={styles.label_txt}>Giá (trên mỗi đơn vị) VND</Text>
-            </View>
-            <View style={styles.textinput_wrap}>
-              <TextInput
-                style={styles.textinput}
-                keyboardType="numeric"
-                inputMode="numeric"
-                defaultValue="20000"
-              />
-            </View>
-          </View>
+        {activeSelection && (
+          <Selection
+            setActive={setActiveSelection}
+            datas={categories}
+            current={current}
+            setCurrent={setCurrent}
+            isMultiple={false}
+            useSearch={true}
+          />
+        )}
+      </View>
+    </ScrollView>
+  );
+};
+const UnitCard = ({ item, setUnits, units, index }) => {
+  const handleRemoveUnit = () => {
+    let currentUnits = [...units];
+    currentUnits.splice(index, 1);
+    setUnits([...currentUnits]);
+  };
+  return (
+    <View style={styles.unit_wrap}>
+      <View style={styles.edit_field}>
+        <View style={styles.label}>
+          <Text style={styles.label_txt}>Đơn vị tính</Text>
+        </View>
+        <View style={styles.textinput_wrap}>
+          <TextInput style={styles.textinput} />
         </View>
       </View>
-      <View style={styles.btn_container}>
-        <TouchableOpacity style={styles.btn}>
-          <Text style={styles.btn_txt}>Tạo mới</Text>
+      <View style={styles.edit_field}>
+        <View style={styles.label}>
+          <Text style={styles.label_txt}>Giá (trên mỗi đơn vị) VND</Text>
+        </View>
+        <View style={styles.textinput_wrap}>
+          <TextInput
+            style={styles.textinput}
+            keyboardType="numeric"
+            inputMode="numeric"
+            defaultValue="20000"
+          />
+        </View>
+      </View>
+      <View style={styles.close_wrap}>
+        <TouchableOpacity onPress={handleRemoveUnit}>
+          <Ionicons name="close-circle-outline" size={25} />
         </TouchableOpacity>
       </View>
-      {activeSelection && (
-        <Selection
-          setActive={setActiveSelection}
-          selection={categories}
-          current={current}
-          setCurrent={setCurrent}
-          isMultiple={false}
-          useSearch={false}
-        />
-      )}
     </View>
   );
 };
@@ -246,6 +306,43 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontFamily: "RobotoMedium",
+  },
+  unit_container: {
+    borderColor: "rgba(0,0,0,0.1)",
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  unit_wrap: {
+    borderColor: "rgba(0,0,0,0.1)",
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+    position: "relative",
+    width: "100%",
+    marginBottom: 10,
+  },
+  close_wrap: {
+    position: "absolute",
+    right: 5,
+    top: 5,
+  },
+  add_container: {
+    alignItems: "center",
+  },
+  add_wrap: {
+    width: 30,
+    height: 30,
+    backgroundColor: "#E47070",
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  add_icon: {
+    color: "white",
+    fontSize: 18,
   },
 });
 
