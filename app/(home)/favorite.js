@@ -10,6 +10,7 @@ import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import ProductCard from "../Component/Card/ProductCard";
 import StoreCard from "../Component/Card/StoreCard";
 import HomeHeader from "../Component/Header/HomeHeader";
+import { SafeAreaView } from "react-native-safe-area-context";
 const favorite = () => {
   const [current, setCurrent] = useState("");
 
@@ -39,7 +40,7 @@ const favorite = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <HomeHeader />
       <View style={styles.head_container}>
         <TouchableOpacity
@@ -95,7 +96,7 @@ const favorite = () => {
           {current == "store" && <StoreCard />}
         </ScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

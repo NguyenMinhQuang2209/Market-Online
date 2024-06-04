@@ -8,11 +8,14 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Linking,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import { Link, useNavigation } from "expo-router";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
-
+import HomeHeader from "../Component/Header/HomeHeader";
+import { SafeAreaView } from "react-native-safe-area-context";
+import QRCode from "react-native-qrcode-svg";
 const windowWidth = Dimensions.get("window").width;
 const storeOrdering = () => {
   const navigation = useNavigation();
@@ -22,12 +25,29 @@ const storeOrdering = () => {
       screen: "payment",
     });
   };
+  const [shipOrders, setShipOrders] = useState([]);
+  const [url, setUrl] = useState("http://localhost:3000/123/deliver");
+  const [showQR, setShowQR] = useState(false);
 
   const changeCurrent = (newState) => {
     setCurrent(newState);
   };
+
+  const handlePress = () => {
+    if (url) {
+      Linking.openURL(url).catch((err) =>
+        Alert.alert("Failed to open URL", err.message)
+      );
+    } else {
+      Alert.alert("URL not available");
+    }
+  };
+  const handleConfirmOrder = () => {
+    setShowQR(false);
+  };
   return (
-    <View style={{ width: "100%", height: "100%" }}>
+    <SafeAreaView style={{ width: "100%", height: "100%" }}>
+      <HomeHeader />
       <View style={btnStyles.head_container}>
         <TouchableOpacity
           onPress={() => {
@@ -83,27 +103,82 @@ const storeOrdering = () => {
       )}
       {current == "shipping" && (
         <ScrollView style={styles.head_container}>
-          <CartCardBig />
-          <CartCardBig />
-          <CartCardBig />
+          <CartCardBig delivering={true} />
+          <CartCardBig delivering={true} />
+          <CartCardBig delivering={true} />
+          <View style={{ height: 50 }}></View>
         </ScrollView>
       )}
-    </View>
+      {current == "shipping" && shipOrders?.length == 0 && (
+        <TouchableOpacity
+          style={styles.deliver_container}
+          onPress={() => {
+            setShowQR(true);
+          }}
+        >
+          <Ionicons
+            name="archive"
+            size={20}
+            style={{ color: "white", marginRight: 5 }}
+          />
+          <Text style={styles.deliver_txt}>
+            Giao {shipOrders?.length} đơn hàng
+          </Text>
+        </TouchableOpacity>
+      )}
+      {showQR && (
+        <View style={styles.qr_container}>
+          <View style={styles.qr_wrap}>
+            <View>
+              <QRCode value={url} size={200} />
+            </View>
+            <View style={styles.url_txt}>
+              <Text style={{ textAlign: "center" }}>
+                Quét mã QR hoặc truy cập để lấy thông tin đơn hàng:
+              </Text>
+              <TouchableOpacity onPress={handlePress}>
+                <Text style={styles.link_txt}> {url}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={cardStyles.card_btn_container}>
+              <TouchableOpacity onPress={handleConfirmOrder}>
+                <View style={cardStyles.card_btn}>
+                  <Text style={cardStyles.card_btn_txt}>Xác nhận</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setShowQR(false);
+                }}
+              >
+                <View
+                  style={[
+                    cardStyles.card_btn,
+                    {
+                      backgroundColor: "rgba(0,0,0,1)",
+                      marginLeft: 5,
+                    },
+                  ]}
+                >
+                  <Text style={cardStyles.card_btn_txt}>Hủy</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
+    </SafeAreaView>
   );
 };
 
-const CartCardBig = () => {
+const CartCardBig = ({ delivering = false }) => {
+  const [resize, setResize] = useState(true);
+  const [added, setAdded] = useState(false);
+  const handleResize = () => {
+    setResize((pre) => !pre);
+  };
   return (
     <View style={cardStyles.container}>
-      <View style={cardStyles.close_icon_container}>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={{ fontSize: 15 }}>Trạng thái: </Text>
-          <Text style={{ fontSize: 15, color: "green" }}>Đợi xác nhận</Text>
-        </View>
-        <View style={cardStyles.close_icon_circle_container}>
-          <Ionicons name="close" size={15} />
-        </View>
-      </View>
       <View>
         <View style={cardStyles.summary_bill_container}>
           <View style={cardStyles.summary_bill_title_container}>
@@ -131,31 +206,40 @@ const CartCardBig = () => {
             <Text style={cardStyles.summary_bill_title_txt}>
               Tóm tắt đơn hàng
             </Text>
+            <TouchableOpacity onPress={handleResize} style={styles.resize_btn}>
+              <Text style={styles.resize_btn_txt}>
+                {resize ? "Hiện" : "Thu nhỏ"}
+              </Text>
+            </TouchableOpacity>
           </View>
           <View style={cardStyles.bill_items_container}>
-            <View>
-              <View style={tableStyles.table}>
-                <View style={tableStyles.tableRow}>
-                  <View style={tableStyles.tableHeaderCell}>
-                    <Text style={tableStyles.headerText}>Tên</Text>
+            {!resize && (
+              <View>
+                <View style={tableStyles.table}>
+                  <View style={tableStyles.tableRow}>
+                    <View style={tableStyles.tableHeaderCell}>
+                      <Text style={tableStyles.headerText}>Tên</Text>
+                    </View>
+                    <View style={tableStyles.tableHeaderCell}>
+                      <Text style={tableStyles.headerText}>Số lượng</Text>
+                    </View>
+                    <View style={tableStyles.tableHeaderCell}>
+                      <Text style={tableStyles.headerText}>Giá tiền (VND)</Text>
+                    </View>
+                    <View style={tableStyles.tableHeaderCell}>
+                      <Text style={tableStyles.headerText}>
+                        Tổng tiền (VND)
+                      </Text>
+                    </View>
                   </View>
-                  <View style={tableStyles.tableHeaderCell}>
-                    <Text style={tableStyles.headerText}>Số lượng</Text>
-                  </View>
-                  <View style={tableStyles.tableHeaderCell}>
-                    <Text style={tableStyles.headerText}>Giá tiền (VND)</Text>
-                  </View>
-                  <View style={tableStyles.tableHeaderCell}>
-                    <Text style={tableStyles.headerText}>Tổng tiền (VND)</Text>
-                  </View>
+                  <TableItem editable={false} />
+                  <TableItem editable={false} />
+                  <TableItem editable={false} />
+                  <TableItem editable={false} />
+                  <TableItem editable={false} />
                 </View>
-                <TableItem editable={false} />
-                <TableItem editable={false} />
-                <TableItem editable={false} />
-                <TableItem editable={false} />
-                <TableItem editable={false} />
               </View>
-            </View>
+            )}
           </View>
           <View style={cardStyles.summary_total_bill_container}>
             <View>
@@ -167,26 +251,45 @@ const CartCardBig = () => {
           </View>
         </View>
         <View>
-          <View style={cardStyles.card_btn_container}>
-            <TouchableWithoutFeedback>
-              <View style={cardStyles.card_btn}>
-                <Text style={cardStyles.card_btn_txt}>Xác nhận bán</Text>
-              </View>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback>
-              <View
-                style={[
-                  cardStyles.card_btn,
-                  {
-                    backgroundColor: "rgba(0,0,0,0.5)",
-                    marginLeft: 5,
-                  },
-                ]}
-              >
-                <Text style={cardStyles.card_btn_txt}>Hết hàng</Text>
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
+          {delivering ? (
+            <View style={cardStyles.card_btn_container}>
+              <TouchableOpacity>
+                <View
+                  style={[
+                    cardStyles.card_btn,
+                    added && {
+                      backgroundColor: "rgba(0,0,0,0.7)",
+                    },
+                  ]}
+                >
+                  <Text style={cardStyles.card_btn_txt}>
+                    {added ? "Bỏ giao hàng" : "Giao hàng"}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View style={cardStyles.card_btn_container}>
+              <TouchableOpacity>
+                <View style={cardStyles.card_btn}>
+                  <Text style={cardStyles.card_btn_txt}>Xác nhận bán</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <View
+                  style={[
+                    cardStyles.card_btn,
+                    {
+                      backgroundColor: "rgba(0,0,0,0.5)",
+                      marginLeft: 5,
+                    },
+                  ]}
+                >
+                  <Text style={cardStyles.card_btn_txt}>Không bán</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </View>
     </View>
@@ -463,6 +566,7 @@ const cardStyles = StyleSheet.create({
     borderWidth: 0.5,
     padding: 5,
     borderRadius: 10,
+    alignItems: "center",
   },
   summary_bill_title_txt: {
     fontFamily: "RobotoBold",
@@ -558,6 +662,66 @@ const styles = StyleSheet.create({
     color: "rgba(0,0,255,0.7)",
     textDecorationLine: "underline",
     fontFamily: "RobotoMedium",
+  },
+  resize_btn: {
+    width: 80,
+    backgroundColor: "#E47070",
+    borderRadius: 20,
+    marginLeft: 10,
+    height: 25,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  resize_btn_txt: {
+    color: "white",
+    fontFamily: "RobotoMedium",
+  },
+  deliver_container: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    paddingHorizontal: 10,
+    height: 40,
+    backgroundColor: "#E47070",
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    elevation: 10,
+  },
+  deliver_txt: {
+    color: "white",
+    fontFamily: "RobotoBold",
+  },
+  qr_container: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 20,
+  },
+  qr_wrap: {
+    width: "80%",
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    borderRadius: 20,
+    paddingBottom: 10,
+  },
+  url_txt: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginVertical: 10,
+  },
+  link_txt: {
+    color: "rgba(0,0,255,0.7)",
+    textDecorationLine: "underline",
   },
 });
 export default storeOrdering;

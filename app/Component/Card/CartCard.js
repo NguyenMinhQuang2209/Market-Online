@@ -106,11 +106,23 @@ const CartCardBig = ({
         {isCart && (
           <View>
             <View style={cardStyles.card_btn_container}>
-              <TouchableWithoutFeedback>
+              <TouchableOpacity>
                 <View style={cardStyles.card_btn}>
                   <Text style={cardStyles.card_btn_txt}>Trả giá</Text>
                 </View>
-              </TouchableWithoutFeedback>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <View
+                  style={[
+                    cardStyles.card_btn,
+                    {
+                      marginLeft: 10,
+                    },
+                  ]}
+                >
+                  <Text style={[cardStyles.card_btn_txt]}>Đặt hàng</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
         )}

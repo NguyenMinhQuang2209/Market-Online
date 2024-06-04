@@ -18,7 +18,7 @@ const HomeHeader = ({ showSearch = true, onSearch = () => {} }) => {
     setInputValue('');
   };
   return (
-    <SafeAreaView>
+    <View>
       <View style={styles.container}>
         {showSearch && (
           <View style={styles.search_container}>
@@ -58,7 +58,7 @@ const HomeHeader = ({ showSearch = true, onSearch = () => {} }) => {
           </Link>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -12,6 +12,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import ProductCard from "@/app/Component/Card/ProductCard";
 import HomeHeader from "../Component/Header/HomeHeader";
 import { useNavigation } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 const index = () => {
   let areaDatas = [
     {
@@ -72,7 +73,7 @@ const index = () => {
   });
 
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <HomeHeader onSearch={onSearch} />
       <ScrollView>
         <Carousel />
@@ -93,11 +94,15 @@ const index = () => {
           </View>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  container:{
+    width:"100%",
+    height:"100%"
+  },
   background_gradient: {
     flex: 1,
   },

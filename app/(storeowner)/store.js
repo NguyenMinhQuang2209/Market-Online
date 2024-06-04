@@ -14,6 +14,7 @@ import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import ProductCard from "../Component/Card/ProductCard";
 import NewsCard from "../Component/Card/NewsCard";
 import { useNavigation } from "expo-router";
+import HomeHeader from "../Component/Header/HomeHeader";
 const store = () => {
   const [current, setCurrent] = useState("");
   const [like, setLike] = useState(false);

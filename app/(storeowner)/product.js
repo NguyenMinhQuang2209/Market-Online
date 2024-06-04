@@ -8,6 +8,8 @@ import {
 import React from "react";
 import StoreOwnerProductCard from "../Component/Card/StoreOwnerProductCard";
 import { useNavigation } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import HomeHeader from "../Component/Header/HomeHeader";
 const product = () => {
   const navigation = useNavigation();
   const handleCreateNewProduct = () => {
@@ -16,7 +18,8 @@ const product = () => {
     });
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <HomeHeader />
       <ScrollView style={styles.card_container}>
         <View style={styles.card_wrap}>
           <StoreOwnerProductCard />
@@ -35,7 +38,7 @@ const product = () => {
           <Text style={styles.btn_txt}>Thêm mới</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

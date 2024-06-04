@@ -14,6 +14,7 @@ import { Link, useNavigation } from "expo-router";
 import HomeHeader from "../Component/Header/HomeHeader";
 import CartCardBig from "../Component/Card/CartCard";
 import Selection from "../Component/Select/Selection";
+import { SafeAreaView } from "react-native-safe-area-context";
 const windowWidth = Dimensions.get("window").width;
 const cart = () => {
   const navigation = useNavigation();
@@ -28,7 +29,7 @@ const cart = () => {
     });
   };
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <HomeHeader />
       <ScrollView style={styles.head_container}>
         <CartCardBig
@@ -52,7 +53,7 @@ const cart = () => {
         <View style={styles.foot_btn_container}>
           <TouchableOpacity onPress={handleOrder}>
             <View style={styles.foot_btn}>
-              <Text style={styles.foot_btn_txt}>Thanh toán</Text>
+              <Text style={styles.foot_btn_txt}>Đặt hàng tất cả</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -67,18 +68,22 @@ const cart = () => {
           useSearch={true}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  container:{
+    width:"100%",
+    height:"100%"
+  },  
   head_container: {
-    height: "80%",
+    flex:1,
     backgroundColor: "rgba(0,0,0,0.08)",
     padding: 10,
   },
   foot_container: {
-    height: "20%",
+    height: 120,
   },
   foot_total_container: {
     height: "50%",

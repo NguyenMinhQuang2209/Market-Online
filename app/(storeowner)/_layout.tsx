@@ -4,7 +4,6 @@ import React from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import HomeHeader from "../Component/Header/HomeHeader";
 import { StyleSheet, Text, View } from "react-native";
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -13,8 +12,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        headerShown: true,
-        header: () => <HomeHeader />,
+        headerShown: false,
       }}
     >
       <Tabs.Screen
@@ -57,21 +55,6 @@ export default function TabLayout() {
               </View>
             </View>
           ),
-        }}
-      />
-      <Tabs.Screen
-        name="supply"
-        options={{
-          title: "Cung cấp",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "archive" : "archive-outline"}
-              color={color}
-            />
-          ),
-          tabBarItemStyle: {
-            display: "none",
-          },
         }}
       />
       <Tabs.Screen

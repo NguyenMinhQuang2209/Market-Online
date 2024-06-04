@@ -15,6 +15,7 @@ import ProductCard from "../Component/Card/ProductCard";
 import StoreCard from "../Component/Card/StoreCard";
 import HomeHeader from "../Component/Header/HomeHeader";
 import { useRoute } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 const search = () => {
   const route = useRoute();
   const params = route.params;
@@ -74,9 +75,8 @@ const search = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <HomeHeader showSearch={false} />
-
       <Animated.View
         style={[
           styles.filter_container,
@@ -152,7 +152,7 @@ const search = () => {
           <StoreCard />
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

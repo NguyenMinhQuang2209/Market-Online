@@ -3,7 +3,6 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
-
 const storeprofile = () => {
   const navigation = useNavigation();
   const handleNavigation = ({ folder, screen, params }) => {
@@ -82,19 +81,6 @@ const storeprofile = () => {
               <Text style={styles.user_function_title_txt}>
                 Thông tin cá nhân
               </Text>
-            </View>
-          </View>
-          <View>
-            <EvilIcons name="chevron-right" size={35} />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.user_function_wrap}>
-          <View style={styles.user_function_main}>
-            <View style={styles.user_function_title}>
-              <View style={styles.user_function_icon}>
-                <Ionicons name="archive" size={25} />
-              </View>
-              <Text style={styles.user_function_title_txt}>Bên cung cấp</Text>
             </View>
           </View>
           <View>

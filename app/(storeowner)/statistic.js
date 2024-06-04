@@ -9,10 +9,13 @@ import React, { useRef, useState } from "react";
 import { Dimensions } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 import { Ionicons } from "@expo/vector-icons";
+import HomeHeader from "../Component/Header/HomeHeader";
+import { SafeAreaView } from "react-native-safe-area-context";
 const statistic = () => {
   const [chartDetailShow, setChartDetailShow] = useState(false);
   return (
-    <View>
+    <SafeAreaView>
+      <HomeHeader showSearch={false}/>
       <ScrollView>
         <View style={styles.box_container}>
           <View style={styles.box_wrap}>
@@ -94,7 +97,7 @@ const statistic = () => {
       {chartDetailShow && (
         <ChartDetail setChartDetailShow={setChartDetailShow} />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 const CustomBarChart = () => {

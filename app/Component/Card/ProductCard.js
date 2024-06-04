@@ -64,7 +64,7 @@ const ProductCard = ({
           alignItems: "center",
           opacity: cardStyle?.bgOpacity,
         }}
-        source={cardStyle?.bgImage && { uri: cardStyle?.bgImage }}
+        source={cardStyle?.bgImage && { uri: cardStyle?.bgImage || "" }}
       >
         <View style={{ flexDirection: "row" }}>
           {product?.image ? (
@@ -177,12 +177,12 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 120,
     resizeMode: "cover",
-    justifyContent:"center",
-    alignItems:"center"
+    justifyContent: "center",
+    alignItems: "center",
   },
   card_image_icon: {
     width: "30%",
-    aspectRatio: 1
+    aspectRatio: 1,
   },
   card_title: {
     fontFamily: "PlayfairMedium",
