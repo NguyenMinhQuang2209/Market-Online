@@ -13,6 +13,7 @@ import ProductCard from "@/app/Component/Card/ProductCard";
 import HomeHeader from "../Component/Header/HomeHeader";
 import { useNavigation } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AddToCart from "../Component/Other/AddToCart";
 const index = () => {
   let areaDatas = [
     {
@@ -72,12 +73,21 @@ const index = () => {
     });
   });
 
+  // Add To Card
+  const [activeAddToCart, setActiveAddToCart] = useState(false);
+  const [addToCartItem, setAddToCartItem] = useState(null);
+
+  const handleSelectAddToCartItem = useCallback((item) => {
+    setAddToCartItem(item);
+    setActiveAddToCart(true);
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <HomeHeader onSearch={onSearch} />
       <ScrollView>
         <Carousel />
-        <SpecialArea />
+        <SpecialArea handleSelectAddToCartItem={handleSelectAddToCartItem} />
         <View style={styles.area_container}>
           <View style={styles.area_title_container}>
             <Text style={styles.area_title_text}>Các gian hàng</Text>
@@ -94,14 +104,17 @@ const index = () => {
           </View>
         </View>
       </ScrollView>
+      {activeAddToCart && (
+        <AddToCart item={addToCartItem} setActive={setActiveAddToCart} />
+      )}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container:{
-    width:"100%",
-    height:"100%"
+  container: {
+    width: "100%",
+    height: "100%",
   },
   background_gradient: {
     flex: 1,
@@ -148,7 +161,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SpecialArea = () => {
+const SpecialArea = ({ handleSelectAddToCartItem }) => {
   let productData = [
     {
       image:
@@ -177,7 +190,11 @@ const SpecialArea = () => {
       </View>
       <View style={styles.area_card_container}>
         {productData?.map((product, index) => (
-          <ProductCard key={index + "productCard"} product={product} />
+          <ProductCard
+            onBuyed={handleSelectAddToCartItem}
+            key={index + "productCard"}
+            product={product}
+          />
         ))}
       </View>
       <View style={styles.watch_more}>

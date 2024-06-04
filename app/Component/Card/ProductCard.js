@@ -20,6 +20,7 @@ const ProductCard = ({
     bgImage: "",
     bgOpacity: 1,
   },
+  onBuyed,
 }) => {
   const [like, setLike] = useState(false);
   const navigation = useNavigation();
@@ -47,6 +48,14 @@ const ProductCard = ({
     });
   };
 
+  const handleBuyed = () => {
+    if (onBuyed) {
+      onBuyed(product);
+    } else {
+      console.log("Not function call back");
+    }
+  };
+
   return (
     <View
       style={[
@@ -67,14 +76,15 @@ const ProductCard = ({
         source={cardStyle?.bgImage && { uri: cardStyle?.bgImage || "" }}
       >
         <View style={{ flexDirection: "row" }}>
-          {product?.image ? (
+          {product?.image && (
             <Image
               style={styles.card_image}
               source={{
                 uri: product?.image,
               }}
             />
-          ) : (
+          )}
+          {!product?.image && (
             <View style={styles.card_image_icon_container}>
               <Image
                 style={styles.card_image_icon}
@@ -84,6 +94,9 @@ const ProductCard = ({
               />
             </View>
           )}
+          <View style={styles.price_container}>
+            <Text style={[styles.card_price]}>20.000VND/1 bó</Text>
+          </View>
         </View>
         <View>
           <Text
@@ -110,7 +123,7 @@ const ProductCard = ({
           </Text>
         </View>
         <View style={{ flexDirection: "row" }}>
-          <TouchableWithoutFeedback>
+          <TouchableOpacity onPress={handleBuyed}>
             <View style={styles.button}>
               <Text
                 style={[
@@ -123,9 +136,9 @@ const ProductCard = ({
                 Mua hàng
               </Text>
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
           {showStore && (
-            <TouchableWithoutFeedback onPress={HandleLinkToStore}>
+            <TouchableOpacity onPress={HandleLinkToStore}>
               <View style={styles.button}>
                 <Text
                   style={[
@@ -138,7 +151,7 @@ const ProductCard = ({
                   Cửa hàng
                 </Text>
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           )}
         </View>
         <TouchableOpacity
@@ -186,9 +199,15 @@ const styles = StyleSheet.create({
   },
   card_title: {
     fontFamily: "PlayfairMedium",
-    marginTop: 5,
+    marginTop: 3,
     fontSize: 15,
     width: "90%",
+  },
+  card_price: {
+    fontSize: 13,
+    fontFamily: "RobotoMedium",
+    textAlign: "center",
+    color: "white",
   },
   card_seller: {
     fontFamily: "RobotoMedium",
@@ -219,6 +238,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+  },
+  price_container: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    paddingVertical: 2,
   },
 });
 
