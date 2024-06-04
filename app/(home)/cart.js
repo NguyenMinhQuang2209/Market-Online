@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Link, useNavigation } from "expo-router";
 import HomeHeader from "../Component/Header/HomeHeader";
 import CartCardBig from "../Component/Card/CartCard";
@@ -28,19 +28,21 @@ const cart = () => {
       screen: "payment",
     });
   };
+
+  const handleSelectionItem = useCallback((item) => {
+    setPickups(item);
+    setActive(true);
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <HomeHeader />
       <ScrollView style={styles.head_container}>
         <CartCardBig
-          setDatas={setSelectionDatas}
-          setPickups={setPickups}
-          setActive={setShow}
+          onSelection={handleSelectionItem}
         />
         <CartCardBig
-          setDatas={setSelectionDatas}
-          setPickups={setPickups}
-          setActive={setShow}
+          onSelection={handleSelectionItem}
         />
       </ScrollView>
       <View style={styles.foot_container}>
@@ -73,12 +75,12 @@ const cart = () => {
 };
 
 const styles = StyleSheet.create({
-  container:{
-    width:"100%",
-    height:"100%"
-  },  
+  container: {
+    width: "100%",
+    height: "100%",
+  },
   head_container: {
-    flex:1,
+    flex: 1,
     backgroundColor: "rgba(0,0,0,0.08)",
     padding: 10,
   },

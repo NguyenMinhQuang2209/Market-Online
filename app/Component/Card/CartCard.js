@@ -11,14 +11,16 @@ import {
 import React, { useRef, useState } from "react";
 import { Link } from "expo-router";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
-const CartCardBig = ({
-  editable = true,
-  isCart = true,
-  setDatas,
-  setPickups,
-  setActive,
-}) => {
+const CartCardBig = ({ editable = true, isCart = true, onSelection }) => {
   const [cardListStatus, setCardListStatus] = useState(false);
+
+  const handleSelection = () => {
+    if (onSelection) {
+      onSelection();
+    } else {
+      console.log("Not selection function found");
+    }
+  };
   return (
     <View style={cardStyles.container}>
       <View style={cardStyles.close_icon_container}>
@@ -76,21 +78,9 @@ const CartCardBig = ({
                     <Text style={tableStyles.headerText}>Tổng tiền (VND)</Text>
                   </View>
                 </View>
-                <TableItem
-                  editable={editable}
-                  setDatas={setDatas}
-                  setActive={setActive}
-                />
-                <TableItem
-                  editable={editable}
-                  setDatas={setDatas}
-                  setActive={setActive}
-                />
-                <TableItem
-                  editable={editable}
-                  setDatas={setDatas}
-                  setActive={setActive}
-                />
+                <TableItem editable={editable} onSelection={handleSelection} />
+                <TableItem editable={editable} onSelection={handleSelection} />
+                <TableItem editable={editable} onSelection={handleSelection} />
               </View>
             </View>
           </View>
@@ -176,7 +166,7 @@ const CartCardSmall = () => {
     </View>
   );
 };
-const TableItem = ({ editable, setDatas, setActive }) => {
+const TableItem = ({ editable, onSelection }) => {
   const inputRef = useRef();
 
   return (
@@ -203,12 +193,7 @@ const TableItem = ({ editable, setDatas, setActive }) => {
           keyboardType="numeric"
           editable={editable}
         />
-        <TouchableOpacity
-          onPress={() => {
-            setActive(true);
-          }}
-          style={styles.card}
-        >
+        <TouchableOpacity onPress={onSelection} style={styles.card}>
           <Text style={{ width: "80%" }}>Lạng</Text>
           <Ionicons name="caret-down" size={15} />
         </TouchableOpacity>
