@@ -230,9 +230,9 @@ const store = () => {
                     bgOpacity: theme.bgOpacity,
                   }}
                 />
+                {/* <ProductCard showStore={false} />
                 <ProductCard showStore={false} />
-                <ProductCard showStore={false} />
-                <ProductCard showStore={false} />
+                <ProductCard showStore={false} /> */}
               </View>
             </View>
             <View
@@ -255,12 +255,12 @@ const store = () => {
                   Sản phẩm
                 </Text>
               </View>
-              <View style={styles.p_card_container}>
+              {/* <View style={styles.p_card_container}>
                 <ProductCard showStore={false} />
                 <ProductCard showStore={false} />
                 <ProductCard showStore={false} />
                 <ProductCard showStore={false} />
-              </View>
+              </View> */}
             </View>
           </View>
         )}
@@ -280,9 +280,181 @@ const store = () => {
         />
       )}
       {current == "news" && <CreateNewsBtnFloat />}
+      <StoreDetail />
     </View>
   );
 };
+
+const StoreDetail = () => {
+  const [current, setCurrent] = useState("");
+
+  return (
+    <View style={detailStyles.container}>
+      <View style={detailStyles.wrap}>
+        <View style={{ flex: 1, justifyContent: "space-between" }}>
+          <View style={detailStyles.tab_container}>
+            <View style={detailStyles.tab_wrap_1}>
+              <TouchableOpacity
+                onPress={() => {
+                  setCurrent("");
+                }}
+                style={[
+                  detailStyles.tab_wrap,
+                  !current && detailStyles.tab_active,
+                ]}
+              >
+                <Ionicons
+                  name="storefront"
+                  style={!current && { color: "white" }}
+                  size={20}
+                />
+                <Text
+                  style={[
+                    detailStyles.tab_txt,
+                    !current && detailStyles.tab_active_txt,
+                  ]}
+                >
+                  Cửa hàng
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setCurrent("theme");
+                }}
+                style={[
+                  detailStyles.tab_wrap,
+                  current == "theme" && detailStyles.tab_active,
+                ]}
+              >
+                <Ionicons
+                  name="color-fill"
+                  style={current == "theme" && { color: "white" }}
+                  size={20}
+                />
+                <Text
+                  style={[
+                    detailStyles.tab_txt,
+                    {
+                      borderRightWidth: 0,
+                    },
+                    current == "theme" && detailStyles.tab_active_txt,
+                  ]}
+                >
+                  Theme
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={detailStyles.content_container}>
+            <View>
+              <View></View>
+            </View>
+          </View>
+
+          <View style={detailStyles.btn_container}>
+            <TouchableOpacity style={detailStyles.btn_wrap}>
+              <Text style={detailStyles.btn_txt}>Đóng cửa</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={detailStyles.btn_wrap}>
+              <Text style={detailStyles.btn_txt}>Lưu</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                detailStyles.btn_wrap,
+                {
+                  backgroundColor: "rgba(0,0,0,0.6)",
+                },
+              ]}
+            >
+              <Text style={detailStyles.btn_txt}>Đóng</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={detailStyles.icon_wrap}>
+          <Ionicons name="caret-down-circle" size={30} />
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const detailStyles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 0,
+    zIndex: 20,
+    justifyContent: "flex-end",
+  },
+  wrap: {
+    width: "100%",
+    height: "90%",
+    backgroundColor: "white",
+  },
+  icon_wrap: {
+    position: "absolute",
+    top: -15,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+  },
+  tab_container: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  tab_wrap: {
+    paddingHorizontal: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "rgba(0,0,0,0.1)",
+    borderRightWidth: 1,
+    alignItems: "center",
+    paddingVertical: 3,
+  },
+  tab_wrap_1: {
+    borderColor: "rgba(0,0,0,0.3)",
+    borderWidth: 1,
+    flexDirection: "row",
+    borderRadius: 5,
+  },
+  tab_active: {
+    backgroundColor: "#E47070",
+  },
+  tab_active_txt: {
+    color: "white",
+  },
+  tab_txt: {
+    fontFamily: "RobotoMedium",
+  },
+  content_container: {
+    flex: 1,
+    marginTop: 5,
+  },
+  btn_container: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  btn_wrap: {
+    paddingHorizontal: 20,
+    height: 35,
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 5,
+    borderRadius: 20,
+    backgroundColor: "rgba(255,0,0,0.7)",
+  },
+  btn_txt: {
+    color: "white",
+    fontFamily: "RobotoMedium",
+  },
+});
 
 const CustomBtnFloat = () => {
   return (
@@ -297,34 +469,29 @@ const CustomBtnFloat = () => {
     </View>
   );
 };
-const InteractStoreStatusBtnFloat = ({
-  handleInteractWithStoreStatus,
-  storeStatus,
-}) => {
+const InteractStoreStatusBtnFloat = ({ handleInteractWithStoreStatus }) => {
   return (
     <TouchableOpacity
       onPress={handleInteractWithStoreStatus}
       style={interactBtnStyles.container}
     >
       <View>
-        <Ionicons
+        <EvilIcons
           style={{ color: "white", marginRight: 3 }}
-          name="storefront"
+          name="gear"
           size={20}
         />
       </View>
-      <Text style={interactBtnStyles.txt}>
-        {storeStatus ? "Mở cửa" : "Đóng cửa"}
-      </Text>
+      <Text style={interactBtnStyles.txt}>Chi tiết</Text>
     </TouchableOpacity>
   );
 };
 const CreateNewsBtnFloat = () => {
   const navigation = useNavigation();
   const handleCreateNews = () => {
-    navigation.navigate("(news)",{
-      screen:"create"
-    })
+    navigation.navigate("(news)", {
+      screen: "create",
+    });
   };
   return (
     <TouchableOpacity
@@ -359,7 +526,7 @@ const interactBtnStyles = StyleSheet.create({
   txt: {
     color: "white",
     fontFamily: "RobotoMedium",
-    marginLeft:3
+    marginLeft: 3,
   },
 });
 const btnStyles = StyleSheet.create({
