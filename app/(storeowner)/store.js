@@ -14,7 +14,8 @@ import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import ProductCard from "../Component/Card/ProductCard";
 import NewsCard from "../Component/Card/NewsCard";
 import { useNavigation } from "expo-router";
-import HomeHeader from "../Component/Header/HomeHeader";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import * as ImagePicker from "expo-image-picker";
 const store = () => {
   const [current, setCurrent] = useState("");
   const [like, setLike] = useState(false);
@@ -288,6 +289,78 @@ const store = () => {
 const StoreDetail = () => {
   const [current, setCurrent] = useState("");
 
+  const [date, setDate] = useState(null);
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    if (event.type === "dismissed") {
+      setShow(false);
+      return;
+    }
+    if (selectedDate) {
+      setDate(selectedDate);
+    }
+    setShow(false);
+  };
+
+  const showDatepicker = () => {
+    setShow(true);
+  };
+
+  const [endDate, setendDate] = useState(null);
+  const [endDateShow, setEndDateShow] = useState(false);
+
+  const onEndDateChange = (event, selectedDate) => {
+    if (event.type === "dismissed") {
+      setEndDateShow(false);
+      return;
+    }
+    if (selectedDate) {
+      setendDate(selectedDate);
+    }
+    setEndDateShow(false);
+  };
+
+  const showEndDatepicker = () => {
+    setEndDateShow(true);
+  };
+
+  const [startTime, setStartTime] = useState(null);
+  const [startTimeShow, setStartTimeShow] = useState(false);
+
+  const onStartTimeChange = (event, selectedDate) => {
+    if (event.type === "dismissed") {
+      setStartTimeShow(false);
+      return;
+    }
+    if (selectedDate) {
+      setStartTime(selectedDate);
+    }
+    setStartTimeShow(false);
+  };
+
+  const ShowStartTimePicker = () => {
+    setStartTimeShow(true);
+  };
+
+  const [endTime, setEndTime] = useState(null);
+  const [endTimeShow, setEndTimeShow] = useState(false);
+
+  const onEndTimeChange = (event, selectedDate) => {
+    if (event.type === "dismissed") {
+      setEndTimeShow(false);
+      return;
+    }
+    if (selectedDate) {
+      setEndTime(selectedDate);
+    }
+    setEndTimeShow(false);
+  };
+
+  const showEndTimePicker = () => {
+    setEndTimeShow(true);
+  };
+
   return (
     <View style={detailStyles.container}>
       <View style={detailStyles.wrap}>
@@ -347,9 +420,133 @@ const StoreDetail = () => {
           </View>
 
           <View style={detailStyles.content_container}>
-            <View>
-              <View></View>
-            </View>
+            {current == "theme" && (
+              <View>
+                <View style={detailStyles.filter}>
+                  <View style={detailStyles.filter_box}>
+                    <View style={detailStyles.filter_label}>
+                      <Text style={detailStyles.filter_label_txt}>
+                        Ngày mở cửa
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={detailStyles.filter_box_wrap}
+                        onPress={showDatepicker}
+                      >
+                        <Text>{date && date.toDateString()}</Text>
+                      </TouchableOpacity>
+                      {show && (
+                        <DateTimePicker
+                          testID="dateTimePicker"
+                          value={date || new Date()}
+                          mode="date"
+                          display="spinner"
+                          onChange={onChange}
+                          onClose={() => setShow(false)}
+                        />
+                      )}
+                    </View>
+                  </View>
+                  <View style={detailStyles.filter_box}>
+                    <View style={detailStyles.filter_label}>
+                      <Text style={detailStyles.filter_label_txt}>
+                        Ngày đóng cửa
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={detailStyles.filter_box_wrap}
+                        onPress={showEndDatepicker}
+                      >
+                        <Text>{endDate && endDate.toDateString()}</Text>
+                      </TouchableOpacity>
+                      {endDateShow && (
+                        <DateTimePicker
+                          testID="endTimeDatePicker"
+                          value={endDate || new Date()}
+                          mode="date"
+                          display="spinner"
+                          onChange={onEndDateChange}
+                          onClose={() => setEndDateShow(false)}
+                          locale="vi-VN"
+                        />
+                      )}
+                    </View>
+                  </View>
+                  <View style={detailStyles.filter_box}>
+                    <View style={detailStyles.filter_label}>
+                      <Text style={detailStyles.filter_label_txt}>
+                        Giờ mở cửa
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={detailStyles.filter_box_wrap}
+                        onPress={ShowStartTimePicker}
+                      >
+                        <Text>
+                          {startTime && startTime.toLocaleTimeString()}
+                        </Text>
+                      </TouchableOpacity>
+                      {startTimeShow && (
+                        <DateTimePicker
+                          testID="dateTimePicker"
+                          value={startTime || new Date()}
+                          mode="time"
+                          display="spinner"
+                          onChange={onStartTimeChange}
+                          onClose={() => setStartTimeShow(false)}
+                          locale="vi-VN"
+                        />
+                      )}
+                    </View>
+                  </View>
+                  <View style={detailStyles.filter_box}>
+                    <View style={detailStyles.filter_label}>
+                      <Text style={detailStyles.filter_label_txt}>
+                        Giờ đóng cửa
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={detailStyles.filter_box_wrap}
+                        onPress={showEndTimePicker}
+                      >
+                        <Text>{endTime && endTime.toLocaleTimeString()}</Text>
+                      </TouchableOpacity>
+                      {endTimeShow && (
+                        <DateTimePicker
+                          testID="endTimePicker"
+                          value={endTime || new Date()}
+                          mode="time"
+                          display="spinner"
+                          onChange={onEndTimeChange}
+                          onClose={() => setEndTimeShow(false)}
+                          locale="vi-VN"
+                        />
+                      )}
+                    </View>
+                  </View>
+                </View>
+              </View>
+            )}
+
+            {!current && (
+              <ScrollView style={{ flex: 1 }}>
+                <View>
+                  <View style={detailStyles.input_wrap}>
+                    <ColorPickerCustom />
+                    <ImagePickerCustom />
+                    <ImagePickerCustom />
+                    <ImagePickerCustom />
+                    <ImagePickerCustom />
+                    <ImagePickerCustom />
+                    <ImagePickerCustom />
+                  </View>
+                </View>
+              </ScrollView>
+            )}
           </View>
 
           <View style={detailStyles.btn_container}>
@@ -374,6 +571,72 @@ const StoreDetail = () => {
         <View style={detailStyles.icon_wrap}>
           <Ionicons name="caret-down-circle" size={30} />
         </View>
+      </View>
+    </View>
+  );
+};
+const ColorPickerCustom = () => {
+  return (
+    <View style={detailStyles.filter_box}>
+      <View style={detailStyles.filter_label}>
+        <Text style={detailStyles.filter_label_txt}>Chọn màu</Text>
+      </View>
+      <View>
+        <TouchableOpacity style={detailStyles.filter_box_wrap}>
+          <Text>Chọn màu</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+const ImagePickerCustom = () => {
+  const [image, setImage] = useState("");
+  const handlePickupImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+  return (
+    <View style={detailStyles.filter_box}>
+      <View style={detailStyles.filter_label}>
+        <Text style={detailStyles.filter_label_txt}>Chọn Ảnh</Text>
+      </View>
+      <View>
+        <TouchableOpacity
+          onPress={handlePickupImage}
+          style={detailStyles.filter_box_wrap_2}
+        >
+          <Image
+            style={[
+              detailStyles.image,
+              !image && {
+                width: 50,
+                height: 50,
+              },
+            ]}
+            source={{
+              uri:
+                image ||
+                "https://res.cloudinary.com/sttruyen/image/upload/v1716970566/e8bvdumw00lohutsbhcu.png",
+            }}
+          />
+          <View style={detailStyles.camera}>
+            <Ionicons name="camera" size={30} />
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -453,6 +716,91 @@ const detailStyles = StyleSheet.create({
   btn_txt: {
     color: "white",
     fontFamily: "RobotoMedium",
+  },
+
+  filter_box: {
+    width: "45%",
+    marginHorizontal: "2.5%",
+    marginBottom: 10,
+  },
+  filter_box_2: {
+    width: "95%",
+    marginHorizontal: "2.5%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+  filter_box_wrap: {
+    minHeight: 40,
+    borderColor: "rgba(0,0,0,0.4)",
+    borderWidth: 1,
+    borderRadius: 2,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingHorizontal: 5,
+  },
+  filter_label: {
+    marginBottom: 5,
+  },
+  filter_label_txt: {
+    fontFamily: "RobotoMedium",
+  },
+  textinput_container: {
+    flex: 1,
+  },
+  textinput: {
+    flex: 1,
+    height: 40,
+    borderColor: "rgba(0,0,0,0.4)",
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    marginRight: 5,
+    borderRadius: 5,
+  },
+  search_btn: {
+    width: 100,
+    height: 40,
+    borderRadius: 50,
+    backgroundColor: "rgba(255,0,0,0.6)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  search_txt: {
+    color: "white",
+    fontSize: 15,
+    fontFamily: "RobotoBold",
+  },
+  filter: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginTop: 20,
+  },
+
+  input_wrap: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginTop: 20,
+  },
+  filter_box_wrap_2: {
+    width: "100%",
+    aspectRatio: 1,
+    position: "relative",
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "rgba(0,0,0,0.2)",
+    borderWidth: 1,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "contain",
+  },
+  camera: {
+    position: "absolute",
+    right: 2,
+    bottom: -2,
   },
 });
 

@@ -196,7 +196,7 @@ const order = () => {
                     testID="dateTimePicker"
                     value={date || new Date()}
                     mode="date"
-                    display="default"
+                    display="spinner"
                     onChange={onChange}
                     onClose={() => setShow(false)}
                   />
@@ -216,10 +216,10 @@ const order = () => {
                 </TouchableOpacity>
                 {endDateShow && (
                   <DateTimePicker
-                    testID="dateTimePicker"
+                    testID="endTimeDatePicker"
                     value={endDate || new Date()}
                     mode="date"
-                    display="default"
+                    display="spinner"
                     onChange={onEndDateChange}
                     onClose={() => setEndDateShow(false)}
                   />
