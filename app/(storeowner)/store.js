@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Animated,
   Easing,
+  Dimensions,
 } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import DefaultHeader from "../Component/Header/DefaultHeader";
@@ -16,6 +17,11 @@ import NewsCard from "../Component/Card/NewsCard";
 import { useNavigation } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
+import Selection from "../Component/Select/Selection";
+
+const screenHeight = Dimensions.get("window").height;
+
+const eightyPercentOfScreenHeight = screenHeight * 0.8;
 const store = () => {
   const [current, setCurrent] = useState("");
   const [like, setLike] = useState(false);
@@ -77,6 +83,29 @@ const store = () => {
       },
     });
   };
+
+  //edit store
+  const topStoreViewHeight = useRef(new Animated.Value(30)).current;
+  const [showStoreEdit, setShowStoreEdit] = useState(false);
+
+  useEffect(() => {
+    if (showStoreEdit) {
+      Animated.timing(topStoreViewHeight, {
+        toValue: eightyPercentOfScreenHeight,
+        duration: 300,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }).start();
+    } else {
+      Animated.timing(topStoreViewHeight, {
+        toValue: 30,
+        duration: 200,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }).start();
+    }
+  }, [showStoreEdit]);
+
   return (
     <View
       style={{ width: "100%", height: "100%", backgroundColor: theme.bgColor }}
@@ -231,9 +260,15 @@ const store = () => {
                     bgOpacity: theme.bgOpacity,
                   }}
                 />
-                {/* <ProductCard showStore={false} />
-                <ProductCard showStore={false} />
-                <ProductCard showStore={false} /> */}
+                <ProductCard
+                  showStore={false}
+                  cardStyle={{
+                    bg: theme.cardBgColor,
+                    txtColor: theme.cardTextColor,
+                    bgImage: theme.cardBgImage,
+                    bgOpacity: theme.bgOpacity,
+                  }}
+                />
               </View>
             </View>
             <View
@@ -256,12 +291,15 @@ const store = () => {
                   Sản phẩm
                 </Text>
               </View>
-              {/* <View style={styles.p_card_container}>
-                <ProductCard showStore={false} />
-                <ProductCard showStore={false} />
-                <ProductCard showStore={false} />
-                <ProductCard showStore={false} />
-              </View> */}
+              <ProductCard
+                showStore={false}
+                cardStyle={{
+                  bg: theme.cardBgColor,
+                  txtColor: theme.cardTextColor,
+                  bgImage: theme.cardBgImage,
+                  bgOpacity: theme.bgOpacity,
+                }}
+              />
             </View>
           </View>
         )}
@@ -271,22 +309,28 @@ const store = () => {
             <NewsCard tabbar={true} />
           </View>
         )}
+        <View style={{ height: 60 }}></View>
       </ScrollView>
 
-      <CustomBtnFloat />
       {!current && (
         <InteractStoreStatusBtnFloat
-          handleInteractWithStoreStatus={handleInteractWithStoreStatus}
-          storeStatus={storeStatus}
+          handleOpenEdit={() => {
+            setShowStoreEdit(true);
+          }}
         />
       )}
       {current == "news" && <CreateNewsBtnFloat />}
-      <StoreDetail />
+
+      <StoreDetail
+        height={topStoreViewHeight}
+        setShowStoreEdit={setShowStoreEdit}
+        showStoreEdit={showStoreEdit}
+      />
     </View>
   );
 };
 
-const StoreDetail = () => {
+const StoreDetail = ({ height, setShowStoreEdit, showStoreEdit }) => {
   const [current, setCurrent] = useState("");
 
   const [date, setDate] = useState(null);
@@ -361,8 +405,65 @@ const StoreDetail = () => {
     setEndTimeShow(true);
   };
 
+  const [showSelection, setShowSelection] = useState(false);
+  const [currentSelection, setCurrentSelection] = useState([]);
+  const [selectionDatas, setSelectionDatas] = useState([
+    {
+      name: "Trắng",
+      value: "white",
+    },
+    {
+      name: "Đỏ",
+      value: "red",
+    },
+    {
+      name: "Xanh lam",
+      value: "green",
+    },
+    {
+      name: "Xanh dương",
+      value: "blue",
+    },
+    {
+      name: "Hồng",
+      value: "pink",
+    },
+    {
+      name: "Đen",
+      value: "black",
+    },
+    {
+      name: "Cam",
+      value: "orange",
+    },
+    {
+      name: "Vàng",
+      value: "yellow",
+    },
+    {
+      name: "Bạc",
+      value: "grey",
+    },
+    {
+      name: "Tím",
+      value: "violet",
+    },
+  ]);
+
+  const handleShowSelection = useCallback(() => {
+    setShowSelection(true);
+  });
+
   return (
-    <View style={detailStyles.container}>
+    <Animated.View
+      style={[
+        detailStyles.container,
+        {
+          height: height,
+          overflow: "hidden",
+        },
+      ]}
+    >
       <View style={detailStyles.wrap}>
         <View style={{ flex: 1, justifyContent: "space-between" }}>
           <View style={detailStyles.tab_container}>
@@ -420,7 +521,7 @@ const StoreDetail = () => {
           </View>
 
           <View style={detailStyles.content_container}>
-            {current == "theme" && (
+            {!current && (
               <View>
                 <View style={detailStyles.filter}>
                   <View style={detailStyles.filter_box}>
@@ -532,11 +633,13 @@ const StoreDetail = () => {
               </View>
             )}
 
-            {!current && (
+            {current == "theme" && (
               <ScrollView style={{ flex: 1 }}>
                 <View>
                   <View style={detailStyles.input_wrap}>
-                    <ColorPickerCustom />
+                    <ColorPickerCustom
+                      handleShowSelection={handleShowSelection}
+                    />
                     <ImagePickerCustom />
                     <ImagePickerCustom />
                     <ImagePickerCustom />
@@ -568,22 +671,44 @@ const StoreDetail = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={detailStyles.icon_wrap}>
-          <Ionicons name="caret-down-circle" size={30} />
-        </View>
+        <TouchableOpacity
+          onPress={() => {
+            setShowStoreEdit((pre) => !pre);
+          }}
+          style={detailStyles.icon_wrap}
+        >
+          <Ionicons
+            name={showStoreEdit ? "caret-down-circle" : "caret-up-circle"}
+            size={30}
+          />
+        </TouchableOpacity>
       </View>
-    </View>
+      {showSelection && (
+        <Selection
+          setActive={setShowSelection}
+          current={currentSelection}
+          setCurrent={setCurrentSelection}
+          datas={selectionDatas}
+          isMultiple={false}
+          useSearch={true}
+        />
+      )}
+    </Animated.View>
   );
 };
-const ColorPickerCustom = () => {
+const ColorPickerCustom = ({ handleShowSelection }) => {
   return (
     <View style={detailStyles.filter_box}>
       <View style={detailStyles.filter_label}>
         <Text style={detailStyles.filter_label_txt}>Chọn màu</Text>
       </View>
       <View>
-        <TouchableOpacity style={detailStyles.filter_box_wrap}>
+        <TouchableOpacity
+          onPress={handleShowSelection}
+          style={detailStyles.filter_box_wrap}
+        >
           <Text>Chọn màu</Text>
+          <Ionicons name="caret-down" size={20} />
         </TouchableOpacity>
       </View>
     </View>
@@ -648,13 +773,13 @@ const detailStyles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    top: 0,
     zIndex: 20,
     justifyContent: "flex-end",
+    paddingTop: 20,
   },
   wrap: {
     width: "100%",
-    height: "90%",
+    height: "100%",
     backgroundColor: "white",
   },
   icon_wrap: {
@@ -817,10 +942,10 @@ const CustomBtnFloat = () => {
     </View>
   );
 };
-const InteractStoreStatusBtnFloat = ({ handleInteractWithStoreStatus }) => {
+const InteractStoreStatusBtnFloat = ({ handleOpenEdit }) => {
   return (
     <TouchableOpacity
-      onPress={handleInteractWithStoreStatus}
+      onPress={handleOpenEdit}
       style={interactBtnStyles.container}
     >
       <View>
@@ -861,7 +986,7 @@ const interactBtnStyles = StyleSheet.create({
   container: {
     position: "absolute",
     bottom: 20,
-    right: 90,
+    right: 10,
     width: 120,
     height: 40,
     justifyContent: "center",
