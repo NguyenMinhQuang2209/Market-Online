@@ -21,10 +21,8 @@ const index = () => {
     };
   }, []);
 
-
-
   return initialRoute ? (
-    <Redirect href={"(storeowner)/store"} />
+    <Redirect href={"(being)/beingStoreowner"} />
   ) : (
     <SafeAreaView>
       <View style={styles.container}>

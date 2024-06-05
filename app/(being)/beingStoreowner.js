@@ -10,48 +10,8 @@ import {
 import React, { useEffect, useState } from "react";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import Selection from "../Component/Select/Selection";
-import { generateRandomString } from "../Component/Other/GenerateRandomString";
-const Create = () => {
+const beingStoreowner = () => {
   const [image, setImage] = useState("");
-  const [activeSelection, setActiveSelection] = useState(false);
-  const [current, setCurrent] = useState([]);
-  const [productsString, setProductsString] = useState("");
-
-  const [units, setUnits] = useState([
-    {
-      id: generateRandomString(),
-      unit: "",
-      price: "",
-    },
-  ]);
-
-  const [categories, setCategories] = useState([
-    {
-      name: "Rau",
-      value: "rau",
-    },
-    {
-      name: "Thịt",
-      value: "thit",
-    },
-    {
-      name: "Cá",
-      value: "ca",
-    },
-  ]);
-
-  useEffect(() => {
-    let str = "";
-    current?.forEach((item) => {
-      str += item.name + ", ";
-    });
-    if (str.endsWith(", ")) {
-      str = str.slice(0, -2);
-    }
-    setProductsString(str);
-  }, [current]);
-
   const handlePickupImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -70,25 +30,13 @@ const Create = () => {
       setImage(result.assets[0].uri);
     }
   };
-  const handleAddUnit = () => {
-    setUnits((pre) => [
-      ...pre,
-      {
-        id: generateRandomString(),
-        unit: "",
-        price: "",
-      },
-    ]);
-  };
-
-
   return (
-    <ScrollView>
+    <ScrollView style={{ width: "100%", height: "100%" }}>
       <View style={styles.container}>
         <View style={styles.head_container}>
           <View style={styles.image_container}>
             <View style={{ marginBottom: 5 }}>
-              <Text style={{ fontSize: 16 }}>Ảnh sản phẩm:</Text>
+              <Text style={{ fontSize: 16 }}>Ảnh cửa hàng:</Text>
             </View>
             <TouchableOpacity
               onPress={handlePickupImage}
@@ -116,7 +64,7 @@ const Create = () => {
           <View style={styles.edit_form}>
             <View style={styles.edit_field}>
               <View style={styles.label}>
-                <Text style={styles.label_txt}>Tên sản phẩm *</Text>
+                <Text style={styles.label_txt}>Tên thương nhân *</Text>
               </View>
               <View style={styles.textinput_wrap}>
                 <TextInput style={styles.textinput} defaultValue="MinhQuang" />
@@ -129,105 +77,45 @@ const Create = () => {
             </View>
             <View style={styles.edit_field}>
               <View style={styles.label}>
-                <Text style={styles.label_txt}>Loại sản phẩm</Text>
+                <Text style={styles.label_txt}>Số điện thoại *</Text>
               </View>
               <View style={styles.textinput_wrap}>
-                <TouchableOpacity
-                  style={styles.textinput2}
-                  onPress={() => {
-                    setActiveSelection(true);
-                  }}
-                >
-                  <Text>{productsString}</Text>
-                  <View>
-                    <EvilIcons name="chevron-down" size={30} />
-                  </View>
-                </TouchableOpacity>
+                <TextInput style={styles.textinput} defaultValue="MinhQuang" />
               </View>
-            </View>
-            <View style={styles.unit_container}>
-              <View style={styles.add_container}>
-                {units?.map((item, index) => (
-                  <UnitCard
-                    item={item}
-                    setUnits={setUnits}
-                    units={units}
-                    index={index}
-                    key={item?.id}
-                  />
-                ))}
-                <TouchableOpacity
-                  style={styles.add_wrap}
-                  onPress={handleAddUnit}
-                >
-                  <Text style={styles.add_icon}>+</Text>
-                </TouchableOpacity>
+              <View style={{ marginTop: 5 }}>
+                <Text style={{ fontFamily: "RobotoBoldItalic" }}>
+                  Tên sản phẩm không được bỏ trống
+                </Text>
               </View>
             </View>
           </View>
         </View>
         <View style={styles.btn_container}>
           <TouchableOpacity style={styles.btn}>
-            <Text style={styles.btn_txt}>Tạo mới</Text>
+            <Text style={styles.btn_txt}>Đồng ý</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.btn,
+              {
+                marginLeft: 5,
+                backgroundColor: "rgba(0,0,0,0.4)",
+              },
+            ]}
+          >
+            <Text style={styles.btn_txt}>Hủy</Text>
           </TouchableOpacity>
         </View>
-        {activeSelection && (
-          <Selection
-            setActive={setActiveSelection}
-            datas={categories}
-            current={current}
-            setCurrent={setCurrent}
-            isMultiple={false}
-            useSearch={true}
-          />
-        )}
       </View>
     </ScrollView>
-  );
-};
-const UnitCard = ({ item, setUnits, units, index }) => {
-  const handleRemoveUnit = () => {
-    let currentUnits = [...units];
-    currentUnits.splice(index, 1);
-    setUnits([...currentUnits]);
-  };
-  return (
-    <View style={styles.unit_wrap}>
-      <View style={styles.edit_field}>
-        <View style={styles.label}>
-          <Text style={styles.label_txt}>Đơn vị tính</Text>
-        </View>
-        <View style={styles.textinput_wrap}>
-          <TextInput style={styles.textinput} />
-        </View>
-      </View>
-      <View style={styles.edit_field}>
-        <View style={styles.label}>
-          <Text style={styles.label_txt}>Giá (trên mỗi đơn vị) VND</Text>
-        </View>
-        <View style={styles.textinput_wrap}>
-          <TextInput
-            style={styles.textinput}
-            keyboardType="numeric"
-            inputMode="numeric"
-            defaultValue="20000"
-          />
-        </View>
-      </View>
-      <View style={styles.close_wrap}>
-        <TouchableOpacity onPress={handleRemoveUnit}>
-          <Ionicons name="close-circle-outline" size={25} />
-        </TouchableOpacity>
-      </View>
-    </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
     justifyContent: "space-between",
-    flex: 1,
     paddingVertical: 10,
     paddingHorizontal: 15,
+    flex: 1,
   },
   head_container: {
     marginTop: 30,
@@ -345,4 +233,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Create;
+export default beingStoreowner;

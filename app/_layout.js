@@ -107,6 +107,7 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="(landingpage)" options={{ headerShown: false }} />
           <Stack.Screen name="(orderDetail)" options={{ headerShown: false }} />
+          <Stack.Screen name="(being)" options={{ headerShown: false }} />
           <Stack.Screen name="(storeowner)" options={{ headerShown: false }} />
           <Stack.Screen name="(order)" options={{ headerShown: false }} />
           <Stack.Screen name="(news)" options={{ headerShown: false }} />
