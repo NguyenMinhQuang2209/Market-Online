@@ -31,7 +31,7 @@ const cart = () => {
 
   const handleSelectionItem = useCallback((item) => {
     setPickups(item);
-    setActive(true);
+    setShow(true);
   });
 
   return (
