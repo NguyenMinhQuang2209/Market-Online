@@ -17,15 +17,6 @@ const home = () => {
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const getCameraPermissions = async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === "granted");
-    };
-
-    getCameraPermissions();
-  }, []);
-
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     setStartScan(false);
@@ -33,22 +24,32 @@ const home = () => {
       data: data,
     });
   };
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, []);
 
-  const handleScan = () => {
-    setScanned(false);
-    setStartScan(true);
+  const handleScan = async () => {
+    let tempStatus;
+    if (!hasPermission) {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
+      tempStatus = status === "granted";
+    } else {
+      tempStatus = true;
+    }
+    if (tempStatus) {
+      setScanned(false);
+      setStartScan(true);
+    }
   };
   const handleCancelScan = () => {
     setScanned(true);
     setStartScan(false);
   };
 
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
   return (
     <View style={styles.container}>
       {startScan && (
@@ -69,8 +70,8 @@ const home = () => {
       )}
       {!startScan && (
         <View style={styles.wrap}>
-          <View>
-            <Ionicons name="archive-outline" size={100} />
+          <View style={{marginBottom:10}}>
+            <Ionicons name="car" size={100} />
           </View>
           <View>
             <Text style={{ textAlign: "center" }}>

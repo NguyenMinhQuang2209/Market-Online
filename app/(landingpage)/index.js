@@ -37,7 +37,6 @@ const index = () => {
     });
   };
 
-  //return <Redirect href={"(shipper)/home"} />;
 
   return (
     <SafeAreaView>

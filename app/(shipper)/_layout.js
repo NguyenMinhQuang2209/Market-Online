@@ -33,8 +33,8 @@ export default function NotificationLayout() {
         name="order"
         options={{
           headerShown: true,
-          header: () => <DefaultHeader title={"Danh sách đơn hàng"} />,
-          title: "Danh sách hàng",
+          header: () => <DefaultHeader title={"Danh sách đơn hàng đang giao"} />,
+          title: "Đang giao",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "archive" : "archive-outline"}
