@@ -1,24 +1,46 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { BarCodeScanner } from "expo-barcode-scanner";
+import { CameraView, Camera } from "expo-camera";
+import { useNavigation } from "expo-router";
 const home = () => {
   const [haveOrder, setHaveOrder] = useState("A");
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [startScan, setStartScan] = useState(false);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+    const getCameraPermissions = async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === "granted");
     };
 
-    getBarCodeScannerPermissions();
+    getCameraPermissions();
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    setStartScan(false);
+    navigation.navigate("order", {
+      data: data,
+    });
+  };
+
+  const handleScan = () => {
+    setScanned(false);
+    setStartScan(true);
+  };
+  const handleCancelScan = () => {
+    setScanned(true);
+    setStartScan(false);
   };
 
   if (hasPermission === null) {
@@ -29,30 +51,57 @@ const home = () => {
   }
   return (
     <View style={styles.container}>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
-      <View style={styles.wrap}>
-        <View>
-          <Ionicons name="archive-outline" size={100} />
-        </View>
-        <View>
-          <Text style={{ textAlign: "center" }}>
-            {haveOrder
-              ? `Hiện tại bạn đang có đơn đặt hàng của tiểu thương ${haveOrder}. Quét mã QR để hủy đơn hàng và nhận đơn hàng mới.`
-              : "Hiện tại bạn không có danh sách giao hàng nào. Vui lòng quét mã QR để nhận đơn hàng"}
-          </Text>
-        </View>
-        <View>
-          <TouchableOpacity
-            onPress={() => setScanned(false)}
-            style={styles.btn}
-          >
-            <Text style={{ color: "white" }}>Quét mã QR</Text>
+      {startScan && (
+        <CameraView
+          onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
+          barcodeScannerSettings={{
+            barcodeTypes: ["qr"],
+          }}
+          style={StyleSheet.absoluteFillObject}
+        />
+      )}
+      {startScan && (
+        <View style={styles.cancel_container}>
+          <TouchableOpacity onPress={handleCancelScan} style={styles.btn}>
+            <Text style={{ color: "white" }}>Hủy quét mã</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      )}
+      {!startScan && (
+        <View style={styles.wrap}>
+          <View>
+            <Ionicons name="archive-outline" size={100} />
+          </View>
+          <View>
+            <Text style={{ textAlign: "center" }}>
+              {haveOrder
+                ? `Hiện tại bạn đang có đơn đặt hàng của tiểu thương ${haveOrder}. Quét mã QR để hủy đơn hàng và nhận đơn hàng mới.`
+                : "Hiện tại bạn không có danh sách giao hàng nào. Vui lòng quét mã QR để nhận đơn hàng"}
+            </Text>
+          </View>
+          <View>
+            <TouchableOpacity onPress={handleScan} style={styles.btn}>
+              <Text style={{ color: "white" }}>Quét mã QR</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{ marginVertical: 20 }}>
+            <Text style={styles.or_txt}>Hoặc nhập mã</Text>
+          </View>
+          <View style={styles.inputtext_wrap}>
+            <TextInput style={styles.inputtxt} placeholder="Nhập mã" />
+            <TouchableOpacity
+              style={[
+                styles.btn,
+                {
+                  marginTop: 0,
+                },
+              ]}
+            >
+              <Text style={{ color: "white" }}>Xác nhận</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
   );
 };
@@ -74,6 +123,27 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
+  },
+  cancel_container: {
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 20,
+  },
+  or_txt: {
+    fontFamily: "RobotoMedium",
+  },
+  inputtext_wrap: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  inputtxt: {
+    width: "60%",
+    marginRight: 5,
+    borderColor: "rgba(0,0,0,0.3)",
+    borderWidth: 1,
+    paddingHorizontal: 5,
+    height: 40,
+    borderRadius: 5,
   },
 });
 

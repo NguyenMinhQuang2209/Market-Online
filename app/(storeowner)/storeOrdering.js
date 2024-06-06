@@ -26,7 +26,7 @@ const storeOrdering = () => {
     });
   };
   const [shipOrders, setShipOrders] = useState([]);
-  const [url, setUrl] = useState("http://localhost:3000/123/deliver");
+  const [url, setUrl] = useState("45123");
   const [showQR, setShowQR] = useState(false);
 
   const changeCurrent = (newState) => {

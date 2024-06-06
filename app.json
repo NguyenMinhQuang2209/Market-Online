@@ -44,9 +44,10 @@
         }
       ],
       [
-        "expo-barcode-scanner",
+        "expo-camera",
         {
-          "cameraPermission": "Cho phép Online Market sử dụng camera của bạn."
+          "cameraPermission": "Allow Online Market to access your camera",
+          "recordAudioAndroid": true
         }
       ]
     ],

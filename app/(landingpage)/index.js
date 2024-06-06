@@ -37,7 +37,7 @@ const index = () => {
     });
   };
 
-  return <Redirect href={"(shipper)/home"} />;
+  //return <Redirect href={"(shipper)/home"} />;
 
   return (
     <SafeAreaView>
@@ -65,8 +65,8 @@ const index = () => {
         <TouchableOpacity
           onPress={() => {
             handleNavigation({
-              folder: "(auth)",
-              screen: "login",
+              folder: "(storeowner)",
+              screen: "storeOrdering",
               params: null,
             });
           }}
