@@ -64,8 +64,8 @@ const index = () => {
         <TouchableOpacity
           onPress={() => {
             handleNavigation({
-              folder: "(storeowner)",
-              screen: "storeOrdering",
+              folder: "(home)",
+              screen: "home",
               params: null,
             });
           }}

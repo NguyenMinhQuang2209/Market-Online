@@ -10,8 +10,10 @@ import {
 import React, { useEffect, useState } from "react";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { useNavigation } from "expo-router";
 const beingStoreowner = () => {
   const [image, setImage] = useState("");
+  const navigation = useNavigation();
   const handlePickupImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -25,10 +27,15 @@ const beingStoreowner = () => {
       aspect: [1, 1],
       quality: 1,
     });
-
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
+  };
+
+  const handleBeingStoreOwner = () => {
+    navigation.navigate("(storeowner)", {
+      screen: "statistic",
+    });
   };
   return (
     <ScrollView style={{ width: "100%", height: "100%" }}>
@@ -91,7 +98,7 @@ const beingStoreowner = () => {
           </View>
         </View>
         <View style={styles.btn_container}>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity onPress={handleBeingStoreOwner} style={styles.btn}>
             <Text style={styles.btn_txt}>Đồng ý</Text>
           </TouchableOpacity>
           <TouchableOpacity
