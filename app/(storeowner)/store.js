@@ -629,6 +629,9 @@ const StoreDetail = ({ height, setShowStoreEdit, showStoreEdit }) => {
                       )}
                     </View>
                   </View>
+                  <View style={{ width: "100%", alignItems: "center" }}>
+                    <ImagePickerCustom title="Mã QR code" />
+                  </View>
                 </View>
               </View>
             )}
@@ -714,8 +717,8 @@ const ColorPickerCustom = ({ handleShowSelection }) => {
     </View>
   );
 };
-const ImagePickerCustom = () => {
-  const [image, setImage] = useState("");
+const ImagePickerCustom = ({ title = "Chọn ảnh", defaultImage = "" }) => {
+  const [image, setImage] = useState(defaultImage);
   const handlePickupImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -737,7 +740,7 @@ const ImagePickerCustom = () => {
   return (
     <View style={detailStyles.filter_box}>
       <View style={detailStyles.filter_label}>
-        <Text style={detailStyles.filter_label_txt}>Chọn Ảnh</Text>
+        <Text style={detailStyles.filter_label_txt}>{title}</Text>
       </View>
       <View>
         <TouchableOpacity

@@ -15,6 +15,7 @@ const storeprofile = () => {
     handleNavigation({ folder: "(profile)", screen: "profile", params: {} });
   };
   const handleLogout = () => {};
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.user_infor_container}>
@@ -80,6 +81,30 @@ const storeprofile = () => {
               </View>
               <Text style={styles.user_function_title_txt}>
                 Thông tin cá nhân
+              </Text>
+            </View>
+          </View>
+          <View>
+            <EvilIcons name="chevron-right" size={35} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            handleNavigation({
+              folder: "(being)",
+              screen: "beingMember",
+              params: {},
+            });
+          }}
+          style={styles.user_function_wrap}
+        >
+          <View style={styles.user_function_main}>
+            <View style={styles.user_function_title}>
+              <View style={styles.user_function_icon}>
+                <Ionicons name="calendar" size={25} />
+              </View>
+              <Text style={styles.user_function_title_txt}>
+                Đăng ký thành viên
               </Text>
             </View>
           </View>

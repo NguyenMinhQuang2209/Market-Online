@@ -23,6 +23,13 @@ export default function NotificationLayout() {
           header: () => <DefaultHeader title={"Trở thành tiểu thương"} />,
         }}
       />
+      <Tabs.Screen
+        name="beingMember"
+        options={{
+          headerShown: true,
+          header: () => <DefaultHeader title={"Gói thành viên"} />,
+        }}
+      />
     </Tabs>
   );
 }
