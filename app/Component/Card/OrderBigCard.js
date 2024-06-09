@@ -109,6 +109,21 @@ const OrderBigCard = ({
                     </Text>
                   </View>
                 </TouchableOpacity>
+                <TouchableOpacity>
+                  <View
+                    style={[
+                      cardStyles.card_btn,
+                      added && {
+                        backgroundColor: "rgba(0,0,0,0.7)",
+                      },
+                      {
+                        marginLeft: 10,
+                      },
+                    ]}
+                  >
+                    <Text style={cardStyles.card_btn_txt}>Giao thành công</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
             ) : (
               <View style={cardStyles.card_btn_container}>

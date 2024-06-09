@@ -18,6 +18,8 @@ const Create = () => {
   const [current, setCurrent] = useState([]);
   const [productsString, setProductsString] = useState("");
 
+  const [special, setSpecial] = useState(false);
+
   const [units, setUnits] = useState([
     {
       id: generateRandomString(),
@@ -80,7 +82,6 @@ const Create = () => {
       },
     ]);
   };
-
 
   return (
     <ScrollView>
@@ -145,6 +146,35 @@ const Create = () => {
                 </TouchableOpacity>
               </View>
             </View>
+            <View
+              style={[
+                styles.edit_field,
+                {
+                  alignItems: "center",
+                },
+              ]}
+            >
+              <View
+                style={[
+                  styles.label,
+                  {
+                    flexDirection: "row",
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.label_txt,
+                    {
+                      marginRight: 10,
+                    },
+                  ]}
+                >
+                  Sản phẩm đặc biệt ?
+                </Text>
+                <CheckBoxButton onSelect={setSpecial} selected={special} />
+              </View>
+            </View>
             <View style={styles.unit_container}>
               <View style={styles.add_container}>
                 {units?.map((item, index) => (
@@ -185,6 +215,45 @@ const Create = () => {
     </ScrollView>
   );
 };
+const CheckBoxButton = ({ selected, onSelect }) => {
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        onSelect((pre) => !pre);
+      }}
+      style={radioStyles.radioButtonContainer}
+    >
+      <View style={radioStyles.radioButton}>
+        {selected && <View style={radioStyles.radioButtonSelected} />}
+      </View>
+    </TouchableOpacity>
+  );
+};
+const radioStyles = StyleSheet.create({
+  radioButtonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 0,
+  },
+  radioButton: {
+    height: 20,
+    width: 20,
+    borderRadius: 2,
+    borderWidth: 2,
+    borderColor: "#000",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  radioButtonSelected: {
+    height: 10,
+    width: 10,
+    borderRadius: 5,
+    backgroundColor: "#000",
+  },
+  radioButtonLabel: {
+    marginLeft: 10,
+  },
+});
 const UnitCard = ({ item, setUnits, units, index }) => {
   const handleRemoveUnit = () => {
     let currentUnits = [...units];
