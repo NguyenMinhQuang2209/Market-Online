@@ -37,6 +37,7 @@ const index = () => {
     });
   };
 
+  return <Redirect href="(storeowner)/product" />;
 
   return (
     <SafeAreaView>

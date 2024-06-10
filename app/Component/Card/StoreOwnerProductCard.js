@@ -10,12 +10,18 @@ import React, { useEffect, useState } from "react";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
 
-const StoreOwnerProductCard = ({ product }) => {
+const StoreOwnerProductCard = ({
+  product,
+  handleCallUpdatePrice = () => {},
+}) => {
   const [like, setLike] = useState(false);
   const navigation = useNavigation();
 
   const [name, setName] = useState("");
   const [seller, setSeller] = useState("");
+
+  const [showBar, setShowBar] = useState(false);
+
   useEffect(() => {
     if (product) {
       let newName =
@@ -31,62 +37,61 @@ const StoreOwnerProductCard = ({ product }) => {
     }
   }, [product]);
 
-  const HandleLinkToStore = () => {
-    navigation.navigate("(store)", {
-      screen: "store",
-    });
-  };
-
   return (
     <View style={styles.card_container}>
+      <View style={{ marginTop: 30 }}>
+        <Text style={styles.card_title}>Xoài</Text>
+      </View>
+      <View>
+        <Text style={styles.card_price}>50.000 VND / 1kg</Text>
+      </View>
       <View style={{ flexDirection: "row" }}>
-        <Image
-          style={styles.card_image}
-          source={{
-            uri: product?.image,
+        <TouchableOpacity
+          onPress={() => {
+            handleCallUpdatePrice({ name: "Hello world" });
           }}
-        />
-      </View>
-      <View>
-        <Text style={styles.card_title}>{name}</Text>
-      </View>
-      <View>
-        <Text style={styles.card_seller}>Người bán: {seller}</Text>
-      </View>
-      <View style={{ flexDirection: "row" }}>
-        <TouchableWithoutFeedback>
+        >
           <View style={styles.button}>
-            <Text style={styles.button_text}>Sửa</Text>
+            <Text style={styles.button_text}>Sửa giá</Text>
           </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={HandleLinkToStore}>
+        </TouchableOpacity>
+        <TouchableOpacity>
           <View style={styles.button}>
             <Text style={styles.button_text}>Hết hàng</Text>
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </View>
       <TouchableOpacity
         style={styles.heart_icon}
         onPress={() => {
-          setLike((pre) => !pre);
+          setShowBar((pre) => !pre);
         }}
       >
         <Ionicons
           style={{ color: "black" }}
-          name="close-circle-outline"
+          name="ellipsis-horizontal-circle-outline"
           size={30}
         />
       </TouchableOpacity>
       <View style={styles.out_product}>
         <Text style={styles.out_product_txt}>Hết hàng</Text>
       </View>
+      {showBar && (
+        <View style={styles.bar_container}>
+          <TouchableOpacity style={[styles.bar_wrap, styles.bar_bottom]}>
+            <Text style={styles.bar_txt}>Sửa</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.bar_wrap}>
+            <Text style={styles.bar_txt}>Xóa</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
 const styles = StyleSheet.create({
   card_container: {
     width: "45%",
-    height: 220,
     backgroundColor: "rgba(234, 152, 91, 0.15)",
     marginHorizontal: "2.5%",
     marginVertical: 5,
@@ -94,6 +99,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "hidden",
     position: "relative",
+    paddingVertical: 10,
   },
   card_image: {
     width: "100%",
@@ -101,9 +107,15 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   card_title: {
-    fontFamily: "PlayfairMedium",
+    fontFamily: "RobotoMedium",
     marginTop: 5,
     fontSize: 15,
+    width: "90%",
+  },
+  card_price: {
+    fontFamily: "RobotoMedium",
+    marginTop: 5,
+    fontSize: 13,
     width: "90%",
   },
   card_seller: {
@@ -148,9 +160,35 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  out_product_txt:{
-    color:"white"
-  }
+  out_product_txt: {
+    color: "white",
+  },
+  bar_container: {
+    position: "absolute",
+    top: 32,
+    right: 5,
+    width: 100,
+    borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,1)",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 10,
+    borderColor: "rgba(0,0,0,0.4)",
+    borderWidth: 1,
+  },
+  bar_wrap: {
+    width: "100%",
+    height: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  bar_txt: {
+    color: "black",
+  },
+  bar_bottom: {
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(0,0,0,0.4)",
+  },
 });
 
 export default StoreOwnerProductCard;

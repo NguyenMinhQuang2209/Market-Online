@@ -15,7 +15,7 @@ const statistic = () => {
   const [chartDetailShow, setChartDetailShow] = useState(false);
   return (
     <SafeAreaView>
-      <HomeHeader showSearch={false}/>
+      <HomeHeader showSearch={false} />
       <ScrollView>
         <View style={styles.box_container}>
           <View style={styles.box_wrap}>
@@ -92,6 +92,9 @@ const statistic = () => {
             </TouchableOpacity>
           </View>
           <CustomBarChart />
+        </View>
+        <View style={{ height: 50, width: "100%" }}>
+          <Text>Thống kê chi tiết</Text>
         </View>
       </ScrollView>
       {chartDetailShow && (

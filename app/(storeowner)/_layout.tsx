@@ -16,28 +16,20 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="statistic"
+        name="product"
         options={{
-          title: "Thống kê",
+          title: "Sản phẩm",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "bar-chart" : "bar-chart-outline"}
-              color={color}
-            />
+            <View style={styles.container}>
+              <TabBarIcon
+                name={focused ? "pricetag" : "pricetag-outline"}
+                color={color}
+              />
+              <View style={styles.number_container}>
+                <Text style={styles.number_txt}>1</Text>
+              </View>
+            </View>
           ),
-        }}
-      />
-      <Tabs.Screen
-        name="store"
-        options={{
-          title: "Cửa hàng",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "storefront" : "storefront-outline"}
-              color={color}
-            />
-          ),
-          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -58,20 +50,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="product"
+        name="store"
         options={{
-          title: "Sản phẩm",
+          title: "Cửa hàng",
           tabBarIcon: ({ color, focused }) => (
-            <View style={styles.container}>
-              <TabBarIcon
-                name={focused ? "pricetag" : "pricetag-outline"}
-                color={color}
-              />
-              <View style={styles.number_container}>
-                <Text style={styles.number_txt}>1</Text>
-              </View>
-            </View>
+            <TabBarIcon
+              name={focused ? "storefront" : "storefront-outline"}
+              color={color}
+            />
           ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -85,6 +73,21 @@ export default function TabLayout() {
             />
           ),
           headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="statistic"
+        options={{
+          title: "Thống kê",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "bar-chart" : "bar-chart-outline"}
+              color={color}
+            />
+          ),
+          tabBarItemStyle: {
+            display: "none",
+          },
         }}
       />
     </Tabs>

@@ -90,7 +90,7 @@ const index = () => {
         <SpecialArea handleSelectAddToCartItem={handleSelectAddToCartItem} />
         <View style={styles.area_container}>
           <View style={styles.area_title_container}>
-            <Text style={styles.area_title_text}>Các gian hàng</Text>
+            <Text style={styles.area_title_text}>Các loại hàng</Text>
           </View>
           <View style={styles.area_card_container}>
             {areaDatas?.map((item, index) => (

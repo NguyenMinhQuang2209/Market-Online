@@ -71,6 +71,30 @@ const storeprofile = () => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => {
+            handleNavigation({
+              folder: "(storeowner)",
+              screen: "statistic",
+              params: {},
+            });
+          }}
+          style={styles.user_function_wrap}
+        >
+          <View style={styles.user_function_main}>
+            <View style={styles.user_function_title}>
+              <View style={styles.user_function_icon}>
+                <Ionicons name="bar-chart" size={25} />
+              </View>
+              <Text style={styles.user_function_title_txt}>
+                Thống kê chi tiết
+              </Text>
+            </View>
+          </View>
+          <View>
+            <EvilIcons name="chevron-right" size={35} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={navigateProfile}
           style={styles.user_function_wrap}
         >
