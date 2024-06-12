@@ -121,7 +121,14 @@ const register = () => {
       console.log(err?.response?.data);
     }
   };
-  const handleLoginWithZalo = () => {};
+  const handleLoginWithZalo = async () => {
+    try {
+      const data = await AuthService.zaloLogin();
+      console.log(data?.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <LinearGradient colors={["#ffffff", "rgba(288,122,122,0.5)"]}>
       <SafeAreaView>

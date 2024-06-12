@@ -13,6 +13,9 @@ const AuthService = {
     await AsyncStorage.removeItem("username");
     await AsyncStorage.removeItem("avatar");
   },
+  zaloLogin: async () => {
+    return await axios.get("/api/auth/common/login/zalo");
+  },
 };
 
 export default AuthService;
