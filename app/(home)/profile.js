@@ -3,7 +3,7 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
-
+import AuthService from "../service/auth/AuthService";
 const profile = () => {
   const navigation = useNavigation();
   const navigateProfile = () => {
@@ -17,7 +17,14 @@ const profile = () => {
       params: { ...params },
     });
   };
-  const handleLogout = () => {};
+  const handleLogout = async () => {
+    try {
+      await AuthService.logout();
+      navigation.navigate("(landingpage)");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.user_infor_container}>

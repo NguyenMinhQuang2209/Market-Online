@@ -16,7 +16,7 @@ import { GetToken } from "./Component/Notification/Notification";
 import PushNotification from "react-native-push-notification";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://192.168.0.104:5000";
+axios.defaults.baseURL = "http://10.33.25.85:8080";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 

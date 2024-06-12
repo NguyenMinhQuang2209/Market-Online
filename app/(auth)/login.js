@@ -14,45 +14,71 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, useNavigation } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
-import auth from "@react-native-firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AuthService from "../service/auth/AuthService";
 const login = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [confirm, setConfirm] = useState(null);
-  const [code, setCode] = useState("");
-  function onAuthStateChanged(user) {
-    if (user) {
-    }
-  }
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
-  }, []);
-
-  async function signInWithPhoneNumber(phoneNumber) {
-    try {
-      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-      setConfirm(confirmation);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function confirmCode() {
-    try {
-      await confirm.confirm(code);
-    } catch (error) {
-      console.log("Invalid code.");
-    }
-  }
+  const [phoneNumber, setPhoneNumber] = useState("0967000000");
+  const [password, setPassword] = useState("adminadmin");
+  const [errors, setErrors] = useState({
+    password: "",
+    phoneNumber: "",
+  });
 
   const navigation = useNavigation();
 
-  const handleLogin = () => {
-    let finalNumber = "+84" + phoneNumber;
-    console.log(finalNumber);
-    signInWithPhoneNumber(finalNumber);
+  const handleLogin = async () => {
+    try {
+      const user = {
+        phoneNumber,
+        password,
+      };
+      const fieldName = {
+        password: "Mật khẩu",
+        phoneNumber: "Số điện thoại",
+      };
+
+      const fieldLength = {
+        password: [8, 20],
+        phoneNumber: [10, 10],
+      };
+
+      const checkFields = ["password", "phoneNumber"];
+      let newErr = {};
+      let isErr = false;
+      checkFields?.forEach((item) => {
+        if (!user[item]) {
+          newErr[item] = fieldName[item] + " không được bỏ trống!";
+        } else {
+          if (fieldLength[item]) {
+            let min = fieldLength[item][0];
+            let max = fieldLength[item][1];
+            if (user[item].length < min || user[item].length > max) {
+              newErr["password"] =
+                "Số điện thoại hoặc mật khẩu không chính xác";
+              newErr["phoneNumber"] =
+                "Số điện thoại hoặc mật khẩu không chính xác";
+            }
+          }
+        }
+
+        if (newErr[item]) {
+          isErr = true;
+        }
+      });
+
+      setErrors({ ...newErr });
+      const data = await AuthService.login(user);
+      await AsyncStorage.setItem("accessToken", data?.data?.accessToken);
+      await AsyncStorage.setItem("username", data?.data?.username);
+      if (data?.data?.avatar) {
+        await AsyncStorage.setItem("avatar", data?.data?.avatar);
+      }
+      navigation.navigate("(landingpage)");
+    } catch (err) {
+      console.log("Error: " + err);
+    }
   };
-  const handleLoginWithZalo = () => {};
+  const handleLoginWithZalo = async () => {};
   return (
     <LinearGradient colors={["#ffffff", "rgba(288,122,122,0.5)"]}>
       <SafeAreaView>
@@ -61,19 +87,31 @@ const login = () => {
             <Text style={styles.title}>Đăng nhập</Text>
           </View>
           <View style={styles.input_form_container}>
+            {errors?.phoneNumber && (
+              <View>
+                <Text style={styles.error_txt}>{errors?.phoneNumber}</Text>
+              </View>
+            )}
             <View style={styles.input_form}>
               <TextInput
                 style={styles.input_text}
-                placeholder="Nhập số điện thoại"
+                placeholder="Nhập số điện thoại *"
                 value={phoneNumber}
                 onChangeText={setPhoneNumber}
               />
             </View>
+            {errors?.password && (
+              <View>
+                <Text style={styles.error_txt}>{errors?.password}</Text>
+              </View>
+            )}
             <View style={styles.input_form}>
               <TextInput
                 style={styles.input_text}
-                placeholder="Nhập mật khẩu"
+                placeholder="Nhập mật khẩu *"
                 secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
               />
             </View>
           </View>
@@ -190,6 +228,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 5,
+  },
+  error_txt: {
+    color: "red",
+    fontFamily: "RobotoMediumItalic",
   },
 });
 export default login;

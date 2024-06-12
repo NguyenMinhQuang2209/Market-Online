@@ -8,27 +8,47 @@ import {
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Redirect, useNavigation } from "expo-router";
+import { Redirect, useFocusEffect, useNavigation } from "expo-router";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const index = () => {
-  const [initialRoute, setInitialRoute] = useState(null);
   const navigation = useNavigation();
   const checkAccessToken = useCallback(async () => {
     try {
-      const accessToken = await AsyncStorage.getItem("accessToken");
-      setInitialRoute(accessToken ? "(home)/home" : "(auth)/login");
+      const token = await AsyncStorage.getItem("accessToken");
+      console.log(token);
+      if (token) {
+        const decoded = jwtDecode(token);
+        if (decoded?.role) {
+          switch (decoded?.role) {
+            case "CUSTOMER":
+              navigation.navigate("(home)", {
+                screen: "home",
+              });
+              break;
+            default:
+              navigation.navigate("(storeowner)", {
+                screen: "product",
+              });
+              break;
+          }
+        }
+      }
     } catch (error) {
-      setInitialRoute("(auth)/login");
+      console.log(error);
     }
   }, []);
-  // useEffect(() => {
-  //   let timeShow = setTimeout(() => {
-  //     checkAccessToken();
-  //   }, 500);
-  //   return () => {
-  //     clearTimeout(timeShow);
-  //   };
-  // }, []);
+  useFocusEffect(
+    useCallback(() => {
+      let timeShow = setTimeout(() => {
+        checkAccessToken();
+      },0);
+      return () => {
+        clearTimeout(timeShow);
+      };
+    }, [checkAccessToken])
+  );
 
   const handleNavigation = ({ folder, screen, params }) => {
     navigation.navigate(folder, {
@@ -36,8 +56,6 @@ const index = () => {
       params: params,
     });
   };
-
-  return <Redirect href="(storeowner)/product" />;
 
   return (
     <SafeAreaView>
@@ -65,8 +83,8 @@ const index = () => {
         <TouchableOpacity
           onPress={() => {
             handleNavigation({
-              folder: "(home)",
-              screen: "home",
+              folder: "(auth)",
+              screen: "login",
               params: null,
             });
           }}
